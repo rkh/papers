@@ -10,6 +10,7 @@
 \usepackage{array} % tables
 \usepackage{afterpage} % figures
 \usepackage{float} % figures
+\usepackage{wrapfig} % figures im fließtext
 
 %Smalltalk listings
 \lstdefinelanguage{Smalltalk}{
@@ -28,6 +29,8 @@
 	basicstyle=\small,
 	frame=single
 }
+\newcommand{\trademark}{$^\text{\texttrademark}$~}
+\newcommand{\registered}{{$^\text{\textregistered}$}~}
 
 % Ein beispiel Listing
 %
@@ -38,7 +41,6 @@
 %    name := 'a new name' "This is a comment"
 %    ^ name
 %\end{lstlisting}
-
 
 \begin{document}
 \mainmatter              % start of the contributions
@@ -63,7 +65,7 @@ Institut für Informatik, Universität Potsdam, D-14482 Potsdam, Germany,\\
 \end{abstract}
 
 \input{introduction}
-\input{problem_domain}
+%\input{problem_domain}
 \input{architecture}
 \input{design}
 \input{development_process}
