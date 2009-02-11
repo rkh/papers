@@ -1,11 +1,14 @@
 \section{Complete System Overview}
-
+%
 The theme class is implemented as flyweight, holding references to previously 
 created instances of a particular theme. If a requested theme type is not yet 
 held in the list of instances, the class calls a builder class, 
 FBThemeBuilder~\ref{fig:system}, to parse the requested theme's XML file, 
-load the images and then return a fresh instance of the theme.
-
+load the images and then return a fresh instance of the theme. Additionally, 
+each theme contains an FBImageLibrary. The image library is just a simple 
+wrapper around an IdentityDictionary to ease filling it with Forms. 
+FBTheme and FBImageLibrary also support scaling to adjust to any screen 
+size (without accounting for neccessary interpolation).
 %
 \begin{figure}[bt]
   \begin{center}
@@ -15,3 +18,59 @@ load the images and then return a fresh instance of the theme.
   \label{fig:system}
 \end{figure}
 %
+There are a couple of supporting classes which add to the game logic 
+in Fig.\ref{fig:system}(1). Those implement different strategies for 
+rewarding the player for good gaming. Good gaming is correlated to the 
+number of balls falling, if more are falling at the same time, more 
+reward points are gained.
+The reward strategies implement a method
+rewardPlayer:for:~\ref{lst:reward}.\\
+In single player mode, a
+simple highscore is added to the screen (responsible for adding the 
+score visual is also the strategy itself) and for any number of 
+reward points reported by the FBPlayfield, points are added to the 
+score. 
+%
+\begin{listing}[bt]
+rewardPlayer: aPlayer for: anAchievmentScalar
+    "I reward a single player with an exponentially 
+rising rate of points" 
+    
+    self score:
+        self score + (anAchievmentScalar raisedTo: 2)
+\end{listing}
+%
+In multiplayer mode, the reward only applies, if the player eliminates 
+more than three balls from the field with a single shot. If that happens, 
+a number of balls half as great is distributed among the other players,
+and shot randomly in any direction. This happens via a call to 
+the playfields who have to shoot random balls, since FBRewardStretegies
+hold a collection referring to all playfields.
+
+As aforementioned, FBPlayfield is responsible for creating its own 
+contents~\ref{fig:system}(2). Such content displays a cannon, a 
+player avatar , messages for the user and numerous coloured balls. 
+Each of these serves only a single, limited purpose, with FBPlayer 
+and FBMessage merely wrapping different types of graphical response.
+The cannon is the entity that reacts to the user's input, panning 
+left and right and sending balls off into the field. However, it 
+is controlled entirely by the playfield and does not act itself.
+
+The FBBall is an exception to this simplicity. 
+\begin{description}
+  \item[First]
+    	it has to look 
+	differently, showing different colors in our themes. 
+  \item[Secondly]
+    	a Ball has different stages in its lifetime, being 
+	loaded into the cannon, then flying, hanging from the 
+	ceiling (or, indeed, from other balls) and finally falling 
+	and vanishing.
+  \item[Finally]
+    	a Ball needs to collide with the playfield boundaries and 
+	other balls in the field.
+\end{description}
+%
+Thus its implementation is a bit larger, as it implements the FBCollider 
+interface, utilizes different ``states'' to act on in its step method and 
+and also draws itself from a collection of images.
