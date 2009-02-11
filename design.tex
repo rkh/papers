@@ -1,0 +1,28 @@
+\section{Design Process}
+\subsection{Simple Multiplayer Mode}
+%
+Several problems occured when we implemented a simple local multiplayer mode.
+
+\begin{itemize}
+%
+  \item problem: Players need to be informed of critical actions happening in other players' playfields 
+  \item possible solutions:
+
+    \begin{itemize}
+      \item Direct communication between playfields
+      \begin{itemize}
+        \item Advantages: A simple solution like that could be implemented easily and only the most rudimentary communication is needed, so there is  very few overhead.
+        \item Disadvantages: This is not an object-oriented solution and playfield would need to be hardcodedly enumerated, making the code hardly maintainable and badly extensibly. 
+      \end{itemize}
+
+      \item Delegating communication through a mediator
+      \begin{itemize}
+        \item Advantages: A mediator makes very maintainable and expandable code. Other than the previous proposal, this is indeed an object-oriented take on the problem.
+        \item Disadvantages: There is more than twice as much communication happening as in the simplified solution.
+      \end{itemize}
+    \end{itemize}
+
+  \item problem:
+  \item possible solutions:
+%
+\end{itemize}
