@@ -31,15 +31,20 @@ score visual is also the strategy itself) and for any number of
 reward points reported by the FBPlayfield, points are added to the 
 score. 
 %
-\begin{listing}[bt]
+\begin{figure}
+  \begin{center}
+    \begin{lstlisting}
 rewardPlayer: aPlayer for: anAchievmentScalar
     "I reward a single player with an exponentially 
 rising rate of points" 
-    
+
     self score:
-        self score + (anAchievmentScalar raisedTo: 2)
-\end{listing}
-%
+         self score + (anAchievmentScalar raisedTo: 2)
+    \end{lstlisting}
+  \end{center}
+  \caption{The highscore calculation method}
+  \label{lst:reward}
+\end{figure}
 In multiplayer mode, the reward only applies, if the player eliminates 
 more than three balls from the field with a single shot. If that happens, 
 a number of balls half as great is distributed among the other players,
