@@ -32,18 +32,4 @@ and then returned to the FBGame. The playfields receive their own reference
 to the theme and are themselves responsible for their content and reaction on 
 player input.
 
-The theme class is implemented as flyweight, holding references to previously 
-created instances of a particular theme. If a requested theme type is not yet 
-held in the list of instances, the class calls a builder class, 
-FBThemeBuilder~\ref{fig:system}, to parse the requested theme's XML file, 
-load the images and then return a fresh instance of the theme.
-%
-\begin{figure}[bt]
-  \begin{center}
-    \includegraphics[width=0.9\linewidth]{images/architecture.png}
-  \end{center}
-  \caption{The complete system overview}
-  \label{fig:system}
-\end{figure}
-%
 
