@@ -1,14 +1,15 @@
 \section{Design Process}
 \subsection{Simple Multiplayer Mode}
 %
-Several problems occured when we implemented a simple local multiplayer mode.
+Several problems occured when we implemented a simple local multiplayer mode. In this chapter, we will discuss the most important design decissions.
 
-\begin{itemize}
+\begin{description}
 %
-  \item problem: Players need to be informed of critical actions happening in other players' playfields 
-  \item possible solutions:
+  \item[problem] ~\\ \hfill
+    Players need to be informed of critical actions happening in other players' playfields 
+  \item[possible solutions] \hfill
 
-    \begin{itemize}
+    \begin{enumerate}
       \item Direct communication between playfields
       \begin{itemize}
         \item Advantages: A simple solution like that could be implemented easily and only the most rudimentary communication is needed, so there is  very few overhead.
@@ -20,9 +21,28 @@ Several problems occured when we implemented a simple local multiplayer mode.
         \item Advantages: A mediator makes very maintainable and expandable code. Other than the previous proposal, this is indeed an object-oriented take on the problem.
         \item Disadvantages: There is more than twice as much communication happening as in the simplified solution.
       \end{itemize}
-    \end{itemize}
+    \end{enumerate}
 
-  \item problem:
-  \item possible solutions:
+  \item[Chosen Solution] ~\\ \hfill
+    We chose the latter proposal, a mediator.
+  \\
+
+  \item[problem] ~\\ \hfill
+    Different playfields have to be controlled by different players. And, of course, different playfields have to exist in the first place.
+  \item[possible solutions] \hfill
+
+    \begin{enumerate}
+      \item Introducing an Abstract Factory for playfields, implementing several behavioural patterns.
+      \begin{itemize}
+        \item Advantages: Abstract Factories are extensible and object-oriented.
+        \item Disadvantages: This might be a little confusing, as there has to be a whole lot of new code and new classes.
+      \end{itemize}
+
+      \item All playfields are similar and manage their behaviour on their own.
+      \begin{itemize}
+        \item Advantages: No new codes needs to be introduced in this solution...
+        \item Disadvantages: ... but the generic playfield might have to be extended for proper multiplayer use.
+      \end{itemize}
+    \end{enumerate}
 %
-\end{itemize}
+\end{description}
