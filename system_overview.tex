@@ -9,7 +9,7 @@
 \end{figure}
 %
 \subsection{Interactions and Responsibilites}
-\subsubsection{Themes and External Resources}
+\subsubsection{Themes and External Resources} ~\\
 The FBTheme class is implemented as flyweight, holding references to previously 
 created instances of a particular theme. If a requested theme type is not yet 
 held in the list of instances, the class calls a builder class, 
@@ -23,7 +23,7 @@ The FBImageLibrary is filled prior to starting the actual game, so
 that all external resources are cached. A lazily initialized image 
 library would have resulted in slow disk I/O during
 run-time.
-\subsubsection{Rewarding the Players}
+\subsubsection{Rewarding the Players} ~\\
 FBRewardStrategies are supporting classes which add rewarding behaviour 
 to the game logic
 ~(Fig.\ref{fig:system}(2)). Its specializations 
@@ -38,9 +38,7 @@ adds a simple highscore to the screen (responsible for adding the
 score visual is also the strategy itself) and for any number of 
 reward points reported by the FBPlayfield, score points are accumulated.
 %
-\begin{figure}
-  \begin{center}
-    \begin{lstlisting}
+\begin{lstlisting}[float,label=lst:reward,caption=The Highscore Calculation Method]
 FBHighscoreReward>>rewardPlayer: aPlayer for: anAchievmentScalar
     "I reward a single player with an exponentially 
 rising rate of points" 
@@ -48,10 +46,7 @@ rising rate of points"
     self score:
          self score + (anAchievmentScalar raisedTo: 2)
     \end{lstlisting}
-  \end{center}
-  \caption{The highscore calculation method}
-  \label{lst:reward}
-\end{figure}
+%
 In multiplayer mode, the strategie only rewards, if the player eliminates 
 more than three balls from the field with a single shot. If that happens, 
 a number of balls half as great is distributed among the other players,
@@ -59,7 +54,7 @@ and shot randomly in any direction. This happens via a call to
 the playfields which have to shoot random balls, since FBRewardStretegies
 hold a collection referring to all playfields.
 %
-\subsubsection{Playfield Morphs}
+\subsubsection{Playfield Morphs} ~\\
 As aforementioned, FBPlayfield is responsible for creating its own 
 contents~\ref{fig:system}(3). Such content displays a cannon, a 
 player avatar , messages for the user and numerous coloured balls. 
@@ -116,7 +111,7 @@ at:aPoint ifBounceOff:bounceOffBlock ifGetStuck:getStuckBlock
 \end{figure}
 %
 \subsection{FBSweeper}
-As discussed in \ref{sec:garbage}, the first design planned for every Collider to keep track of all Objects it holds on to and all Objects that hold on to it. When an Object falls down, it informs the objects that hold on to it, that they lost one Holder. When an Object has lost its last Holder, it should itself fall down and inform all objects that hold on to it that it is gone.
+As discussed in \ref{sec:garbage}, the first design planned for every Collider to keep track of all Objects it holds on to and all Objects that hold on to it. When an Object falls down, it informs the objects that hold on to it, via the Squeak built-in event mechanism~\cite{website:squeakwikiObserver}, that they lost one Holder. When an Object has lost its last Holder, it should itself fall down and inform all objects that hold on to it that it is gone.
 This approach had several drawbacks. First, the logic for this falling down was distributed over the CollisionMap, Collider and Ball classes.
 Second, every Collider observed the Colliders next to it. When a Collider was removed from the structure, the observing Colliders removed it from their lists of holders. In the event that a Collider had no holders, it fell down, thereby invoking events on its observing neighbours.
 This resulted in a control flow that was hard to understand, as the information of the removal of a Collider was propagated to the other Colliders implicitly through events and not explicitly through message sends.
@@ -124,21 +119,24 @@ Third, reference-counting garbage collectors have a well-known problem with cycl
 
 Like a mark-and-sweep garbage collector, the sweeper traverses the Balls in the Playfield and marks every Ball it can reach, beginning with the balls that stick to the top of the FBPlayfield.  In the beginning, all Balls are considered for collection and thus contained in the gcCollect set. Marking happens by removing a FBBall from the set. When a Ball is reachable and has not yet been marked, it is marked and its neighbours are considered reachable. This is repeated there until all reachable Balls have been marked, then all remaining Balls are unreachable and can be removed. The Balls are traversed breadth-first.
 
-\begin{lstlisting}[language=Smalltalk, label=lst:sweep, caption= mark-and-sweep ball collector]
+\begin{lstlisting}[language=Smalltalk, label=lst:sweep, caption= mark-and-sweep ball collector, float]
 FBSweeper>>sweep: aCollisionMap
     "Sweep balls that do not hang on anything 
 off the playfield"
     |gcLive gcCollect|
     gcCollect := gcArena copy.
     gcLive := gcRoots copy.
-    [gcLive isEmpty] whileFalse:[
-       gcLive copy do: [:eachLiveBall|
-           gcLive remove: eachLiveBall.
-           (gcCollect includes: eachLiveBall) ifTrue:[
-               gcCollect remove: eachLiveBall.
-               gcLive addAll:
-                   (aCollisionMap holdersFor: 
-                                             eachLiveBall center)]]].
+    [gcLive isEmpty] 
+        whileFalse:[
+            gcLive copy do: [:eachLiveBall|
+            gcLive remove: eachLiveBall.
+            (gcCollect includes: eachLiveBall) 
+	        ifTrue:[
+                    gcCollect remove: eachLiveBall.
+                    gcLive addAll:
+                        (aCollisionMap 
+		            holdersFor: eachLiveBall center)
+        ]]].
     gcCollect do:[:deadBall | deadBall fall].
 \end{lstlisting}
 
