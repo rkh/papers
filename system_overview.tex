@@ -1,38 +1,24 @@
 \section{System Overview}
+\subsection{Extensions to the core system classes}
 %
 \begin{figure}[bt]
   \begin{center}
-%    \includegraphics[width=0.9\linewidth]{images/system.png}
+    \includegraphics[width=\linewidth]{images/systemcore.png}
   \end{center}
-  \caption{The complete system overview}
-  \label{fig:system}
+  \caption{The extended core system}
+  \label{fig:systemcore}
 \end{figure}
 %
-\subsection{Interactions and Responsibilites}
-\subsubsection{Themes and External Resources} ~\\
-The FBTheme class is implemented as flyweight, holding references to previously 
-created instances of a particular theme. If a requested theme type is not yet 
-held in the list of instances, the class calls a builder class, 
-FBThemeBuilder~\ref{fig:system}(1), to parse the requested theme's XML file, 
-load the images and then return a fresh instance of the theme. Additionally, 
-each theme contains an FBImageLibrary. The image library is just a simple 
-wrapper around an IdentityDictionary to ease filling it with Forms. 
-FBTheme and FBImageLibrary also support scaling to adjust to any screen 
-size (without accounting for neccessary interpolation).
-The FBImageLibrary is filled prior to starting the actual game, so 
-that all external resources are cached. A lazily initialized image 
-library would have resulted in slow disk I/O during
-run-time.
 \subsubsection{Rewarding the Players} ~\\
 FBRewardStrategies are supporting classes which add rewarding behaviour 
 to the game logic
-~(Fig.\ref{fig:system}(2)). Its specializations 
+~(Fig.\ref{fig:systemplay}). Its specializations 
 implement different strategies to
 reward the players for good gaming. Good gaming is measured by the 
 number of balls falling, if more are falling at the same time, more 
 reward points are gained.
 The reward strategies have to implement a method
-rewardPlayer:for:~\ref{lst:reward}.\\
+rewardPlayer:for:~(Listing \ref{lst:reward}).\\
 In single player mode, a FBHighscoreReward
 adds a simple highscore to the screen (responsible for adding the 
 score visual is also the strategy itself) and for any number of 
@@ -45,7 +31,7 @@ rising rate of points"
 
     self score:
          self score + (anAchievmentScalar raisedTo: 2)
-    \end{lstlisting}
+\end{lstlisting}
 %
 In multiplayer mode, the strategie only rewards, if the player eliminates 
 more than three balls from the field with a single shot. If that happens, 
@@ -54,12 +40,50 @@ and shot randomly in any direction. This happens via a call to
 the playfields which have to shoot random balls, since FBRewardStretegies
 hold a collection referring to all playfields.
 %
-\subsubsection{Playfield Morphs} ~\\
+\subsubsection{FBTheme and FBImageLibrary}~\\ 
+To avoid expensive reading from hard disk as mentioned in our design solutions~(\ref{sec:theme})
+we implemented the FBTheme class as flyweight, holding references to previously 
+created instances of a particular theme. If a requested theme type is not yet 
+held in the list of instances~\ref{lst:theme}, the class calls a builder class, 
+FBThemeBuilder~\ref{fig:systemcore}, to parse the requested theme's XML file, 
+load the images and then return a fresh instance of the theme. Additionally, 
+each theme contains an FBImageLibrary. The image library is just a simple 
+wrapper around an IdentityDictionary to ease filling it with Forms. 
+FBTheme and FBImageLibrary also support scaling to adjust to any screen 
+size (without accounting for neccessary interpolation).
+The FBImageLibrary is filled prior to starting the actual game, so 
+that all external resources are cached. A lazily initialized image 
+library would have resulted in slow disk I/O during
+run-time.
+%
+\begin{lstlisting}[language=Smalltalk, label=lst:theme, caption= FBTheme "return:" method, float]
+FBTheme class>>return: aSymbol
+    "Return the instance of the requested type if we have it. If not replace any old instance with the type requested."
+    instances ifNil: [instances := IdentityDictionary new].
+    ^ instances 
+        at: aSymbol 
+        ifAbsent: [
+            | instance |
+            instance := self builder setUp: aSymbol.
+            (instances add: aSymbol -> instance) value].
+\end{lstlisting}
+%
+\subsection{FBPlayfield and associated classes}
+%
+\begin{figure}[bt]
+  \begin{center}
+    \includegraphics[width=\linewidth]{images/systemplay.png}
+  \end{center}
+  \caption{The class around a playfield}
+  \label{fig:systemplay}
+\end{figure}
+%
+\subsubsection{Playfield Morphs}~\\
 As aforementioned, FBPlayfield is responsible for creating its own 
-contents~\ref{fig:system}(3). Such content displays a cannon, a 
-player avatar , messages for the user and numerous coloured balls. 
+contents~(\ref{fig:systemplay}). Such content displays a cannon, a 
+player avatar, messages for the user and numerous coloured balls. 
 Each of these serves only a single, limited purpose, with FBPlayer 
-and FBMessage merely wrapping different types of graphical response.
+and FBMessage merely wrapping different types of graphical interaction.
 The cannon is the entity that reacts to the user's input, panning 
 left and right and sending balls off into the field. However, it 
 is controlled entirely by the playfield and does not act itself.
@@ -83,8 +107,9 @@ interface, utilizes different ``states'' to act on in its step method and
 and also draws itself from a collection of images.
 %
 \subsection{FBCollisionMap}
-% \ref{sec:collision}
-Collision detection is handled by one collision map per playfield. This collision
+As mentioned in section
+\ref{sec:collision}, 
+collision detection is handled by one collision map per playfield. This collision
 map is an instance of FBCollision. A collision is detected a posteriori, meaning
 that the ball first moves to the next position and  than checks whether it collides
 with some other object. However, this is not strictly necessary and not reflected in
@@ -94,7 +119,7 @@ are two kinds of collision: One where a ball usualy should get stuck and one whe
 should bounce of. As can be seen in Listing \ref{lst:ifBounceOff}, the API call wraps
 around doYouGetStuckAt: and doYouBounceOff: - checking in that order, since if a ``stuck
 collision'' should occure, it has a higher priority than a ``bounce of collision''.
-
+%
 \begin{lstlisting}[caption=API method for detecting collision,label=lst:ifBounceOff]
 at:aPoint ifBounceOff:bounceOffBlock ifGetStuck:getStuckBlock
 	
@@ -103,7 +128,7 @@ at:aPoint ifBounceOff:bounceOffBlock ifGetStuck:getStuckBlock
 		ifFalse: [ (self doYouBounceOff: aPoint)
 			ifTrue: bounceOffBlock ]
 \end{lstlisting}
-
+%
 Up to this point the API is independend from how an collision is actually detected.
 The playfield is devided grid, each cell being the size of a ball. Those cells are represented
 in the objectIndex collection. Each ball that lands somewhere registers on all cells where
@@ -114,7 +139,7 @@ cell aPoint is in, would collide with a ball with a center at aPoint (or if the 
 close enough to the upper boder). So instead of comparing with all balls on the playfield, which
 would be the most trivial implementations, we only compare the current position to the position
 of the balls near by. Since a cell is the size of a ball, there can only be upto 8 balls surrounding
-a cell, independend of playfield size or total number of balls. Therefor, collision detection has
+a cell, independend of playfield size or total number of balls. Therefor, collision detection is in
 $O(1)$ complexity, compared to $O(n)$ of the trivial implementation.
 
 As mentioned in \ref{sec:collision}, an alternative implementation could have been pre computing the route
@@ -144,8 +169,8 @@ In order to separate the concern of letting balls fall down the from the Rest of
 
 Like a mark-and-sweep garbage collector, the sweeper traverses the Balls in the Playfield and marks every Ball it can reach, beginning with the balls that stick to the top of the FBPlayfield.  In the beginning, all Balls are considered for collection and thus contained in the gcCollect set. Marking happens by removing a FBBall from the set. When a Ball is reachable and has not yet been marked, it is marked and its neighbours, determined through the collision map, are considered reachable. This is repeated until all reachable Balls have been marked, then all remaining Balls are unreachable and can be removed.
 The Balls are traversed breadth-first.
-
-\begin{lstlisting}[language=Smalltalk, label=lst:sweep, caption= mark-and-sweep ball collector, float]
+%
+\begin{lstlisting}[language=Smalltalk, label=lst:sweep, caption=Mark-and-Sweep Ball Collector, float]
 FBSweeper>>sweep: aCollisionMap
     "Sweep balls that do not hang on anything off the playfield"
     |gcLive gcCollect|
@@ -164,21 +189,4 @@ FBSweeper>>sweep: aCollisionMap
         ]]].
     gcCollect do:[:deadBall | deadBall fall].
 \end{lstlisting}
-
-\subsection{FBTheme}
-The class FBTheme is used to hold several information about game items, including positions and
-images. FBTheme is implemented as a Flyweight, overwriting the return method to return an 
-allready existing instance if present. Otherwise, the corresponding builder class, 
-in our case FBThemeBuilder, sets up a new instance, parsing a XML file for needed information.
-
-\begin{lstlisting}[language=Smalltalk, label=lst:sweep, caption= FBTheme "return:" method, float]
-FBTheme class>>return: aSymbol
-    "Return the instance of the requested type if we have it. If not replace any old instance with the type requested."
-    instances ifNil: [instances := IdentityDictionary new].
-    ^ instances 
-        at: aSymbol 
-        ifAbsent: [
-            | instance |
-            instance := self builder setUp: aSymbol.
-            (instances add: aSymbol -> instance) value].
-\end{lstlisting}
+%
