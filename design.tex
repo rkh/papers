@@ -43,18 +43,22 @@ Several problems occured when we implemented a simple local multiplayer mode. In
   \item[possible solutions] \hfill
 
     \begin{enumerate}
-      \item Introducing an Abstract Factory for playfields, implementing several behavioural patterns.
-      \begin{itemize}
-        \item Advantages: Abstract Factories are extensible and object-oriented.
-        \item Disadvantages: This might be a little confusing, as there has to be a whole lot of new code and new classes.
-      \end{itemize}
-
       \item All playfields are similar and manage their behaviour on their own.
       \begin{itemize}
         \item Advantages: No new codes needs to be introduced in this solution...
         \item Disadvantages: ... but the generic playfield might have to be extended for proper multiplayer use.
       \end{itemize}
+
+      \item Introducing an Abstract Factory for playfields, implementing several behavioural patterns.
+      \begin{itemize}
+        \item Advantages: Abstract Factories are extensible and object-oriented.
+        \item Disadvantages: This might be a little confusing, as there has to be a whole lot of new code and new classes.
+      \end{itemize}
     \end{enumerate}
+
+  \item[Chosen Solution] ~\\ \hfill
+    We went for the first solution.
+  \\
 %
 \end{description}
 %
