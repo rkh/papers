@@ -56,7 +56,7 @@ we will discuss the most important design decissions.
 
 %
   \subsubsection{Players need to be informed of critical actions happening in other players' playfields}
-  ~\\ \\
+  ~\\
     Direct communication between playfields would be the most simple solution like and 
     could be implemented easily. Additionally only the most rudimentary communication is needed,
     so there would be very few overhead. But this is not an object-oriented solution and playfields 
@@ -64,12 +64,12 @@ we will discuss the most important design decissions.
     In contrast, delegating communication through a mediator makes very maintainable and
     expandable code. Other than the previous proposal, this is indeed an object-oriented 
     take on the problem. However, there is more than twice as much communication happening 
-    compared to the previous, simplified solution.\\
-    Due to the obvious disadvantages of hardcoding different playfields, we chose the latter proposal.\\
+    compared to the previous, simplified solution. Due to the obvious disadvantages of 
+    hardcoding different playfields, we chose the latter proposal.
 
   \subsubsection{Different playfields have to be controlled by different players.
-             And, of course, different playfields have to exist in the first place.}
-  ~\\ \\
+             And, of course, different playfields have to exist in the first place}
+  ~\\
     Our first idea we came up with was enabling the generic playfield to manage all needed behaviour
     on itself. That way, no new code needs to be introduced, rendering this scheme very simple.
     On the other hand, the playfield might have to be extended for all purposes to work properly. 
@@ -79,6 +79,25 @@ we will discuss the most important design decissions.
     are extensible and object-oriented. The downside of it would be, that this is a very powerful 
     pattern and would probably be overindulgence because we just need two different playfields 
     (single- and multiplayer behaviour). Because of that, we chose our initial idea of keeping 
-    things simple.\\
+    things simple.
+
+  \subsubsection{Key events need to be redirected to the corresponding playfield}
+  ~\\
+    The most easy-to-code version would be the introduction of a major, keyhandling class that
+    knows what to invoke when a certain event takes place. Obviously, this has several downsides,
+    as there would be strong coherence between objects and no encapsulation at all.\\
+    As such a way of handling events is not maintainable and hardly extensible, we chose to catch
+    key events through a class but unlike the previous solution, more object-oriented and maintainable
+    patterns would be applied.\\
+    An option is the Observer pattern where every object registers itself for certain keystrokes at
+    a dispatch-object. That way, only objects that actually handle a specific event are informed.
+    However, a lot of communication is happening that way.\\
+    Another pattern that can be considered is the Chain of Responsibility, passing the event
+    in question to other objects, when it cannot be handled by oneself. It is a very intuitive
+    and object-oriented way of solving our problem, but has the same disadvantages of the 
+    Observer pattern. In fact, the overhead problem is even more severe.\\
+    As the complexity of a Chain of Responsibility is a lot less than that of an Observer pattern,
+    we chose the latter scheme of handling keystrokes. Our problem just is not complex enough
+    to justify a pattern as powerful as the Observer.
 %
 
