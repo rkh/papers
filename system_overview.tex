@@ -100,20 +100,42 @@ should bounce of. As can be seen in Listing \ref{lst:ifBounceOff}, the API call 
 around doYouGetStuckAt: and doYouBounceOff: - checking in that order, since if a ``stuck
 collision'' should occure, it has a higher priority than a ``bounce of collision''.
 
-\begin{figure}
-  \begin{center}
-    \begin{lstlisting}
+\begin{lstlisting}[caption=API method for detecting collision,label=lst:ifBounceOff]
 at:aPoint ifBounceOff:bounceOffBlock ifGetStuck:getStuckBlock
 	
 	(self doYouGetStuckAt: aPoint)
 		ifTrue: [getStuckBlock value]
 		ifFalse: [ (self doYouBounceOff: aPoint)
 			ifTrue: bounceOffBlock ]
-    \end{lstlisting}
-  \end{center}
-  \caption{API method for detecting collision}
-  \label{lst:ifBounceOff}
-\end{figure}
+\end{lstlisting}
+
+Up to this point the API is independend from how an collision is actually detected.
+The playfield is devided grid, each cell being the size of a ball. Those cells are represented
+in the objectIndex collection. Each ball that lands somewhere registers on all cells where
+another ball could possibly collide with it, which are all the cells that are direct neightbours
+of the cell in which the ball landed. Note that the cell a ball ``is in'' is the cell the ball's
+center is in. Now doYouGetStuckAt: aPoint returns true if one of the balls registered on the
+cell aPoint is in, would collide with a ball with a center at aPoint (or if the ball would be
+close enough to the upper boder). So instead of comparing with all balls on the playfield, which
+would be the most trivial implementations, we only compare the current position to the position
+of the balls near by. Since a cell is the size of a ball, there can only be upto 8 balls surrounding
+a cell, independend of playfield size or total number of balls. Therefor, collision detection has
+$O(1)$ complexity, compared to $O(n)$ of the trivial implementation.
+
+As mentioned in \ref{sec:collision}, an alternative implementation could have been pre computing the route
+with vectors. However, this has at least two downsides. First, it does not cope with changes happening
+while the ball is flying. But this is not likely to happen. The other downside is, that it does need more
+computation than our solution. Not only would we need some concept of vectors, we would also have to check
+with every ball on the playfield or use some grid algorithm like the one we are using for our implementation.
+Thus we would have the computation we already have plus the vector algorithms. The advantage would be to avoid
+collision detection computation while the ball is flying. However, profiling did show that this would probably
+not lead to an performance boost. Moreover, our current implementation does not check for every pixel lying
+on the way, but only for those where it will ``jump'' to on every step, so we have less comparisons than compared
+to the vector approach.
+
+Not checking for every pixel forces us to readjust the position as soon as the ball got stuck. We could do a loop
+through all pixels in between the position before the last step and the current position. But we use binary search
+instead to increase the speed of detecting that point.
 %
 \subsection{FBSweeper}
 As discussed in \ref{sec:garbage}, the first design planned for every Collider to keep track of all Objects it holds on to and all Objects that hold on to it. When an Object falls down, it informs the objects that hold on to it, that they lost one Holder. When an Object has lost its last Holder, it should itself fall down and inform all objects that hold on to it that it is gone.
