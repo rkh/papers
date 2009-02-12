@@ -10,19 +10,20 @@ collision between objects, which came with certain performance considerations.
 Lastly, we wanted our game to support multiplayer functionality. Given the time 
 needed to implement networking, we decided to focus on a local multiplayer modes. 
 
-\subsection{Design Problems}
-\subsubsection{Slow Disk I/O}
+\subsection{Design Problems and Solutions}
+\subsubsection{Slow Disk I/O.}
+\label{sec:theme}
 %
 Different from the original, we wanted to decouple the game from its representation 
 to the point that we could allow different themes to change the positions of the 
 game objects for different images and backgrounds. We decided to use png images to allow 
 great visual flexibility and XML files to define the theme's positions. As disk I/O
 is expensive, we needed a way to avoid it as much as possible, without sacrificing 
-flexibility. Thus, lazy initialization for our FBTheme class was not an option. 
-We created a class solely responsible for caching images and use the flyweight 
+flexibility. Thus, lazy initialization for our images holding class was not an option. 
+We created a class solely responsible for loading images and use the flyweight 
 pattern to avoid reloading a theme we already loaded.
 %
-\subsubsection{Collision Between Balls}
+\subsubsection{Collision Between Balls.}
 \label{sec:collision}
 When a ball is shot into the playfield, it has to interact with the plafield 
 and other objects in its path. Simply looping over all those objects and 
@@ -36,7 +37,7 @@ to ray-tracing techniques could get us a constant complexity. We decided
 to implement rasterization, because it was a faster solution and allowed straightforward
  optimization.
 %
-\subsubsection{Falling Balls}
+\subsubsection{Falling Balls.}
 \label{sec:garbage}
 When balls can collide and stick to each other, having them fall down 
 if three or more of the same kind touch is trivial. However, balls 
@@ -51,12 +52,12 @@ concern here, as the number of balls in one playfield is relatively limited,
 and the algorithm runs at a moment where the user has just shot, so taking a second 
 for the calculation would not hurt the game flow.
 
-\subsubsection{Simple Multiplayer Mode}
+\subsubsection{Simple Multiplayer Mode.}
+\label{sec:playfield}
 Several problems occured when we implemented a simple local multiplayer mode. In this chapter, 
 we will discuss the most important design decissions.
-
 %
-  \subsubsection{Players need to be informed of critical actions happening in other players' playfields}
+  \paragraph{Players need to be informed of critical actions happening in other players' playfields}
   ~\\
     Direct communication between playfields would be the most simple solution like and 
     could be implemented easily. Additionally only the most rudimentary communication is needed,
@@ -68,7 +69,7 @@ we will discuss the most important design decissions.
     compared to the previous, simplified solution. Due to the obvious disadvantages of 
     hardcoding different playfields, we chose the latter proposal.
 
-  \subsubsection{Different playfields have to be controlled by different players.
+  \paragraph{Different playfields have to be controlled by different players.
              And, of course, different playfields have to exist in the first place}
   ~\\
     Our first idea we came up with was enabling the generic playfield to manage all needed behaviour
@@ -82,7 +83,7 @@ we will discuss the most important design decissions.
     (single- and multiplayer behaviour). Because of that, we chose our initial idea of keeping 
     things simple.
 
-  \subsubsection{Key events need to be redirected to the corresponding playfield}
+  \paragraph{Key events need to be redirected to the corresponding playfield}
   ~\\
     The most easy-to-code version would be the introduction of a major, keyhandling class that
     knows what to invoke when a certain event takes place. Obviously, this has several downsides,
