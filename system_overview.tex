@@ -147,8 +147,7 @@ The Balls are traversed breadth-first.
 
 \begin{lstlisting}[language=Smalltalk, label=lst:sweep, caption= mark-and-sweep ball collector, float]
 FBSweeper>>sweep: aCollisionMap
-    "Sweep balls that do not hang on anything 
-off the playfield"
+    "Sweep balls that do not hang on anything off the playfield"
     |gcLive gcCollect|
     gcCollect := gcArena copy.
     gcLive := gcRoots copy.
