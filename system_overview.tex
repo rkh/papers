@@ -140,4 +140,12 @@ off the playfield"
     gcCollect do:[:deadBall | deadBall fall].
 \end{lstlisting}
 
+\subsection{FBTheme}
+The class FBTheme is used to hold several information about game items, including positions and
+images. FBTheme is implemented as a Flyweight, overwriting the return method to return an 
+allready existing instance if present. Otherwise, the corresponding builder class, 
+in our case FBThemeBuilder, sets up a new instance, parsing a XML file for needed information.
 
+\begin{lstlisting}[language=Smalltalk, label=lst:sweep, caption= FBTheme "return:" method, float]
+insert the FBTheme return: method
+\end{lstlisting}
