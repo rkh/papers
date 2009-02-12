@@ -111,13 +111,16 @@ at:aPoint ifBounceOff:bounceOffBlock ifGetStuck:getStuckBlock
 \end{figure}
 %
 \subsection{FBSweeper}
-As discussed in \ref{sec:garbage}, the first design planned for every Collider to keep track of all Objects it holds on to and all Objects that hold on to it. When an Object falls down, it informs the objects that hold on to it, via the Squeak built-in event mechanism~\cite{website:squeakwikiObserver}, that they lost one Holder. When an Object has lost its last Holder, it should itself fall down and inform all objects that hold on to it that it is gone.
-This approach had several drawbacks. First, the logic for this falling down was distributed over the CollisionMap, Collider and Ball classes.
-Second, every Collider observed the Colliders next to it. When a Collider was removed from the structure, the observing Colliders removed it from their lists of holders. In the event that a Collider had no holders, it fell down, thereby invoking events on its observing neighbours.
-This resulted in a control flow that was hard to understand, as the information of the removal of a Collider was propagated to the other Colliders implicitly through events and not explicitly through message sends.
-Third, reference-counting garbage collectors have a well-known problem with cyclic references.
+As discussed in \ref{sec:garbage}, the first design planned for every Ball to keep track of all Objects it holds on to and all Objects that hold on to it. When an Object falls down, it informs the objects that hold on to it, via the Squeak built-in event mechanism~\cite{website:squeakwikiObserver}, that they lost one Holder. When an Object has lost its last Holder, it should itself fall down and inform all objects that hold on to it that it is gone.
+This approach had several drawbacks. First, the logic for this falling down was distributed over the CollisionMap, Ball and Ball classes.
+Second, every Ball observed the Balls next to it. When a Ball was removed from the structure, the observing Balls removed it from their lists of holders. In the event that a Ball had no holders, it fell down, thereby invoking events on its observing neighbours.
+This resulted in a control flow that was hard to understand, as the information of the removal of a Ball was propagated to the other Balls implicitly through events and not explicitly through messages.
+Third, reference-counting garbage collectors have a well-known problem with cyclic references. 
 
-Like a mark-and-sweep garbage collector, the sweeper traverses the Balls in the Playfield and marks every Ball it can reach, beginning with the balls that stick to the top of the FBPlayfield.  In the beginning, all Balls are considered for collection and thus contained in the gcCollect set. Marking happens by removing a FBBall from the set. When a Ball is reachable and has not yet been marked, it is marked and its neighbours are considered reachable. This is repeated there until all reachable Balls have been marked, then all remaining Balls are unreachable and can be removed. The Balls are traversed breadth-first.
+In order to separate the concern of letting-balls-fall-down the from the Rest of the Game logic, the FBSweeper was introduced.
+
+Like a mark-and-sweep garbage collector, the sweeper traverses the Balls in the Playfield and marks every Ball it can reach, beginning with the balls that stick to the top of the FBPlayfield.  In the beginning, all Balls are considered for collection and thus contained in the gcCollect set. Marking happens by removing a FBBall from the set. When a Ball is reachable and has not yet been marked, it is marked and its neighbours, determined through the collision map, are considered reachable. This is repeated until all reachable Balls have been marked, then all remaining Balls are unreachable and can be removed.
+The Balls are traversed breadth-first.
 
 \begin{lstlisting}[language=Smalltalk, label=lst:sweep, caption= mark-and-sweep ball collector, float]
 FBSweeper>>sweep: aCollisionMap
