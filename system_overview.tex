@@ -88,5 +88,30 @@ interface, utilizes different ``states'' to act on in its step method and
 and also draws itself from a collection of images.
 %
 \subsection{FBCollisionMap}
+% \ref{sec:collision}
+Collision detection is handled by one collision map per playfield. This collision
+map is an instance of FBCollision. A collision is detected a posteriori, meaning
+that the ball first moves to the next position and  than checks whether it collides
+with some other object. However, this is not strictly necessary and not reflected in
+the implementation of the collision map. Any object may ask the collision map wheter
+a collision is happening at a given point on the map and may react accordingly. There
+are two kinds of collision: One where a ball usualy should get stuck and one where it
+should bounce of. As can be seen in Listing \ref{lst:ifBounceOff}, the API call wraps
+around doYouGetStuckAt: and doYouBounceOff: - checking in that order, since if a ``stuck
+collision'' should occure, it has a higher priority than a ``bounce of collision''.
+
 %
-As mentioned in \ref{sec:collision}.
+\begin{figure}
+  \begin{center}
+    \begin{lstlisting}
+at:aPoint ifBounceOff:bounceOffBlock ifGetStuck:getStuckBlock
+	
+	(self doYouGetStuckAt: aPoint)
+		ifTrue: [getStuckBlock value]
+		ifFalse: [ (self doYouBounceOff: aPoint)
+			ifTrue: bounceOffBlock ]
+    \end{lstlisting}
+  \end{center}
+  \caption{API method for detecting collision}
+  \label{lst:ifBounceOff}
+\end{figure}
