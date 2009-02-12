@@ -1,5 +1,6 @@
 \section{Complete System Overview}
 %
+\subsection{Interactions and Responsibilites}
 The theme class is implemented as flyweight, holding references to previously 
 created instances of a particular theme. If a requested theme type is not yet 
 held in the list of instances, the class calls a builder class, 
@@ -79,3 +80,28 @@ The FBBall is an exception to this simplicity.
 Thus its implementation is a bit larger, as it implements the FBCollider 
 interface, utilizes different ``states'' to act on in its step method and 
 and also draws itself from a collection of images.
+%
+\subsection{Ball Collisions}
+%
+\subsection{Falling Balls}
+%
+When a ball collides with another and gets stuck, the playfield asks the 
+collision map whether this connects three or more balls of the same color.
+If so, those balls are requested to fall down.\\
+However, if other balls are hanging off those balls which are falling, 
+they will have to fall down to, with nothing to hold them. We looked 
+into several ways of checking for such conditions, like regarding balls in the 
+playfield as a network of nodes, using a graph search algorithm to determine 
+whether or not a given ball is connected to the top of the playfield via 
+others. This proved difficult to implement and hurting encapsulation. Thus 
+we applied a metaphor of a garbage collector (GC) to the problem. First we used a
+reference counting GC where each ball registered itself with the balls he hung 
+off. If those balls fell, they reported to each registree so that those would 
+decrement their reference count. If the reference count fell to zero, the ball 
+would fall. However, this approach led to some problems with circular shapes 
+in the playfield. Due to this we switched to a mark and sweep GC which iterates 
+over the balls in the field. Though this might sound less optimal performance-wise,
+you have to keep in mind that the number of balls in one playfield is relatively limited, 
+and also that the GC runs at a moment where the user cannot shoot anyway, so 
+it is not time-critical.
+
