@@ -1,20 +1,21 @@
 \section{Introduction}
 \subsection{Overview}
 %
-The choice for our game fell on cloning the open-source game \emph{Frozen-Bubble}~\cite{website:frozenbubble}. The reasons 
-for this are three-fold:
+The choice for our game fell on cloning the open-source game \emph{Frozen-Bubble}~\cite{website:frozenbubble}. 
+%The reasons 
+%for this are three-fold:
 %
-\begin{itemize}
-  \item We looked for a game that we like to play alot ourselves
-  \item The game should not be too ressource hungry, as we were planning
-    on running it on the OLPC-XO
-  \item Not having any good graphic designers in our team, we wanted an
-    open game to be able to re-use images and quickly come up with something
-    good looking
-\end{itemize}
+%\begin{itemize}
+%  \item We looked for a game that we like to play alot ourselves
+%  \item The game should not be too ressource hungry, as we were planning
+%    on running it on the OLPC-XO
+%  \item Not having any good graphic designers in our team, we wanted an
+%    open game to be able to re-use images and quickly come up with something
+%    good looking
+%\end{itemize}
 %
 Within the game, the user controls a small canon, shooting bubbles and tries to 
-hit other bubbles so to create groups of 3 or more bubbles of the same color. 
+hit other bubbles in order to create groups of 3 or more bubbles of the same color. 
 Whenever this is accomplished these bubbles go away and the player gains points. 
 For a larger number of balls the 
 player is awarded exponentially more points, so the goal is to clear out large numbers 
@@ -32,7 +33,7 @@ been ported to other operating systems supported by SDL, thanks to being license
 It also runs on the Symbian\trademark
 S60 platform, the Palm\registered operating system and as Java\trademark applet in the 
 browser\footnote{Symbian is a trademark of Symbian Foundation, Palm is a registered trademark 
-of Palm, Inc. and Java is a trademark of Sun Microsystems}.
+of Palm, Inc. and Java is a trademark of Sun Microsystems}. 
 
 \begin{wrapfigure}{r}{0.5\textwidth}
 \vspace{-2em}
@@ -45,8 +46,8 @@ of Palm, Inc. and Java is a trademark of Sun Microsystems}.
 \end{wrapfigure}
 
 The original game features a single player mode with multiplet levelsets. Each level 
-of a level set defines an initial playfield layout, to make it increasingly hard for 
-the player to score. A level finishes when the player manages to remove all balls 
+of a level set defines an initial playfield layout and
+a level finishes when the player manages to remove all balls 
 from the playfield.\\
 Additionally, the original game also has a multiplayer mode for two players 
 locally and up to five players over the network. Here, the goal is to clear the balls 
@@ -55,6 +56,8 @@ is rewarded by adding ``penalty balls'' to the opponents' playfields.
 %
 \subsection{The Clone}
 Our clone of the Frozen-Bubble game keeps the name in consensus with the original developers.
+We have also aquired the permissions of the original artist to release his graphics 
+together with our code under the MIT license.
 The single player experience has been changed as stated above to relief us from the need 
 to have to supply levelsets with the game.\\
 We have not implemented a networked multiplayer mode, however, playing locally against 
@@ -65,13 +68,6 @@ Most notably we support ``realistic'' collision instead of a hex-field for the b
 makes playing a lot more challenging. In the visual side, we support more flexible theming.
 In the original that has not been a goal, so ``themes'' are limited to replacing 
 PNG graphics.
-%
-\subsection{Design Goals}
-In order to achieve a pleasant and cleanly written FrozenBubble clone, we specified certain design goals.
-A goal we set for ourselves very early was themeability, e.g. the ability to modify and adjust certain visual and logical aspects of the game (for example ball images or cannon positions). This demands an efficient and maintainable theme management system, as lots of pictures and data need to be processed.
-As previously stated, another important aspect of our clone is ''realistic'' collision between objects. To achieve this, an algorithm other than simply looping through all objects present to counter the hardware limitations of the OLPC-XO.
-Lastly, we want our game to support multiplayer functionality. Given the time needed to implement networking, we decided to focus on a local multiplayer modes 
-
 %
 \subsection{Outline}
 In this paper, we will present our game design and shed some light on the decisions 

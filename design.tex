@@ -1,4 +1,15 @@
 \section{Design Process}
+\subsection{Design Goals}
+In order to achieve a pleasant and cleanly written FrozenBubble clone, we specified certain design goals.
+A goal we set for ourselves very early was themeability, e.g. the ability to modify and 
+adjust certain visual and logical aspects of the game (for example ball images or 
+cannon positions). This demands an efficient and maintainable theme management 
+system, as lots of pictures and data need to be processed.
+As previously stated, another important aspect of our clone is ''realistic'' 
+collision between objects, which came with certain performance considerations.
+Lastly, we wanted our game to support multiplayer functionality. Given the time 
+needed to implement networking, we decided to focus on a local multiplayer modes. 
+
 \subsection{Simple Multiplayer Mode}
 %
 Several problems occured when we implemented a simple local multiplayer mode. In this chapter, we will discuss the most important design decissions.
@@ -58,3 +69,24 @@ flexibility. Thus, lazy initialization for our FBTheme class was not an option.
 We created a class solely responsible for caching images and use the flyweight 
 pattern to avoid reloading a theme we already loaded.
 %
+\subsection{Falling Balls}
+When a ball collides with another and gets stuck, the playfield asks the 
+collision map whether this connects three or more balls of the same color.
+If so, those balls are requested to fall down.\\
+However, if other balls are hanging off those balls which are falling, 
+they will have to fall down too, with nothing to hold them. We looked 
+into several ways of checking for such conditions, like regarding balls in the 
+playfield as a network of nodes, using a graph search algorithm to determine 
+whether or not a given ball is connected to the top of the playfield via 
+others. This proved difficult to implement and hurting encapsulation. Thus 
+we applied a metaphor of a garbage collector (GC) to the problem. First we used a
+``reference counting GC'' where a ball registered itself with the balls he hung 
+off. If any those balls fell, they reported to each registree so that they would 
+decrement their reference count. If the reference count fell to zero, the ball 
+would fall. However, this approach led to some problems with circular shapes 
+in the playfield. Due to this we switched to a ``mark and sweep GC'' which traverses
+over the balls in the field. Though this might sound less optimal performance-wise,
+you have to keep in mind that the number of balls in one playfield is relatively limited, 
+and also that the GC runs at a moment where the user cannot shoot anyway, so 
+it is not time-critical.
+
