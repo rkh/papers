@@ -152,13 +152,12 @@ in our case FBThemeBuilder, sets up a new instance, parsing a XML file for neede
 
 \begin{lstlisting}[language=Smalltalk, label=lst:sweep, caption= FBTheme "return:" method, float]
 FBTheme class>>return: aSymbol
-	"Return the instance of the requested type if we have it. If not replace any old instance with the type requested."
-
-	instances ifNil: [instances := IdentityDictionary new].
-	^ instances 
-		at: aSymbol 
-		ifAbsent: [
-			| instance |
-			instance := self builder setUp: aSymbol.
-			(instances add: aSymbol -> instance) value].
+    "Return the instance of the requested type if we have it. If not replace any old instance with the type requested."
+    instances ifNil: [instances := IdentityDictionary new].
+    ^ instances 
+        at: aSymbol 
+        ifAbsent: [
+            | instance |
+            instance := self builder setUp: aSymbol.
+            (instances add: aSymbol -> instance) value].
 \end{lstlisting}
