@@ -88,4 +88,60 @@ interface, utilizes different ``states'' to act on in its step method and
 and also draws itself from a collection of images.
 %
 \subsection{FBCollisionMap}
+% \ref{sec:collision}
+Collision detection is handled by one collision map per playfield. This collision
+map is an instance of FBCollision. A collision is detected a posteriori, meaning
+that the ball first moves to the next position and  than checks whether it collides
+with some other object. However, this is not strictly necessary and not reflected in
+the implementation of the collision map. Any object may ask the collision map wheter
+a collision is happening at a given point on the map and may react accordingly. There
+are two kinds of collision: One where a ball usualy should get stuck and one where it
+should bounce of. As can be seen in Listing \ref{lst:ifBounceOff}, the API call wraps
+around doYouGetStuckAt: and doYouBounceOff: - checking in that order, since if a ``stuck
+collision'' should occure, it has a higher priority than a ``bounce of collision''.
+
+\begin{figure}
+  \begin{center}
+    \begin{lstlisting}
+at:aPoint ifBounceOff:bounceOffBlock ifGetStuck:getStuckBlock
+	
+	(self doYouGetStuckAt: aPoint)
+		ifTrue: [getStuckBlock value]
+		ifFalse: [ (self doYouBounceOff: aPoint)
+			ifTrue: bounceOffBlock ]
+    \end{lstlisting}
+  \end{center}
+  \caption{API method for detecting collision}
+  \label{lst:ifBounceOff}
+\end{figure}
 %
+\subsection{FBSweeper}
+As discussed in \ref{sec:garbage}, the first design planned for every Collider to keep track of all Objects it holds on to and all Objects that hold on to it. When an Object falls down, it informs the objects that hold on to it, that they lost one Holder. When an Object has lost its last Holder, it should itself fall down and inform all objects that hold on to it that it is gone.
+This approach had several drawbacks. First, the logic for this falling down was distributed over the CollisionMap, Collider and Ball classes.
+Second, every Collider observed the Colliders next to it. When a Collider was removed from the structure, the observing Colliders removed it from their lists of holders. In the event that a Collider had no holders, it fell down, thereby invoking events on its observing neighbours.
+This resulted in a control flow that was hard to understand, as the information of the removal of a Collider was propagated to the other Colliders implicitly through events and not explicitly through message sends.
+Third, reference-counting garbage collectors have a well-known problem with cyclic references. 
+
+\begin{figure}
+  \begin{center}
+\begin{lstlisting}[language=Smalltalk]
+FBSweeper>>sweep: aCollisionMap
+    "Sweep balls that do not hang on anything 
+off the playfield"
+    |gcLive gcCollect|
+    gcCollect := gcArena copy.
+    gcLive := gcRoots copy.
+    [gcLive isEmpty] whileFalse:[
+       gcLive copy do: [:eachLiveBall|
+           gcLive remove: eachLiveBall.
+           (gcCollect includes: eachLiveBall) ifTrue:[
+               gcCollect remove: eachLiveBall.
+               gcLive addAll:
+                   (aCollisionMap holdersFor: 
+                                             eachLiveBall center)]]].
+    gcCollect do:[:deadBall | deadBall fall].
+\end{lstlisting}
+  \end{center}
+  \caption{}
+  \label{lst:sweep}
+\end{figure}
