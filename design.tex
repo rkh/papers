@@ -10,54 +10,6 @@ collision between objects, which came with certain performance considerations.
 Lastly, we wanted our game to support multiplayer functionality. Given the time 
 needed to implement networking, we decided to focus on a local multiplayer modes. 
 
-\subsection{Simple Multiplayer Mode}
-%
-Several problems occured when we implemented a simple local multiplayer mode. In this chapter, we will discuss the most important design decissions.
-
-\begin{description}
-%
-  \item[problem] ~\\ \hfill
-    Players need to be informed of critical actions happening in other players' playfields 
-  \item[possible solutions] \hfill
-
-    \begin{enumerate}
-      \item Direct communication between playfields
-      \begin{itemize}
-        \item Advantages: A simple solution like that could be implemented easily and only the most rudimentary communication is needed, so there is  very few overhead.
-        \item Disadvantages: This is not an object-oriented solution and playfield would need to be hardcodedly enumerated, making the code hardly maintainable and badly extensibly. 
-      \end{itemize}
-
-      \item Delegating communication through a mediator
-      \begin{itemize}
-        \item Advantages: A mediator makes very maintainable and expandable code. Other than the previous proposal, this is indeed an object-oriented take on the problem.
-        \item Disadvantages: There is more than twice as much communication happening as in the simplified solution.
-      \end{itemize}
-    \end{enumerate}
-
-  \item[Chosen Solution] ~\\ \hfill
-    We chose the latter proposal, a mediator.
-  \\
-
-  \item[problem] ~\\ \hfill
-    Different playfields have to be controlled by different players. And, of course, different playfields have to exist in the first place.
-  \item[possible solutions] \hfill
-
-    \begin{enumerate}
-      \item Introducing an Abstract Factory for playfields, implementing several behavioural patterns.
-      \begin{itemize}
-        \item Advantages: Abstract Factories are extensible and object-oriented.
-        \item Disadvantages: This might be a little confusing, as there has to be a whole lot of new code and new classes.
-      \end{itemize}
-
-      \item All playfields are similar and manage their behaviour on their own.
-      \begin{itemize}
-        \item Advantages: No new codes needs to be introduced in this solution...
-        \item Disadvantages: ... but the generic playfield might have to be extended for proper multiplayer use.
-      \end{itemize}
-    \end{enumerate}
-%
-\end{description}
-%
 \subsection{Slow Disk I/O}
 %
 Different from the original, we wanted to decouple the game from its representation 
@@ -69,24 +21,64 @@ flexibility. Thus, lazy initialization for our FBTheme class was not an option.
 We created a class solely responsible for caching images and use the flyweight 
 pattern to avoid reloading a theme we already loaded.
 %
+\subsection{Collision Between Balls}
+\label{sec:collision}
+When a ball is shot into the playfield, it has to interact with the plafield 
+and other objects in its path. Simply looping over all those objects and 
+testing for collision is in O(n) and result in slower 
+movement of the ball and a general loss in responsiveness. A quick solution 
+would have been to keep two lists of all objects sorted by their x and by their 
+y axis, and only testing those items closest to the current ball in both lists.
+Now O(n) would only be the worst case. 
+It occured to us that using rasterization or using precalculated vectors similar 
+to ray-tracing techniques could get us a constant complexity. We decided 
+to implement rasterization, because it was a faster solution and allowed straight 
+forward optimization.
+%
 \subsection{Falling Balls}
-When a ball collides with another and gets stuck, the playfield asks the 
-collision map whether this connects three or more balls of the same color.
-If so, those balls are requested to fall down.\\
-However, if other balls are hanging off those balls which are falling, 
-they will have to fall down too, with nothing to hold them. We looked 
-into several ways of checking for such conditions, like regarding balls in the 
-playfield as a network of nodes, using a graph search algorithm to determine 
-whether or not a given ball is connected to the top of the playfield via 
+\label{sec:garbage}
+When balls can collide and stick to each other, having them fall down 
+if three or more of the same kind touch is trivial. However, balls 
+hanging off balls that fall may have to fall as well. We considered 
+two ways of checking for such conditions. We first planned to regard balls in the 
+playfield as a network of nodes and use a graph search algorithm to determine 
+whether or not a given ball has a connection to the top of the playfield via 
 others. This proved difficult to implement and hurting encapsulation. Thus 
-we applied a metaphor of a garbage collector (GC) to the problem. First we used a
-``reference counting GC'' where a ball registered itself with the balls he hung 
-off. If any those balls fell, they reported to each registree so that they would 
-decrement their reference count. If the reference count fell to zero, the ball 
-would fall. However, this approach led to some problems with circular shapes 
-in the playfield. Due to this we switched to a ``mark and sweep GC'' which traverses
-over the balls in the field. Though this might sound less optimal performance-wise,
-you have to keep in mind that the number of balls in one playfield is relatively limited, 
-and also that the GC runs at a moment where the user cannot shoot anyway, so 
-it is not time-critical.
+we applied a metaphor of a garbage collector (GC) to the problem, where balls
+ball that are not connected to the top are collected. Performance was no pressing 
+concern here, as the number of balls in one playfield is relatively limited, 
+and the algorithm runs at a moment where the user has just shot, so taking a second 
+for the calculation would not hurt the game flow.
+
+\subsection{Simple Multiplayer Mode}
+Several problems occured when we implemented a simple local multiplayer mode. In this chapter, 
+we will discuss the most important design decissions.
+
+%
+  \subsubsection{Players need to be informed of critical actions happening in other players' playfields}
+  ~\\ \\
+    Direct communication between playfields would be the most simple solution like and 
+    could be implemented easily. Additionally only the most rudimentary communication is needed,
+    so there would be very few overhead. But this is not an object-oriented solution and playfields 
+    would need to be hardcodedly enumerated, making the code hardly maintainable and badly extensible.\\
+    In contrast, delegating communication through a mediator makes very maintainable and
+    expandable code. Other than the previous proposal, this is indeed an object-oriented 
+    take on the problem. However, there is more than twice as much communication happening 
+    compared to the previous, simplified solution.\\
+    Due to the obvious disadvantages of hardcoding different playfields, we chose the latter proposal.\\
+
+  \subsubsection{Different playfields have to be controlled by different players.
+             And, of course, different playfields have to exist in the first place.}
+  ~\\ \\
+    Our first idea we came up with was enabling the generic playfield to manage all needed behaviour
+    on itself. That way, no new code needs to be introduced, rendering this scheme very simple.
+    On the other hand, the playfield might have to be extended for all purposes to work properly. 
+    This might lead to a very huge class indeed, affecting the readability.\\
+    Introducing an Abstract Factory for playfields was another idea, thus implementing several 
+    behavioural patterns. The obvious advantage of this proposal is, that Abstract Factories 
+    are extensible and object-oriented. The downside of it would be, that this is a very powerful 
+    pattern and would probably be overindulgence because we just need two different playfields 
+    (single- and multiplayer behaviour). Because of that, we chose our initial idea of keeping 
+    things simple.\\
+%
 
