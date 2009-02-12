@@ -44,23 +44,11 @@ two ways of checking for such conditions. We first planned to regard balls in th
 playfield as a network of nodes and use a graph search algorithm to determine 
 whether or not a given ball has a connection to the top of the playfield via 
 others. This proved difficult to implement and hurting encapsulation. Thus 
-<<<<<<< HEAD:design.tex
 we applied a metaphor of a garbage collector (GC) to the problem, where balls
 ball that are not connected to the top are collected. Performance was no pressing 
 concern here, as the number of balls in one playfield is relatively limited, 
 and the algorithm runs at a moment where the user has just shot, so taking a second 
 for the calculation would not hurt the game flow.
-=======
-we applied a metaphor of a garbage collector (GC) to the problem. First we used a
-``reference counting GC'' where a ball registered itself with the balls he hung 
-off. If any those balls fell, they reported to each registree so that they would 
-decrement their reference count. If the reference count fell to zero, the ball 
-would fall. However, this approach led to some problems with circular shapes 
-in the playfield. Due to this we switched to a ``mark and sweep GC'' which traverses
-over the balls in the field. Though this might sound less optimal performance-wise,
-you have to keep in mind that the number of balls in one playfield is relatively limited, 
-and also that the GC runs at a moment where the user cannot shoot anyway, so 
-it is not time-critical.
 
 \subsection{Simple Multiplayer Mode}
 Several problems occured when we implemented a simple local multiplayer mode. In this chapter, 
