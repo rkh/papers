@@ -122,9 +122,7 @@ Second, every Collider observed the Colliders next to it. When a Collider was re
 This resulted in a control flow that was hard to understand, as the information of the removal of a Collider was propagated to the other Colliders implicitly through events and not explicitly through message sends.
 Third, reference-counting garbage collectors have a well-known problem with cyclic references. 
 
-\begin{figure}
-  \begin{center}
-\begin{lstlisting}[language=Smalltalk]
+\begin{lstlisting}[language=Smalltalk, label=lst:sweep, caption= mark-and-sweep ball collector]
 FBSweeper>>sweep: aCollisionMap
     "Sweep balls that do not hang on anything 
 off the playfield"
@@ -141,7 +139,3 @@ off the playfield"
                                              eachLiveBall center)]]].
     gcCollect do:[:deadBall | deadBall fall].
 \end{lstlisting}
-  \end{center}
-  \caption{}
-  \label{lst:sweep}
-\end{figure}
