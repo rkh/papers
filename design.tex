@@ -48,7 +48,8 @@ Several problems occured when we implemented a simple local multiplayer mode. In
 we will discuss the most important design decissions.
 
 %
-  \paragraph{Players need to be informed of critical actions happening in other players' playfields}
+  \subsubsection{Players need to be informed of critical actions happening in other players' playfields}
+  ~\\ \\
     Direct communication between playfields would be the most simple solution like and 
     could be implemented easily. Additionally only the most rudimentary communication is needed,
     so there would be very few overhead. But this is not an object-oriented solution and playfields 
@@ -59,8 +60,9 @@ we will discuss the most important design decissions.
     compared to the previous, simplified solution.\\
     Due to the obvious disadvantages of hardcoding different playfields, we chose the latter proposal.\\
 
-  \paragraph{Different playfields have to be controlled by different players.
+  \subsubsection{Different playfields have to be controlled by different players.
              And, of course, different playfields have to exist in the first place.}
+  ~\\ \\
     Our first idea we came up with was enabling the generic playfield to manage all needed behaviour
     on itself. That way, no new code needs to be introduced, rendering this scheme very simple.
     On the other hand, the playfield might have to be extended for all purposes to work properly. 
@@ -71,8 +73,6 @@ we will discuss the most important design decissions.
     pattern and would probably be overindulgence because we just need two different playfields 
     (single- and multiplayer behaviour). Because of that, we chose our initial idea of keeping 
     things simple.\\
-%
-\end{description}
 %
 
 
