@@ -9,7 +9,7 @@
 \end{figure}
 %
 \subsection{Interactions and Responsibilites}
-\subsubsection{Themes and External Resources}
+\subsubsection{Themes and External Resources} ~\\
 The FBTheme class is implemented as flyweight, holding references to previously 
 created instances of a particular theme. If a requested theme type is not yet 
 held in the list of instances, the class calls a builder class, 
@@ -23,7 +23,7 @@ The FBImageLibrary is filled prior to starting the actual game, so
 that all external resources are cached. A lazily initialized image 
 library would have resulted in slow disk I/O during
 run-time.
-\subsubsection{Rewarding the Players}
+\subsubsection{Rewarding the Players} ~\\
 FBRewardStrategies are supporting classes which add rewarding behaviour 
 to the game logic
 ~(Fig.\ref{fig:system}(2)). Its specializations 
@@ -59,7 +59,7 @@ and shot randomly in any direction. This happens via a call to
 the playfields which have to shoot random balls, since FBRewardStretegies
 hold a collection referring to all playfields.
 %
-\subsubsection{Playfield Morphs}
+\subsubsection{Playfield Morphs} ~\\
 As aforementioned, FBPlayfield is responsible for creating its own 
 contents~\ref{fig:system}(3). Such content displays a cannon, a 
 player avatar , messages for the user and numerous coloured balls. 
