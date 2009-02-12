@@ -10,7 +10,8 @@ collision between objects, which came with certain performance considerations.
 Lastly, we wanted our game to support multiplayer functionality. Given the time 
 needed to implement networking, we decided to focus on a local multiplayer modes. 
 
-\subsection{Slow Disk I/O}
+\subsection{Design Problems}
+\subsubsection{Slow Disk I/O}
 %
 Different from the original, we wanted to decouple the game from its representation 
 to the point that we could allow different themes to change the positions of the 
@@ -21,21 +22,21 @@ flexibility. Thus, lazy initialization for our FBTheme class was not an option.
 We created a class solely responsible for caching images and use the flyweight 
 pattern to avoid reloading a theme we already loaded.
 %
-\subsection{Collision Between Balls}
+\subsubsection{Collision Between Balls}
 \label{sec:collision}
 When a ball is shot into the playfield, it has to interact with the plafield 
 and other objects in its path. Simply looping over all those objects and 
-testing for collision is in O(n) and result in slower 
+testing for collision is in O(n) and results in slower 
 movement of the ball and a general loss in responsiveness. A quick solution 
 would have been to keep two lists of all objects sorted by their x and by their 
 y axis, and only testing those items closest to the current ball in both lists.
 Now O(n) would only be the worst case. 
 It occured to us that using rasterization or using precalculated vectors similar 
 to ray-tracing techniques could get us a constant complexity. We decided 
-to implement rasterization, because it was a faster solution and allowed straight 
-forward optimization.
+to implement rasterization, because it was a faster solution and allowed straightforward
+ optimization.
 %
-\subsection{Falling Balls}
+\subsubsection{Falling Balls}
 \label{sec:garbage}
 When balls can collide and stick to each other, having them fall down 
 if three or more of the same kind touch is trivial. However, balls 
@@ -50,7 +51,7 @@ concern here, as the number of balls in one playfield is relatively limited,
 and the algorithm runs at a moment where the user has just shot, so taking a second 
 for the calculation would not hurt the game flow.
 
-\subsection{Simple Multiplayer Mode}
+\subsubsection{Simple Multiplayer Mode}
 Several problems occured when we implemented a simple local multiplayer mode. In this chapter, 
 we will discuss the most important design decissions.
 
