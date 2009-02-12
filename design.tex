@@ -46,3 +46,15 @@ Several problems occured when we implemented a simple local multiplayer mode. In
     \end{enumerate}
 %
 \end{description}
+%
+\subsection{Slow Disk I/O}
+%
+Different from the original, we wanted to decouple the game from its representation 
+to the point that we could allow different themes to change the positions of the 
+game objects for different images and backgrounds. We decided to use png images to allow 
+great visual flexibility and XML files to define the theme's positions. As disk I/O
+is expensive, we needed a way to avoid it as much as possible, without sacrificing 
+flexibility. Thus, lazy initialization for our FBTheme class was not an option. 
+We created a class solely responsible for caching images and use the flyweight 
+pattern to avoid reloading a theme we already loaded.
+%
