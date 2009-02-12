@@ -1,15 +1,5 @@
 \section{Complete System Overview}
 %
-The theme class is implemented as flyweight, holding references to previously 
-created instances of a particular theme. If a requested theme type is not yet 
-held in the list of instances, the class calls a builder class, 
-FBThemeBuilder~\ref{fig:system}, to parse the requested theme's XML file, 
-load the images and then return a fresh instance of the theme. Additionally, 
-each theme contains an FBImageLibrary. The image library is just a simple 
-wrapper around an IdentityDictionary to ease filling it with Forms. 
-FBTheme and FBImageLibrary also support scaling to adjust to any screen 
-size (without accounting for neccessary interpolation).
-%
 \begin{figure}[bt]
   \begin{center}
 %    \includegraphics[width=0.9\linewidth]{images/system.png}
@@ -18,18 +8,35 @@ size (without accounting for neccessary interpolation).
   \label{fig:system}
 \end{figure}
 %
-There are a couple of supporting classes which add to the game logic 
-in Fig.\ref{fig:system}(1). Those implement different strategies for 
-rewarding the player for good gaming. Good gaming is correlated to the 
+\subsection{Interactions and Responsibilites}
+\subsubsection{Themes and External Resources}
+The FBTheme class is implemented as flyweight, holding references to previously 
+created instances of a particular theme. If a requested theme type is not yet 
+held in the list of instances, the class calls a builder class, 
+FBThemeBuilder~\ref{fig:system}(1), to parse the requested theme's XML file, 
+load the images and then return a fresh instance of the theme. Additionally, 
+each theme contains an FBImageLibrary. The image library is just a simple 
+wrapper around an IdentityDictionary to ease filling it with Forms. 
+FBTheme and FBImageLibrary also support scaling to adjust to any screen 
+size (without accounting for neccessary interpolation).
+The FBImageLibrary is filled prior to starting the actual game, so 
+that all external resources are cached. A lazily initialized image 
+library would have resulted in slow disk I/O during
+run-time.
+\subsubsection{Rewarding the Players}
+FBRewardStrategies are supporting classes which add rewarding behaviour 
+to the game logic
+~(Fig.\ref{fig:system}(2)). Its specializations 
+implement different strategies to
+reward the players for good gaming. Good gaming is measured by the 
 number of balls falling, if more are falling at the same time, more 
 reward points are gained.
-The reward strategies implement a method
+The reward strategies have to implement a method
 rewardPlayer:for:~\ref{lst:reward}.\\
-In single player mode, a
-simple highscore is added to the screen (responsible for adding the 
+In single player mode, a FBHighscoreReward
+adds a simple highscore to the screen (responsible for adding the 
 score visual is also the strategy itself) and for any number of 
-reward points reported by the FBPlayfield, points are added to the 
-score. 
+reward points reported by the FBPlayfield, score points are accumulated.
 %
 \begin{figure}
   \begin{center}
@@ -45,15 +52,16 @@ rising rate of points"
   \caption{The highscore calculation method}
   \label{lst:reward}
 \end{figure}
-In multiplayer mode, the reward only applies, if the player eliminates 
+In multiplayer mode, the strategie only rewards, if the player eliminates 
 more than three balls from the field with a single shot. If that happens, 
 a number of balls half as great is distributed among the other players,
 and shot randomly in any direction. This happens via a call to 
-the playfields who have to shoot random balls, since FBRewardStretegies
+the playfields which have to shoot random balls, since FBRewardStretegies
 hold a collection referring to all playfields.
-
+%
+\subsubsection{Playfield Morphs}
 As aforementioned, FBPlayfield is responsible for creating its own 
-contents~\ref{fig:system}(2). Such content displays a cannon, a 
+contents~\ref{fig:system}(3). Such content displays a cannon, a 
 player avatar , messages for the user and numerous coloured balls. 
 Each of these serves only a single, limited purpose, with FBPlayer 
 and FBMessage merely wrapping different types of graphical response.
@@ -75,7 +83,30 @@ The FBBall is an exception to this simplicity.
     	a Ball needs to collide with the playfield boundaries and 
 	other balls in the field.
 \end{description}
-%
 Thus its implementation is a bit larger, as it implements the FBCollider 
 interface, utilizes different ``states'' to act on in its step method and 
 and also draws itself from a collection of images.
+%
+\subsection{Ball Collisions}
+%
+\subsection{Falling Balls}
+When a ball collides with another and gets stuck, the playfield asks the 
+collision map whether this connects three or more balls of the same color.
+If so, those balls are requested to fall down.\\
+However, if other balls are hanging off those balls which are falling, 
+they will have to fall down too, with nothing to hold them. We looked 
+into several ways of checking for such conditions, like regarding balls in the 
+playfield as a network of nodes, using a graph search algorithm to determine 
+whether or not a given ball is connected to the top of the playfield via 
+others. This proved difficult to implement and hurting encapsulation. Thus 
+we applied a metaphor of a garbage collector (GC) to the problem. First we used a
+``reference counting GC'' where a ball registered itself with the balls he hung 
+off. If any those balls fell, they reported to each registree so that they would 
+decrement their reference count. If the reference count fell to zero, the ball 
+would fall. However, this approach led to some problems with circular shapes 
+in the playfield. Due to this we switched to a ``mark and sweep GC'' which iterates 
+over the balls in the field. Though this might sound less optimal performance-wise,
+you have to keep in mind that the number of balls in one playfield is relatively limited, 
+and also that the GC runs at a moment where the user cannot shoot anyway, so 
+it is not time-critical.
+
