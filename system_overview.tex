@@ -38,9 +38,7 @@ adds a simple highscore to the screen (responsible for adding the
 score visual is also the strategy itself) and for any number of 
 reward points reported by the FBPlayfield, score points are accumulated.
 %
-\begin{figure}
-  \begin{center}
-    \begin{lstlisting}
+\begin{lstlisting}[float,label=lst:reward,caption=The Highscore Calculation Method]
 FBHighscoreReward>>rewardPlayer: aPlayer for: anAchievmentScalar
     "I reward a single player with an exponentially 
 rising rate of points" 
@@ -48,10 +46,7 @@ rising rate of points"
     self score:
          self score + (anAchievmentScalar raisedTo: 2)
     \end{lstlisting}
-  \end{center}
-  \caption{The highscore calculation method}
-  \label{lst:reward}
-\end{figure}
+%
 In multiplayer mode, the strategie only rewards, if the player eliminates 
 more than three balls from the field with a single shot. If that happens, 
 a number of balls half as great is distributed among the other players,
@@ -122,20 +117,23 @@ Second, every Collider observed the Colliders next to it. When a Collider was re
 This resulted in a control flow that was hard to understand, as the information of the removal of a Collider was propagated to the other Colliders implicitly through events and not explicitly through message sends.
 Third, reference-counting garbage collectors have a well-known problem with cyclic references. 
 
-\begin{lstlisting}[language=Smalltalk, label=lst:sweep, caption= mark-and-sweep ball collector]
+\begin{lstlisting}[language=Smalltalk, label=lst:sweep, caption= mark-and-sweep ball collector, float]
 FBSweeper>>sweep: aCollisionMap
     "Sweep balls that do not hang on anything 
 off the playfield"
     |gcLive gcCollect|
     gcCollect := gcArena copy.
     gcLive := gcRoots copy.
-    [gcLive isEmpty] whileFalse:[
-       gcLive copy do: [:eachLiveBall|
-           gcLive remove: eachLiveBall.
-           (gcCollect includes: eachLiveBall) ifTrue:[
-               gcCollect remove: eachLiveBall.
-               gcLive addAll:
-                   (aCollisionMap holdersFor: 
-                                             eachLiveBall center)]]].
+    [gcLive isEmpty] 
+        whileFalse:[
+            gcLive copy do: [:eachLiveBall|
+            gcLive remove: eachLiveBall.
+            (gcCollect includes: eachLiveBall) 
+	        ifTrue:[
+                    gcCollect remove: eachLiveBall.
+                    gcLive addAll:
+                        (aCollisionMap 
+		            holdersFor: eachLiveBall center)
+        ]]].
     gcCollect do:[:deadBall | deadBall fall].
 \end{lstlisting}
