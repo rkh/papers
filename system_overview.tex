@@ -126,7 +126,7 @@ around doYouGetStuckAt: and doYouBounceOff: - checking in that order, since if a
 collision'' should occure, it has a higher priority than a ``bounce of collision''.
 %
 \begin{lstlisting}[caption=API method for detecting collision,label=lst:ifBounceOff]
-at:aPoint ifBounceOff:bounceOffBlock ifGetStuck:getStuckBlock
+FBMap>>at:aPoint ifBounceOff:bounceOffBlock ifGetStuck:getStuckBlock
 	
 	(self doYouGetStuckAt: aPoint)
 		ifTrue: [getStuckBlock value]
