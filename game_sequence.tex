@@ -26,6 +26,16 @@ keymaps to them. A FBMultiplayerReward object is instantiated for the game.
   \label{fig:ShootingABall}
 \end{figure}
 %
+\subsection{Rewarding a Player}
+Rewarding a player consists of very few steps, as depicted in Fig.\ref{fig:RewardingAPlayer}. 
+First, the FBPlayfield of the player to be rewarded collects its reward 
+through the \\{\lstinline!collectReward:!} method, thus calling the FBGame 
+to distribute our reward. FBGame itself does not handle specific rewards 
+itself, instead it informs the necessary FBRewardStrategy subclass, in 
+this case FBMultiplayerReward, that a certain FBPlayfield needs to be 
+rewarded. The bonus for a multiplayer playfield is actually a penalty 
+for others, some FBBalls are randomly shot into the opponents playfield.
+
 %
 \begin{figure}[bt]
   \begin{center}
