@@ -2,19 +2,19 @@
 \subsection{Overview}
 %
 The choice for our game fell on cloning the open-source game \emph{Frozen-Bubble}~\cite{website:frozenbubble}. 
-The reasons 
-for this are three-fold:
+%The reasons 
+%for this are three-fold:
 %
-\begin{itemize}
-  \item We looked for a game that we like to play a lot ourselves
-  \item The game should not be too resource hungry, as we were planning
-    on running it on the OLPC-XO
-  \item Not having any good graphic designers in our team, we wanted an
-    open game to be able to re-use images and quickly come up with something
-    good looking
-\end{itemize}
+%\begin{itemize}
+%  \item We looked for a game that we like to play a lot ourselves
+%  \item The game should not be too resource hungry, as we were planning
+%    on running it on the OLPC-XO
+%  \item Not having any good graphic designers in our team, we wanted an
+%    open game to be able to re-use images and quickly come up with something
+%    good looking
+%\end{itemize}
 %
-Within the game, the user controls a small canon, shooting bubbles and tries to 
+Within the game, the user controls a small cannon, shooting bubbles and tries to 
 hit other bubbles in order to create groups of 3 or more bubbles of the same color. 
 Whenever this is accomplished these bubbles go away and the player gains points. 
 For a larger number of balls the 
@@ -69,7 +69,7 @@ makes playing a lot more challenging. On the visual side, we support more flexib
 In the original that has not been a goal, so ``themes'' are limited to replacing PNG images with a fixed geometry..
 %
 \subsection{Design Goals}
-In order to achieve a pleasant and cleanly written FrozenBubble clone, we specified certain design goals.
+%In order to achieve a pleasant and cleanly written FrozenBubble clone, we specified certain design goals.
 A goal we set for ourselves very early was themeability, e.g. the ability to modify and adjust certain visual and logical aspects of the game (for example ball images or cannon positions). This demands an efficient and maintainable theme management system, as lots of pictures and data need to be processed.
 As previously stated, another important aspect of our clone is ''realistic'' collision between objects. To achieve this, an algorithm other than simply looping through all objects present to counter the hardware limitations of the OLPC-XO.
 Lastly, we want our game to support multiplayer functionality. Given the time needed to implement networking, we decided to focus on a local multiplayer modes.
