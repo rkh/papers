@@ -10,7 +10,7 @@
 \end{figure}
 %
 \subsubsection{Rewarding the Players} ~\\
-FBRewardStrategies are supporting classes which add rewarding behaviour 
+FBRewardStrategies are supporting objects which add rewarding behaviour 
 to the game logic
 ~(Fig.\ref{fig:systemplay}). Its specializations 
 implement different strategies to
@@ -33,7 +33,7 @@ rising rate of points"
          self score + (anAchievmentScalar raisedTo: 2)
 \end{lstlisting}
 %
-In multiplayer mode, the strategie only rewards, if the player eliminates 
+In multiplayer mode, the strategy only rewards, if the player eliminates 
 more than three balls from the field with a single shot. If that happens, 
 a number of balls half as great is distributed among the other players,
 and shot randomly in any direction. This happens via a call to 
@@ -50,7 +50,7 @@ load the images and then return a fresh instance of the theme. Additionally,
 each theme contains an FBImageLibrary. The image library is just a simple 
 wrapper around an IdentityDictionary to ease filling it with Forms. 
 FBTheme and FBImageLibrary also support scaling to adjust to any screen 
-size (without accounting for neccessary interpolation).
+size (without accounting for necessary interpolation).
 The FBImageLibrary is filled prior to starting the actual game, so 
 that all external resources are cached. A lazily initialized image 
 library would have resulted in slow disk I/O during
@@ -88,7 +88,7 @@ The cannon is the entity that reacts to the user's input, panning
 left and right and sending balls off into the field. However, it 
 is controlled entirely by the playfield and does not act itself. 
 The FBBall is an exception to this simplicity. 
-Because of that, we decided to seperate all logic concerning falling
+Because of that, we decided to separate all logic concerning falling
 FBBalls from the rest of the playfield and provide an additional
 abstraction layer, FBPlayfieldController.
 
@@ -118,13 +118,13 @@ collision detection is handled by one collision map per playfield. This collisio
 map is an instance of FBCollision. A collision is detected a posteriori, meaning
 that the ball first moves to the next position and  than checks whether it collides
 with some other object. However, this is not strictly necessary and not reflected in
-the implementation of the collision map. Any object may ask the collision map wheter
+the implementation of the collision map. Any object may ask the collision map whether
 a collision is happening at a given point on the map and may react accordingly. There
-are two kinds of collision: One where a ball usualy should get stuck and one where it
+are two kinds of collision: One where a ball usually should get stuck and one where it
 should bounce of. As can be seen in Listing \ref{lst:ifBounceOff}, the API call wraps
 around doYouGetStuckAt: and doYouBounceOff: - checking in that order, since if a ``stuck
-collision'' should occure, it has a higher priority than a ``bounce of collision''.
-%
+collision'' should occur, it has a higher priority than a ``bounce of collision''.
+% 
 \begin{lstlisting}[caption=API method for detecting collision,label=lst:ifBounceOff]
 FBMap>>at:aPoint ifBounceOff:bounceOffBlock ifGetStuck:getStuckBlock
 	
@@ -134,20 +134,20 @@ FBMap>>at:aPoint ifBounceOff:bounceOffBlock ifGetStuck:getStuckBlock
 			ifTrue: bounceOffBlock ]
 \end{lstlisting}
 %
-Up to this point the API is independend from how an collision is actually detected.
-The playfield is devided grid, each cell being the size of a ball. Those cells are represented
+Up to this point the API is independent from how an collision is actually detected.
+The playfield is divided grid, each cell being the size of a ball. Those cells are represented
 in the objectIndex collection. Each ball that lands somewhere registers on all cells where
-another ball could possibly collide with it, which are all the cells that are direct neightbours
+another ball could possibly collide with it, which are all the cells that are direct neighbours
 of the cell in which the ball landed. Note that the cell a ball ``is in'' is the cell the ball's
 center is in. Now doYouGetStuckAt: aPoint returns true if one of the balls registered on the
 cell aPoint is in, would collide with a ball with a center at aPoint (or if the ball would be
-close enough to the upper boder). So instead of comparing with all balls on the playfield, which
+close enough to the upper border). So instead of comparing with all balls on the playfield, which
 would be the most trivial implementations, we only compare the current position to the position
-of the balls near by. Since a cell is the size of a ball, there can only be upto 8 balls surrounding
-a cell, independend of playfield size or total number of balls. Therefor, collision detection is in
+of the balls near by. Since a cell is the size of a ball, there can only be up to 8 balls surrounding
+a cell, independent of playfield size or total number of balls. Therefor, collision detection is in
 $O(1)$ complexity, compared to $O(n)$ of the trivial implementation.
 
-As mentioned in \ref{sec:collision}, an alternative implementation could have been pre computing the route
+As mentioned in \ref{sec:collision}, an alternative implementation could have been pre- computing the route
 with vectors. However, this has at least two downsides. First, it does not cope with changes happening
 while the ball is flying. But this is not likely to happen. The other downside is, that it does need more
 computation than our solution. Not only would we need some concept of vectors, we would also have to check
