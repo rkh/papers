@@ -1,9 +1,13 @@
 \section{Examplary Two Player Game Sequence}
 \subsection{Starting the Game}
-The main menu is created and added to the world by requet of the FBGame instance,
-returning the reference to the FBGame. This menu offers a few options to start 
-a game session. Clicking on the "Start 2 Player Game" button results in the message
-\lstinline!FBGame>>startGames:! to be send with the parameter two.
+As to be seen in Fig.\ref{fig:Starting2PlayerGame}, the main menu is created 
+and added to the world by requet of the FBGame instance, returning the reference 
+to the FBGame. This menu offers a few options to start a game session. Clicking 
+on the "Start 2 Player Game" button results in the message 
+\lstinline!FBGame>>startGames:! to be send with the parameter two. A loop is 
+initialized, creating 2 discreet FBPlayfields by calling the 
+\lstinline!createPlayfield: with:! method of FBWorld and linking the corresponding 
+keymaps to them. A FBMultiplayerReward object is instantiated for the game.
 %
 \begin{figure}[bt]
   \begin{center}
