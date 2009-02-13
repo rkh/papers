@@ -86,9 +86,13 @@ Each of these serves only a single, limited purpose, with FBPlayer
 and FBMessage merely wrapping different types of graphical interaction.
 The cannon is the entity that reacts to the user's input, panning 
 left and right and sending balls off into the field. However, it 
-is controlled entirely by the playfield and does not act itself.
-
+is controlled entirely by the playfield and does not act itself. 
 The FBBall is an exception to this simplicity. 
+Because of that, we decided to seperate all logic concerning falling
+FBBalls from the rest of the playfield and provide an additional
+abstraction layer, FBPlayfieldController.
+
+
 \begin{description}
   \item[First]
     	it has to look 
