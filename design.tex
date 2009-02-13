@@ -16,7 +16,7 @@ needed to implement networking, we decided to focus on a local multiplayer modes
 %
 Different from the original, we wanted to decouple the game from its representation 
 to the point that we could allow different themes to change the positions of the 
-game objects for different images and backgrounds. We decided to use png images to allow 
+game objects for different images and backgrounds. We decided to use PNG images to allow 
 great visual flexibility and XML files to define the theme's positions. As disk I/O
 is expensive, we needed a way to avoid it as much as possible, without sacrificing 
 flexibility. Thus, lazy initialization for our images holding class was not an option. 
@@ -25,7 +25,7 @@ pattern to avoid reloading a theme we already loaded.
 %
 \subsubsection{Collision Between Balls.}
 \label{sec:collision}
-When a ball is shot into the playfield, it has to interact with the plafield 
+When a ball is shot into the playfield, it has to interact with the playfield 
 and other objects in its path. Simply looping over all those objects and 
 testing for collision is in O(n) and results in slower 
 movement of the ball and a general loss in responsiveness. A quick solution 
@@ -55,7 +55,7 @@ for the calculation would not hurt the game flow.
 \subsubsection{Simple Multiplayer Mode.}
 \label{sec:playfield}
 Several problems occured when we implemented a simple local multiplayer mode. In this chapter, 
-we will discuss the most important design decissions.
+we will discuss the most important design decisions.
 %
   \paragraph{Players need to be informed of critical actions happening in other players' playfields}
   ~\\
