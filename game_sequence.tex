@@ -13,6 +13,17 @@ a game session. Clicking on the "Start 2 Player Game" button results in the mess
   \label{fig:Starting2PlayerGame}
 \end{figure}
 %
+The FBWorld instance catches any keyboard interrupt and hands it over to the game. If
+this keystroke is not registered in the games keymap (e.g. it's not bound to pause or
+exit) it is handed over to all the playfields, which may ignore it or act accordingly -
+if it's in their keymap. As we assume in this example, that the key that was pressed is
+bound to the shoot command of the playfield, it picks the shoot event from the keymap.
+Therefor the playfield will ask it's cannon to shoot. The cannon sends the message shoot:
+to the playfield it belongs to, with it's current angle as parameter. The playfield
+sends the message fly: to it's current ball so it takes of with the given angle.
+The ball keeps flying until ti collides, as described in section \ref{sec:collisionmap}.
+As soon as the ball got stuck, it notifies the playfield controller, which in turn notifies
+the playfield.
 %
 \begin{figure}[bt]
   \begin{center}
