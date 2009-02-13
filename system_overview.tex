@@ -156,11 +156,7 @@ Thus we would have the computation we already have plus the vector algorithms. T
 collision detection computation while the ball is flying. However, profiling did show that this would probably
 not lead to an performance boost. Moreover, our current implementation does not check for every pixel lying
 on the way, but only for those where it will ``jump'' to on every step, so we have less comparisons than compared
-to the vector approach.
-
-Not checking for every pixel forces us to readjust the position as soon as the ball got stuck. We could do a loop
-through all pixels in between the position before the last step and the current position. But we use binary search
-instead to increase the speed of detecting that point.
+to the vector approach. Not checking for every pixel forces us to readjust the position as soon as the ball got stuck.
 %
 \subsubsection{Ball Falling Conditions}
 As discussed in section \ref{sec:garbage}, we modeled the process to decide whether balls can fall down on garbage collection. Our first design was inspired by reference-counting and planned for every ball to keep track of all objects it holds on to and all objects that hold on to it. When an object falls down, it informs the objects that hold on to it, via the Squeak built-in event mechanism~\cite{website:squeakwikiObserver}, that they lost a holder. When an object has lost its last holder, it should itself fall down and inform all objects that hold on to it that it is gone.
