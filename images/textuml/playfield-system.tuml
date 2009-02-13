@@ -1,0 +1,97 @@
+package Playfield;
+import dataType;
+import UMLPrimitiveTypes;
+/* import Core; */
+
+class FBPlayfield
+	operation cannonShoot();
+	operation keyStroke(anEvent : Integer);
+end;
+
+class FBPlayfieldSubmorph
+	/* attribute theme : FBTheme; */
+	operation draw();
+	operation subForm(aForm : Form);
+end;
+
+class FBBall specializes FBPlayfieldSubmorph
+	attribute playfield : FBPlayfield;
+	operation collidesWith(aPoint : Point);
+	operation fly(anAngle : Number);
+	operation land();
+	operation fall();
+	operation endGame();
+end;
+
+class FBCannon specializes FBPlayfieldSubmorph
+	operation goLeft();
+	operation goRight();
+	operation shoot();
+end;
+
+class FBMessage specializes FBPlayfieldSubmorph
+	operation lose();
+	operation win();
+end;
+
+class FBPlayer specializes FBPlayfieldSubmorph
+	operation actAs(aFeelingSymbol : Symbol);
+end;
+
+composition
+	navigable role cannon : FBCannon;
+	role playfield : FBPlayfield;
+end;
+
+composition
+	navigable role message : FBMessage;
+	role playfield : FBPlayfield; 
+end;
+
+composition
+	navigable role player : FBPlayer;
+	role playfield : FBPlayfield;
+end;
+
+composition
+	navigable role balls : FBBall[*];
+	navigable role playfield : FBPlayfield;
+end;
+
+class FBCollisionMap 
+	attribute objectIndex : OrderedCollection;
+	operation at\:IfBounceOff\:IfGetStuck(aPoint:Point,bounceOff:BlockContext,getStuck:BlockContext);
+end;
+
+composition
+	navigable role collisionMap : FBCollisionMap;
+	role map : FBMap;
+end;
+
+association
+	navigable role map : FBMap;
+	role balls : FBBall[*];
+end;
+
+class FBMap
+	attribute gcRoots : IdentitySet;
+	attribute gcArena : IdentitySet;
+	operation sweep();
+end;
+
+association
+	navigable role map : FBMap;
+	role none : FBPlayfieldController;
+end;
+
+class FBPlayfieldController
+	operation sweep();
+	operation colorChainTest(currentBall : FBBall);
+end;
+
+association
+	navigable role controller : FBPlayfieldController;
+	navigable role playfield : FBPlayfield;
+end;
+
+end.
