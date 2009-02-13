@@ -42,7 +42,7 @@ hold a collection referring to all playfields.
 %
 \subsubsection{FBTheme and FBImageLibrary}~\\ 
 To avoid expensive reading from hard disk as mentioned in our design solutions~(\ref{sec:theme})
-we implemented the FBTheme class as flyweight, holding references to previously 
+we implemented the FBTheme class as a flyweight, holding references to previously 
 created instances of a particular theme. If a requested theme type is not yet 
 held in the list of instances~\ref{lst:theme}, the class calls a builder class, 
 FBThemeBuilder~\ref{fig:systemcore}, to parse the requested theme's XML file, 
