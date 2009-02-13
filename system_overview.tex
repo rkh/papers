@@ -107,7 +107,7 @@ interface, utilizes different ``states'' to act on in its step method and
 and also draws itself from a collection of images.
 %
 \subsection{FBMap}
-\subsubsection{Collisin detection}
+\subsubsection{Collision Detection}
 As mentioned in section
 \ref{sec:collision}, 
 collision detection is handled by one collision map per playfield. This collision
@@ -158,7 +158,7 @@ Not checking for every pixel forces us to readjust the position as soon as the b
 through all pixels in between the position before the last step and the current position. But we use binary search
 instead to increase the speed of detecting that point.
 %
-\subsubsection{}
+\subsubsection{Ball Falling Conditions}
 As discussed in section \ref{sec:garbage}, we modeled the process to decide whether balls can fall down on garbage collection. Our first design was inspired by reference-counting and planned for every ball to keep track of all objects it holds on to and all objects that hold on to it. When an object falls down, it informs the objects that hold on to it, via the Squeak built-in event mechanism~\cite{website:squeakwikiObserver}, that they lost a holder. When an object has lost its last holder, it should itself fall down and inform all objects that hold on to it that it is gone.
 This approach had several drawbacks. First, the logic for this falling down was distributed over the FBCollisionMap, FBBall and FBCollider\footnote{This class had only been needed with the reference counting approach and was discarded for the final version.} classes.
 Second, every Ball observed the Balls next to it. When a Ball was removed from the structure, the observing Balls removed it from their lists of holders. In the event that a Ball had no holders, it fell down, thereby invoking events on its observing neighbours.
