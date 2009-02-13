@@ -1,0 +1,296 @@
+graph FrozenBubble {
+    ranksep = "0.8"
+    nodesep = "0.85"
+    nojustify = "true"
+    graph [
+    ]
+    node [
+        fontsize = 12
+        shape = "plaintext"
+    ]
+    edge [
+        fontsize = 9
+    ]
+    // class FrozenBubble::FBGame
+    "FBGame" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBGame</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">games : OrderedCollection</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">initializeWorld()</TD></TR><TR><TD align="left">endGame()</TD></TR></TABLE></TD></TR></TABLE>>];
+    // class FrozenBubble::FBWorld
+    "FBWorld" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBWorld</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">game : FBGame</TD></TR><TR><TD align="left">theme : FBTheme</TD></TR><TR><TD align="left">numberOfPlayers : Number</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">loadTheme(aThemeName : Symbol)</TD></TR></TABLE></TD></TR></TABLE>>];
+    // class FrozenBubble::FBTheme
+    "FBTheme" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBTheme</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">positions() : IdentityDictionary</TD></TR><TR><TD align="left">balls() : IdentityDictionary</TD></TR><TR><TD align="left">backgroundFor(aNumberOfPlayers : Integer) : Form</TD></TR></TABLE></TD></TR></TABLE>>];
+    // class FrozenBubble::FBPlayfield
+    "FBPlayfield" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBPlayfield</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">cannonShoot()</TD></TR><TR><TD align="left">keyStroke(anEvent : Integer)</TD></TR></TABLE></TD></TR></TABLE>>];
+    FBPlayfield:port -- FBGame:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = " 1..2"
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    // class FrozenBubble::FBCannon
+    "FBCannon" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBCannon</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">goLeft()</TD></TR><TR><TD align="left">goRight()</TD></TR><TR><TD align="left">shoot()</TD></TR></TABLE></TD></TR></TABLE>>];
+    // class FrozenBubble::FBPlayfieldSubmorph
+    "FBPlayfieldSubmorph" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBPlayfieldSubmorph</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">theme : FBTheme</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">draw()</TD></TR><TR><TD align="left">subForm(aForm : Form)</TD></TR></TABLE></TD></TR></TABLE>>];
+    edge [
+        arrowtail = "empty"
+        arrowhead = "none"
+        taillabel = ""
+        headlabel = ""
+        constraint = "true"
+        style = "none"
+    ]
+    FBPlayfieldSubmorph:port -- FBCannon:port
+    FBPlayfield:port -- FBCannon:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "diamondnone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    // class FrozenBubble::FBMessage
+    "FBMessage" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBMessage</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">lose()</TD></TR><TR><TD align="left">win()</TD></TR></TABLE></TD></TR></TABLE>>];
+    edge [
+        arrowtail = "empty"
+        arrowhead = "none"
+        taillabel = ""
+        headlabel = ""
+        constraint = "true"
+        style = "none"
+    ]
+    FBPlayfieldSubmorph:port -- FBMessage:port
+    FBPlayfield:port -- FBMessage:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "diamondnone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    // class FrozenBubble::FBPlayer
+    "FBPlayer" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBPlayer</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">actAs(aFeelingSymbol : Symbol)</TD></TR></TABLE></TD></TR></TABLE>>];
+    edge [
+        arrowtail = "empty"
+        arrowhead = "none"
+        taillabel = ""
+        headlabel = ""
+        constraint = "true"
+        style = "none"
+    ]
+    FBPlayfieldSubmorph:port -- FBPlayer:port
+    FBPlayfield:port -- FBPlayer:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "diamondnone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    // class FrozenBubble::FBBall
+    "FBBall" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBBall</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">playfield : FBPlayfield</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">fly(anAngle : Number)</TD></TR><TR><TD align="left">land()</TD></TR><TR><TD align="left">fall()</TD></TR><TR><TD align="left">endGame()</TD></TR></TABLE></TD></TR></TABLE>>];
+    edge [
+        arrowtail = "empty"
+        arrowhead = "none"
+        taillabel = ""
+        headlabel = ""
+        constraint = "true"
+        style = "none"
+    ]
+    FBPlayfieldSubmorph:port -- FBBall:port
+    // class FrozenBubble::FBCollisionMap
+    "FBCollisionMap" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBCollisionMap</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">objectIndex : OrderedCollection</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">at:IfBounceOff:IfGetStuck(aPoint : Point, bounceOff : BlockContext, getStuck : BlockContext)</TD></TR></TABLE></TD></TR></TABLE>>];
+    FBPlayfield:port -- FBCollisionMap:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "diamondnone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    FBBall:port -- FBCollisionMap:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = " 0..*"
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    FBPlayfield:port -- FBBall:port [
+        label = ""
+        arrowhead = "nonenone"
+        headlabel = " 0..*"
+        arrowtail = "diamondnone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    // class FrozenBubble::FBSweeper
+    "FBSweeper" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBSweeper</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">gcRoots : IdentitySet</TD></TR><TR><TD align="left">gcArena : IdentitySet</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">sweep()</TD></TR></TABLE></TD></TR></TABLE>>];
+    FBPlayfield:port -- FBSweeper:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    FBPlayfield:port -- FBTheme:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = " 0..*"
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    // class FrozenBubble::FBThemeBuilder
+    "FBThemeBuilder" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBThemeBuilder</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">parseTheme(aName : Symbol) : BlockContext</TD></TR><TR><TD align="left">parseXML(aFilename : String) : DomDocument</TD></TR><TR><TD align="left">setUp(aName : Symbol) : FBTheme</TD></TR></TABLE></TD></TR></TABLE>>];
+    FBTheme:port -- FBThemeBuilder:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    // class FrozenBubble::FBImageLibrary
+    "FBImageLibrary" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBImageLibrary</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">dictionary : IdentityDictionary</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">add(aSymbol-aFilepath : Association)</TD></TR></TABLE></TD></TR></TABLE>>];
+    FBTheme:port -- FBImageLibrary:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "diamondnone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    FBWorld:port -- FBTheme:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = " 0..*"
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    FBGame:port -- FBWorld:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "diamondnone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    // interface FrozenBubble::FBRewardStrategy
+    "FBRewardStrategy" [
+    label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>&lt;&lt;interface&gt;&gt;</TD></TR><TR><TD>FBRewardStrategy</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" align="left"><TR><TD align="left">rewardPlayer:For(playfield : FBPlayfield, achievment : Number)</TD></TR></TABLE></TD></TR></TABLE>>];
+    FBGame:port -- FBRewardStrategy:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    FBGame:port -- FBRewardStrategy:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    // class FrozenBubble::FBMenu
+    "FBMenu" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBMenu</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">addButtons()</TD></TR></TABLE></TD></TR></TABLE>>];
+    FBMenu:port -- FBGame:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    // class FrozenBubble::FBHighscoreReward
+    "FBHighscoreReward" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBHighscoreReward</TD></TR></TABLE></TD></TR></TABLE>>];
+    edge [
+        arrowtail = "empty"
+        arrowhead = "none"
+        taillabel = ""
+        headlabel = ""
+        style = "dashed"
+    ]
+    FBRewardStrategy:port -- FBHighscoreReward:port
+    // class FrozenBubble::FBMultiplayerReward
+    "FBMultiplayerReward" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBMultiplayerReward</TD></TR></TABLE></TD></TR></TABLE>>];
+    edge [
+        arrowtail = "empty"
+        arrowhead = "none"
+        taillabel = ""
+        headlabel = ""
+        style = "dashed"
+    ]
+    FBRewardStrategy:port -- FBMultiplayerReward:port
+
+}

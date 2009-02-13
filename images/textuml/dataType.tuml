@@ -1,0 +1,17 @@
+package dataType;
+
+class Number end;
+class String end;
+class Dictionary end;
+class IdentityDictionary end;
+class OrderedCollection end;
+class Boolean end;
+class Form end;
+class Symbol end;
+class Point end;
+class BlockContext end;
+class DomDocument end;
+class Association end;
+class IdentitySet end;
+
+end.
