@@ -1,0 +1,48 @@
+package Architecture;
+import dataType;
+import UMLPrimitiveTypes;
+
+class FBGame
+	attribute games : OrderedCollection;
+	operation initializeWorld();
+	operation endGame();
+end;
+
+class FBWorld
+	attribute game : FBGame;
+	attribute theme : FBTheme;
+	attribute numberOfPlayers : Number;
+	operation loadTheme(aThemeName : Symbol);
+end;
+
+class FBTheme
+	operation positions() : IdentityDictionary;
+	operation balls() : IdentityDictionary;
+	operation backgroundFor(aNumberOfPlayers:Integer) : Form;
+end;
+
+class FBPlayfield
+	operation cannonShoot();
+	operation keyStroke(anEvent : Integer);
+end;
+
+composition
+	navigable role world : FBWorld;
+	role game : FBGame;
+end;
+
+association
+	navigable role theme : FBTheme[1];
+	role world : FBWorld[*];
+end;
+
+association
+	navigable role theme : FBTheme[1];
+	role field : FBPlayfield[*];
+end;
+
+association
+	navigable role game : FBGame[1];
+	role games : FBPlayfield[1,2];
+end;
+end.
