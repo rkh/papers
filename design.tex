@@ -16,7 +16,7 @@ needed to implement networking, we decided to focus on a local multiplayer modes
 %
 Different from the original, we wanted to decouple the game from its representation 
 to the point that we could allow different themes to change the positions of the 
-game objects for different images and backgrounds. We decided to use PNG images to allow 
+game objects for different images and backgrounds. We decided to use png images to allow 
 great visual flexibility and XML files to define the theme's positions. As disk I/O
 is expensive, we needed a way to avoid it as much as possible, without sacrificing 
 flexibility. Thus, lazy initialization for our images holding class was not an option. 
@@ -25,7 +25,7 @@ pattern to avoid reloading a theme we already loaded.
 %
 \subsubsection{Collision Between Balls.}
 \label{sec:collision}
-When a ball is shot into the playfield, it has to interact with the playfield 
+When a ball is shot into the playfield, it has to interact with the plafield 
 and other objects in its path. Simply looping over all those objects and 
 testing for collision is in O(n) and results in slower 
 movement of the ball and a general loss in responsiveness. A quick solution 
@@ -54,15 +54,16 @@ for the calculation would not hurt the game flow.
 
 \subsubsection{Simple Multiplayer Mode.}
 \label{sec:playfield}
-Several problems occured when we implemented a simple local multiplayer mode. In this chapter,  
-we will discuss the most important design decisions.
+Several problems occured when we implemented a simple local multiplayer mode. In this chapter, 
+we will discuss the most important design decissions.
 %
   \paragraph{Players need to be informed of critical actions happening in other players' playfields}
   ~\\
     Direct communication between playfields would be the most simple solution like and 
     could be implemented easily. Additionally only the most rudimentary communication is needed,
     so there would be very few overhead. But this is not an object-oriented solution and playfields 
-    would need to be enumerated, making the code hardly maintainable and badly extensible.\\
+    would need to be enumerated directly in the code, making the code hardly maintainable 
+    and badly extensible.\\
     In contrast, delegating communication through a mediator makes very maintainable and
     expandable code. Other than the previous proposal, this is indeed an object-oriented 
     take on the problem. However, there is more than twice as much communication happening 
