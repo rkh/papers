@@ -1,0 +1,71 @@
+graph Architecture {
+    ranksep = "0.8"
+    nodesep = "0.85"
+    nojustify = "true"
+    graph [
+    ]
+    node [
+        fontsize = 12
+        shape = "plaintext"
+    ]
+    edge [
+        fontsize = 9
+    ]
+    // class Architecture::FBGame
+    "FBGame" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBGame</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">games : OrderedCollection</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">initializeWorld()</TD></TR><TR><TD align="left">endGame()</TD></TR></TABLE></TD></TR></TABLE>>];
+    // class Architecture::FBWorld
+    "FBWorld" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBWorld</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">game : FBGame</TD></TR><TR><TD align="left">theme : FBTheme</TD></TR><TR><TD align="left">numberOfPlayers : Number</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">loadTheme(aThemeName : Symbol)</TD></TR></TABLE></TD></TR></TABLE>>];
+    // class Architecture::FBTheme
+    "FBTheme" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBTheme</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">positions() : IdentityDictionary</TD></TR><TR><TD align="left">balls() : IdentityDictionary</TD></TR><TR><TD align="left">backgroundFor(aNumberOfPlayers : Integer) : Form</TD></TR></TABLE></TD></TR></TABLE>>];
+    // class Architecture::FBPlayfield
+    "FBPlayfield" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBPlayfield</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">cannonShoot()</TD></TR><TR><TD align="left">keyStroke(anEvent : Integer)</TD></TR></TABLE></TD></TR></TABLE>>];
+    FBPlayfield:port -- FBGame:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = " 1..2"
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    FBPlayfield:port -- FBTheme:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = " 0..*"
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    FBWorld:port -- FBTheme:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = " 0..*"
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    FBGame:port -- FBWorld:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "diamondnone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+
+}
