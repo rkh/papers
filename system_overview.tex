@@ -110,7 +110,8 @@ Thus its implementation is a bit larger, as it implements the FBCollider
 interface, utilizes different ``states'' to act on in its step method and 
 and also draws itself from a collection of images.
 %
-\subsection{FBCollisionMap}
+\subsection{FBMap}
+\subsubsection{Collision Detection}
 As mentioned in section
 \ref{sec:collision}, 
 collision detection is handled by one collision map per playfield. This collision
@@ -161,7 +162,7 @@ Not checking for every pixel forces us to readjust the position as soon as the b
 through all pixels in between the position before the last step and the current position. But we use binary search
 instead to increase the speed of detecting that point.
 %
-\subsection{FBSweeper}
+\subsubsection{Ball Falling Conditions}
 As discussed in section \ref{sec:garbage}, we modeled the process to decide whether balls can fall down on garbage collection. Our first design was inspired by reference-counting and planned for every ball to keep track of all objects it holds on to and all objects that hold on to it. When an object falls down, it informs the objects that hold on to it, via the Squeak built-in event mechanism~\cite{website:squeakwikiObserver}, that they lost a holder. When an object has lost its last holder, it should itself fall down and inform all objects that hold on to it that it is gone.
 This approach had several drawbacks. First, the logic for this falling down was distributed over the FBCollisionMap, FBBall and FBCollider\footnote{This class had only been needed with the reference counting approach and was discarded for the final version.} classes.
 Second, every Ball observed the Balls next to it. When a Ball was removed from the structure, the observing Balls removed it from their lists of holders. In the event that a Ball had no holders, it fell down, thereby invoking events on its observing neighbours.
@@ -169,28 +170,25 @@ This resulted in a control flow that was hard to understand, as the information 
 
 Third, reference-counting garbage collectors have a well-known problem with cyclic references.
 
-In order to separate the concern of letting balls fall down the from the Rest of the Game logic, the FBSweeper was introduced.
+In order to separate the concern of letting balls fall down the from the rest of the game logic, the FBMap keeps track of the balls and the relationships between them.
 
-Like a mark-and-sweep garbage collector, the sweeper traverses the Balls in the Playfield and marks every Ball it can reach, beginning with the balls that stick to the top of the FBPlayfield.  In the beginning, all Balls are considered for collection and thus contained in the gcCollect set. Marking happens by removing a FBBall from the set. When a Ball is reachable and has not yet been marked, it is marked and its neighbours, determined through the collision map, are considered reachable. This is repeated until all reachable Balls have been marked, then all remaining Balls are unreachable and can be removed.
-The Balls are traversed breadth-first.
+Like a mark-and-sweep garbage collector, the sweepBalls method traverses the balls in the Playfield and marks every ball it can reach, beginning with the balls that stick to the top of the playfield. The Balls are traversed depth-first. All unmarked balls cannot be reached from balls that hang. They are removed from the map.
+
 %
 \begin{lstlisting}[language=Smalltalk, label=lst:sweep, caption=Mark-and-Sweep Ball Collector, float]
-FBSweeper>>sweep: aCollisionMap
-    "Sweep balls that do not hang on anything off the playfield"
-    |gcLive gcCollect|
-    gcCollect := gcArena copy.
-    gcLive := gcRoots copy.
-    [gcLive isEmpty] 
-        whileFalse:[
-            gcLive copy do: [:eachLiveBall|
-            gcLive remove: eachLiveBall.
-            (gcCollect includes: eachLiveBall) 
-	        ifTrue:[
-                    gcCollect remove: eachLiveBall.
-                    gcLive addAll:
-                        (aCollisionMap 
-		            holdersFor: eachLiveBall center)
-        ]]].
-    gcCollect do:[:deadBall | deadBall fall].
+FBMap>>sweepBalls
+	"Grep chains for all roots and remove the rest"
+	
+	| markedColliders removableColliders |
+	markedColliders := gcRoots copy.
+	self gcRoots do: [:each | 
+		markedColliders addAll: (self 
+			chainFor: each 
+			except: markedColliders)].
+	removableColliders := (self
+			ejectAll: markedColliders
+			from: self gcArena).
+	removableColliders do: [:each | self remove: each].
+	^ removableColliders
 \end{lstlisting}
 %
