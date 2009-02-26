@@ -1,0 +1,45 @@
+\documentclass[a4paper]{llncs}
+\usepackage{amsmath, amssymb}
+%\usepackage{makeidx}  % allows for indexgeneration
+\usepackage[pdftex]{graphicx} % PNGs
+\usepackage[ngerman,english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{listings} % for sourcecode
+\usepackage{graphviz} % graphs
+\usepackage{array} % tables
+\usepackage{afterpage} % figures
+\usepackage{float} % figures
+\usepackage{wrapfig} % figures im fließtext
+\usepackage{multicol} % baudisch hat 2 column layout
+
+\newcommand{\trademark}{\texttrademark~}
+\newcommand{\registered}{\textregistered~}
+
+\setlength{\columnseprule}{0pt} % vertical rules - none in the .doc template
+%\setlength{\columnsep}{20pt} % the space between columns
+
+\begin{document}
+\nocite{*}
+\mainmatter              % start of the contributions
+\title{SocioPath}
+\subtitle{Mobilising the Social Web}
+\date{\today}
+\author{Konstantin Haase, Tim Felgentreff, Johannes Wollert}
+\institute{%
+Hasso-Plattner-Institut, Universität Potsdam, D-14482 Potsdam, Germany,\\
+\email{\{konstantin.haase,tim.felgentreff,johannes.wollert,\}@student.hpi.uni-potsdam.de}}
+\maketitle
+\begin{abstract}
+\end{abstract}
+%
+\begin{multicols}{2}
+  lots of text
+  \ldots
+\end{multicols}
+%
+\bibliographystyle{splncs}
+\bibliography{ui}
+\clearpage
+\end{document}
+
