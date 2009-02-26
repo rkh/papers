@@ -1,7 +1,7 @@
-\documentclass[a4paper]{llncs}
-\usepackage{amsmath, amssymb}
-%\usepackage{makeidx}  % allows for indexgeneration
-\usepackage[pdftex]{graphicx} % PNGs
+\documentclass{chi2009}
+\usepackage{times}
+\usepackage{url}
+\usepackage{graphicx} % PNGs
 \usepackage[ngerman,english]{babel}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
@@ -11,40 +11,71 @@
 \usepackage{afterpage} % figures
 \usepackage{float} % figures
 \usepackage{wrapfig} % figures im fließtext
-\usepackage{multicol} % baudisch hat 2 column layout
+\usepackage{graphics}
+\usepackage{color}
+\usepackage[pdftex]{hyperref}
+\hypersetup{%
+pdftitle={SocioPath},
+pdfauthor={Konstantin Haase, Tim Felgentreff, Johannes Wollert}
+pdfkeywords={UI,HCI},
+bookmarksnumbered,
+pdfstartview={FitH},
+colorlinks,
+citecolor=black,
+filecolor=black,
+linkcolor=black,
+urlcolor=black,
+breaklinks=true,
+}
+\newcommand{\comment}[1]{}
+\definecolor{Orange}{rgb}{1,0.5,0}
+\newcommand{\todo}[1]{\textsf{\textbf{\textcolor{Orange}{[[#1]]}}}}
+
+\pagenumbering{arabic}  % Arabic page numbers for submission.  Remove this line to eliminate page numbers for the camera ready copy
+
+\begin{document}
+% to make various LaTeX processors do the right thing with page size
+\special{papersize=8.5in,11in}
+\setlength{\paperheight}{11in}
+\setlength{\paperwidth}{8.5in}
+\setlength{\pdfpageheight}{\paperheight}
+\setlength{\pdfpagewidth}{\paperwidth}
+
+% use this command to override the default ACM copyright statement 
+% (e.g. for preprints). Remove for camera ready copy.
+\toappear{%
+Final report \\
+Introduction to HCI 2008/2009, Prof. Patrick Baudisch\\
+Hasso Plattner Institute}
 
 \newcommand{\trademark}{\texttrademark~}
 \newcommand{\registered}{\textregistered~}
 
-\setlength{\columnseprule}{0pt} % vertical rules - none in the .doc template
-%\setlength{\columnsep}{20pt} % the space between columns
-
-\begin{document}
-\nocite{*}
-\mainmatter              % start of the contributions
-\title{SocioPath}
-\subtitle{Mobilising the Social Web}
-\date{\today}
-\author{Konstantin Haase, Tim Felgentreff, Johannes Wollert}
-\institute{%
-Hasso-Plattner-Institut, Universität Potsdam, D-14482 Potsdam, Germany,\\
-\email{\{konstantin.haase,tim.felgentreff,johannes.wollert,\}@student.hpi.uni-potsdam.de}}
+\title{SocioPath: Mobilising the Social Web on the Path to a Diverse Society}
+\numberofauthors{1}
+\author{
+  \alignauthor ~\\
+    \affaddr{Hasso-Plattner-Institute}\\
+    \affaddr{Prof.-Dr.-Helmert-Str. 2-3}\\
+    \affaddr{D-14482 Potsdam, Germany}\\
+    \email{~\\ 	$\big\{$konstantin.haase,tim.felgentreff,johannes.wollert$\big\}$@student.hpi.uni-potsdam.de}
+}
 \maketitle
+\nocite{*}
 \begin{abstract}
   \input{abstract}
 \end{abstract}
-%
-\begin{multicols}{2}
+\category{H.5.2}{[Information Interfaces and Presentation]} User Interfaces, Input devices and strategies
+\keywords{mobile devices, touch, input devices}
+
   \input{introduction}
   \input{motivation}
   \input{walkthrough}
   \input{contribution}
   \input{related_work}
   \input{design_section}
-\end{multicols}
-%
-\bibliographystyle{splncs}
-\bibliography{ui}
-\clearpage
-\end{document}
+  \input{conclusions}
 
+\bibliographystyle{abbrv}
+\bibliography{ui}
+\end{document}
