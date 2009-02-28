@@ -43,8 +43,8 @@ into an ever more refined design.
     of accessing their network from a browser on a computer workstation. It turned 
     out, that indeed the number of steps needed to get to a particular feature
     is seen as \emph{the} most annoying part of social networks. We considered 
-    that for our design sketches and also took this as reconcilation, that our 
-    goal of ubiquitious, quick access networking is indeed what users crave for.
+    that for our design sketches and also took this as reconciliation, that our 
+    goal of ubiquitous, quick access networking is indeed what users crave for.
   \item[Functionality and Design]
     Sketching as the most basic way to design user interfaces has produced 
     a great many routes for us. We have played around with different form-factors 
@@ -65,8 +65,51 @@ into an ever more refined design.
   \label{fig:sketches}
 \end{figure}
   \item[Usability Flaws and Paper Prototyping]
-    Used a link map.
+    To further refine our design, we asked other members of the HCI course
+    to evaluate what we had done to that point. We created a paper prototype
+    which helped us greatly to finalize the physical design to create 
+    a discoverable device. The final device features a front-operated touch
+    screen, a thumb-wheel and a ``Back'' button. The thumb-wheel here is 
+    mainly a convenience, as its operations can also be done with a swipe
+    of the screen, however, some of our testers exclaimed they were more
+    comfortable with a wheel, both for the physical sensation as well 
+    as for operating the device eyes-free.
+
+    To discover UI usability flaws in a heuristic evaluation we 
+    created a link map
+    of all our screens. At that time the device design was already 
+    reasonably finalized so that we could focus on the software side of
+    things. While our ideas were deemed pretty discoverable as they were, 
+    a few cosmetic flaws were pointed out, which we duly incorporated into
+    our link map, e.g. our reliance on iconic representation was criticized
+    for leaving to much space for interpretation. To resolve this issue, 
+    we added an action name that appears when an icon is in focus, to 
+    reassure the user.
   \item[Interactive Prototype]
+    The interactive prototype represents our finalized UI design. Although
+    we did not implement the final graphics, the prototype gives a very 
+    thorough impression of the ``feel'' we intend for the software to have.
+    All screens from our link map, enhanced with the experiences gathered 
+    from our evaluation, are present in the prototype and their behavior 
+    was simulated as best as possible using mouse and keyboard.
+
+    The final UI favors horizontal and vertical scrolling as well as item
+    expansion over switching between lots of screens. The main menu has 
+    large icons for quick access and a ticker with notifications at the top.
+    Input is always full screen and a faint ``Just write'' written on the
+    background hints at how text input is intended. If the user hesitates,
+    the device assumes he still does not know what to do, and a short 
+    animation of a finger writing on the screen appears.\\ 
+    The detail pages of friends and the message board is a vertically 
+    scrolling list of items, each of which only displays a maximum of 
+    two rows of text. Tapping an item expands it and the user can read 
+    more by simply scrolling down further.
+
+    In a list, we use a glowing line on top and bottom to indicate more 
+    items in either direction, if there are any. We use this technique 
+    because we cannot always assure that the next item to the top or 
+    bottom is ``cut-of'' to indicate more content, as expanded items can
+    be of arbitrary length.
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=0.8\linewidth]{imgs/screen.png}
