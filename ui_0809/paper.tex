@@ -3,7 +3,7 @@
 \usepackage{url}
 \usepackage{graphicx} % PNGs
 \usepackage[ngerman,english]{babel}
-\usepackage[utf8x]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{listings} % for sourcecode
 %\usepackage{graphviz} % graphs
@@ -33,6 +33,16 @@ breaklinks=true,
 \newcommand{\todo}[1]{\textsf{\textbf{\textcolor{Orange}{[[#1]]}}}}
 
 \pagenumbering{arabic}  % Arabic page numbers for submission.  Remove this line to eliminate page numbers for the camera ready copy
+
+% Try to force some better figure defaults
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\setcounter{dbltopnumber}{2}
+\renewcommand{\dbltopfraction}{0.9}
+\renewcommand{\textfraction}{0.07}
 
 \begin{document}
 % to make various LaTeX processors do the right thing with page size
