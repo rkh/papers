@@ -1,0 +1,99 @@
+package Core;
+import dataType;
+import UMLPrimitiveTypes;
+
+class FBGame
+	attribute games : OrderedCollection;
+	operation initializeWorld();
+	operation endGame();
+end;
+
+class FBWorld
+	attribute game : FBGame;
+	attribute theme : FBTheme;
+	attribute numberOfPlayers : Number;
+	operation loadTheme(aThemeName : Symbol);
+end;
+
+class FBTheme
+	operation positions() : IdentityDictionary;
+	operation balls() : IdentityDictionary;
+	operation backgroundFor(aNumberOfPlayers:Integer) : Form;
+end;
+
+class FBPlayfield
+	operation cannonShoot();
+	operation keyStroke(anEvent : Integer);
+end;
+
+composition
+	navigable role world : FBWorld;
+	role game : FBGame;
+end;
+
+association
+	navigable role theme : FBTheme[1];
+	role world : FBWorld[*];
+end;
+
+association
+	navigable role theme : FBTheme[1];
+	role field : FBPlayfield[*];
+end;
+
+association
+	navigable role game : FBGame[1];
+	role games : FBPlayfield[1,2];
+end;
+
+interface FBRewardStrategy
+	operation rewardPlayer\:For(playfield:FBPlayfield, achievment:Number);
+end;
+
+association
+	navigable role rewardStrategy : FBRewardStrategy;
+	role game : FBGame;
+end;
+
+association
+	navigable role rewardStrategy : FBRewardStrategy;
+	role game : FBGame;
+end;
+
+class FBHighscoreReward implements FBRewardStrategy
+end;
+
+class FBMultiplayerReward implements FBRewardStrategy
+end;
+
+class FBThemeBuilder
+	operation parseTheme(aName : Symbol) : BlockContext;
+	operation parseXML(aFilename : String) : DomDocument;
+	operation setUp(aName : Symbol) : FBTheme;
+end;
+
+class FBImageLibrary
+	attribute dictionary : IdentityDictionary;
+	operation add(aSymbol\-aFilepath : Association);
+end;
+
+association
+	navigable role builder : FBThemeBuilder;
+	role none : FBTheme;
+end;
+
+composition
+	navigable role images : FBImageLibrary;
+	role none : FBTheme;
+end;
+
+class FBMenu
+	operation addButtons();
+end;
+
+association
+	navigable role game : FBGame;
+	role menu : FBMenu;
+end;
+
+end.

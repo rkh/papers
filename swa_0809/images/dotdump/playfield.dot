@@ -1,0 +1,167 @@
+graph Playfield {
+    ranksep = "0.8"
+    nodesep = "0.85"
+    nojustify = "true"
+    graph [
+    ]
+    node [
+        fontsize = 12
+        shape = "plaintext"
+    ]
+    edge [
+        fontsize = 9
+    ]
+    // class Playfield::FBPlayfield
+    "FBPlayfield" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBPlayfield</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">cannonShoot()</TD></TR><TR><TD align="left">keyStroke(anEvent : Integer)</TD></TR></TABLE></TD></TR></TABLE>>];
+    // class Playfield::FBCannon
+    "FBCannon" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBCannon</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">goLeft()</TD></TR><TR><TD align="left">goRight()</TD></TR><TR><TD align="left">shoot()</TD></TR></TABLE></TD></TR></TABLE>>];
+    // class Playfield::FBPlayfieldSubmorph
+    "FBPlayfieldSubmorph" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBPlayfieldSubmorph</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">draw()</TD></TR><TR><TD align="left">subForm(aForm : Form)</TD></TR></TABLE></TD></TR></TABLE>>];
+    edge [
+        arrowtail = "empty"
+        arrowhead = "none"
+        taillabel = ""
+        headlabel = ""
+        constraint = "true"
+        style = "none"
+    ]
+    FBPlayfieldSubmorph:port -- FBCannon:port
+    FBPlayfield:port -- FBCannon:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "diamondnone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    // class Playfield::FBMessage
+    "FBMessage" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBMessage</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">lose()</TD></TR><TR><TD align="left">win()</TD></TR></TABLE></TD></TR></TABLE>>];
+    edge [
+        arrowtail = "empty"
+        arrowhead = "none"
+        taillabel = ""
+        headlabel = ""
+        constraint = "true"
+        style = "none"
+    ]
+    FBPlayfieldSubmorph:port -- FBMessage:port
+    FBPlayfield:port -- FBMessage:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "diamondnone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    // class Playfield::FBPlayer
+    "FBPlayer" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBPlayer</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">actAs(aFeelingSymbol : Symbol)</TD></TR></TABLE></TD></TR></TABLE>>];
+    edge [
+        arrowtail = "empty"
+        arrowhead = "none"
+        taillabel = ""
+        headlabel = ""
+        constraint = "true"
+        style = "none"
+    ]
+    FBPlayfieldSubmorph:port -- FBPlayer:port
+    FBPlayfield:port -- FBPlayer:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "diamondnone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    // class Playfield::FBBall
+    "FBBall" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBBall</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">playfield : FBPlayfield</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">collidesWith(aPoint : Point)</TD></TR><TR><TD align="left">fly(anAngle : Number)</TD></TR><TR><TD align="left">land()</TD></TR><TR><TD align="left">fall()</TD></TR><TR><TD align="left">endGame()</TD></TR></TABLE></TD></TR></TABLE>>];
+    edge [
+        arrowtail = "empty"
+        arrowhead = "none"
+        taillabel = ""
+        headlabel = ""
+        constraint = "true"
+        style = "none"
+    ]
+    FBPlayfieldSubmorph:port -- FBBall:port
+    // class Playfield::FBMap
+    "FBMap" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBMap</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">gcRoots : IdentitySet</TD></TR><TR><TD align="left">gcArena : IdentitySet</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">sweep()</TD></TR></TABLE></TD></TR></TABLE>>];
+    // class Playfield::FBCollisionMap
+    "FBCollisionMap" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBCollisionMap</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">objectIndex : OrderedCollection</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">at:IfBounceOff:IfGetStuck(aPoint : Point, bounceOff : BlockContext, getStuck : BlockContext)</TD></TR></TABLE></TD></TR></TABLE>>];
+    FBMap:port -- FBCollisionMap:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "diamondnone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    // class Playfield::FBPlayfieldController
+    "FBPlayfieldController" [label=<
+        <TABLE border="0" cellspacing="0" cellpadding="0" cellborder="0" port="port">
+        <TR><TD><TABLE border="1" cellborder="0" CELLPADDING="3" CELLSPACING="0" ALIGN="LEFT"><TR><TD>FBPlayfieldController</TD></TR></TABLE></TD></TR><TR><TD><TABLE border="1" cellborder="0" CELLPADDING="0" CELLSPACING="5" ALIGN="LEFT"><TR><TD align="left">sweep()</TD></TR><TR><TD align="left">colorChainTest(currentBall : FBBall)</TD></TR></TABLE></TD></TR></TABLE>>];
+    FBPlayfieldController:port -- FBPlayfield:port [
+        label = ""
+        arrowhead = "nonenone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "false"
+        style = "solid"
+    ]
+    FBPlayfieldController:port -- FBMap:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    FBBall:port -- FBMap:port [
+        label = ""
+        arrowhead = "opennone"
+        headlabel = ""
+        arrowtail = "nonenone"
+        taillabel = " 0..*"
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+    FBPlayfield:port -- FBBall:port [
+        label = ""
+        arrowhead = "nonenone"
+        headlabel = " 0..*"
+        arrowtail = "diamondnone"
+        taillabel = ""
+        labeldistance = "1.7"
+        constraint = "true"
+        style = "solid"
+    ]
+
+}

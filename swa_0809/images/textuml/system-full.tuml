@@ -1,0 +1,186 @@
+package System;
+import dataType;
+import UMLPrimitiveTypes;
+import Core;
+
+class FBGame
+	attribute games : OrderedCollection;
+	operation initializeWorld();
+	operation endGame();
+end;
+
+class FBWorld
+	attribute game : FBGame;
+	attribute theme : FBTheme;
+	attribute numberOfPlayers : Number;
+	operation loadTheme(aThemeName : Symbol);
+end;
+
+class FBTheme
+	operation positions() : IdentityDictionary;
+	operation balls() : IdentityDictionary;
+	operation backgroundFor(aNumberOfPlayers:Integer) : Form;
+end;
+
+class FBPlayfield
+	operation cannonShoot();
+	operation keyStroke(anEvent : Integer);
+end;
+
+composition
+	navigable role world : FBWorld;
+	role game : FBGame;
+end;
+
+association
+	navigable role theme : FBTheme[1];
+	role world : FBWorld[*];
+end;
+
+association
+	navigable role theme : FBTheme[1];
+	role field : FBPlayfield[*];
+end;
+
+association
+	navigable role game : FBGame[1];
+	role games : FBPlayfield[1,2];
+end;
+
+interface FBRewardStrategy
+	operation rewardPlayer\:For(playfield:FBPlayfield, achievment:Number);
+end;
+
+association
+	navigable role rewardStrategy : FBRewardStrategy;
+	role game : FBGame;
+end;
+
+association
+	navigable role rewardStrategy : FBRewardStrategy;
+	role game : FBGame;
+end;
+
+class FBHighscoreReward implements FBRewardStrategy
+end;
+
+class FBMultiplayerReward implements FBRewardStrategy
+end;
+
+class FBThemeBuilder
+	operation parseTheme(aName : Symbol) : BlockContext;
+	operation parseXML(aFilename : String) : DomDocument;
+	operation setUp(aName : Symbol) : FBTheme;
+end;
+
+class FBImageLibrary
+	attribute dictionary : IdentityDictionary;
+	operation add(aSymbol\-aFilepath : Association);
+end;
+
+association
+	navigable role builder : FBThemeBuilder;
+	role none : FBTheme;
+end;
+
+composition
+	navigable role images : FBImageLibrary;
+	role none : FBTheme;
+end;
+
+class FBMenu
+	operation addButtons();
+end;
+
+association
+	navigable role game : FBGame;
+	role menu : FBMenu;
+end;
+
+class FBPlayfieldSubmorph
+	attribute theme : FBTheme;
+	operation draw();
+	operation subForm(aForm : Form);
+end;
+
+class FBBall specializes FBPlayfieldSubmorph
+	attribute playfield : FBPlayfield;
+	operation collidesWith(aPoint : Point);
+	operation fly(anAngle : Number);
+	operation land();
+	operation fall();
+	operation endGame();
+end;
+
+class FBCannon specializes FBPlayfieldSubmorph
+	operation goLeft();
+	operation goRight();
+	operation shoot();
+end;
+
+class FBMessage specializes FBPlayfieldSubmorph
+	operation lose();
+	operation win();
+end;
+
+class FBPlayer specializes FBPlayfieldSubmorph
+	operation actAs(aFeelingSymbol : Symbol);
+end;
+
+composition
+	navigable role cannon : FBCannon;
+	role playfield : FBPlayfield;
+end;
+
+composition
+	navigable role message : FBMessage;
+	role playfield : FBPlayfield; 
+end;
+
+composition
+	navigable role player : FBPlayer;
+	role playfield : FBPlayfield;
+end;
+
+composition
+	navigable role balls : FBBall[*];
+	navigable role playfield : FBPlayfield;
+end;
+
+class FBCollisionMap 
+	attribute objectIndex : OrderedCollection;
+	operation at\:IfBounceOff\:IfGetStuck(aPoint:Point,bounceOff:BlockContext,getStuck:BlockContext);
+end;
+
+composition
+	navigable role collisionMap : FBCollisionMap;
+	role map : FBMap;
+end;
+
+association
+	navigable role map : FBMap;
+	role balls : FBBall[*];
+end;
+
+class FBMap
+	attribute gcRoots : IdentitySet;
+	attribute gcArena : IdentitySet;
+	operation sweep();
+end;
+
+association
+	navigable role map : FBMap;
+	role none : FBPlayfieldController;
+end;
+
+class FBPlayfieldController
+	operation sweep();
+	operation colorChainTest(currentBall : FBBall);
+end;
+
+association
+	navigable role controller : FBPlayfieldController;
+	navigable role playfield : FBPlayfield;
+end;
+
+end.
