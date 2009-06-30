@@ -25,59 +25,144 @@
 
 \maketitle
 
-%\begin{slide}{Introduction}
-%  \begin{itemize}
-%  \item Common Feed-Readers have shortcomings
-%    \begin{itemize}
-%    \item RSS-Feeds are often broken
-%    \item Readers have limited input options
-%    \item Feeds are only presented as they are
-%    \end{itemize}
-%  \item The Accumulator was meant to solve some of these
-%    \begin{itemize}
-%    \item Filters can fix some feed's problems
-%    \item We can read more than the common feed formats
-%    \item Feeds can be tagged and shared
-%    \end{itemize}
-%  \end{itemize}
-%\end{slide}
-%\begin{slide}{Demo}
-%  nice picture
-%\end{slide}
-%\begin{slide}{Agenda}
-%  \begin{itemize}
-%  \item Goals 
-%  \item XP
-%  \item System
-%  \end{itemize}
-%\end{slide}
-%\begin{slide}{Goals}
-%  \begin{itemize}
-%    \item Read from different sources (RSS, Atom, IMAP, Monticello, Git, \ldots)
-%    \item Filter sources to ease focus on the things that matter
-%    \item Be extensible: allow easy integration of new sources and filters
-%    \item Be open: do not force users into the web-frontend, offer RSS output
-%  \end{itemize}
-%\end{slide}
-%\begin{slide}{Development Process}
-%  Xtreme Programming
-%  \begin{itemize}
-%    \item User stories
-%    \item Pair programming
-%    \item Stand-up meetings
-%    \item TDD
-%    \item Continouus integration
-%  \end{itemize}
-%\end{slide}
+\begin{slide}{Introduction}
+  \begin{itemize}
+  \item Common Feed-Readers have shortcomings
+    \begin{itemize}
+    \item RSS-Feeds are often broken
+    \item Readers have limited input options
+    \item Feeds are only presented as they are
+    \end{itemize}
+  \item The Accumulator was meant to solve some of these
+    \begin{itemize}
+    \item Filters can fix some feed's problems
+    \item We can read more than the common feed formats
+    \item Feeds can be tagged and shared
+    \end{itemize}
+  \end{itemize}
+\end{slide}
+\begin{slide}{Demo}
+  nice picture
+\end{slide}
+\begin{slide}{Agenda}
+  \begin{itemize}
+  \item Goals 
+  \item XP
+  \item System
+  \end{itemize}
+\end{slide}
+\begin{slide}{Goals}
+  \begin{itemize}
+    \item Read from different sources (RSS, Atom, IMAP, Monticello, Git, \ldots)
+    \item Filter sources to ease focus on the things that matter
+    \item Be extensible: allow easy integration of new sources and filters
+    \item Be open: do not force users into the web-frontend, offer RSS output
+  \end{itemize}
+\end{slide}
+\begin{slide}{Development Process}
+  Xtreme Programming
+  \begin{itemize}
+    \item User stories
+    \item Pair programming
+    \item Stand-up meetings
+    \item TDD
+    \item Continouus integration
+  \end{itemize}
+\end{slide}
 \begin{slide}{Development Process (contd.)}
   \begin{itemize}
-    \item Pair programming
+    \item Pair Programming
       \begin{itemize}
 	\item Working in two's or three's
-	\item Two or three teams working alongside 
-	  one another on different parts of the system
-	\item Working in one room, work-by-smoke-break
+	\item Two or three teams working alongside on different parts of the system
+	\item Working in one room
+	\item Development by smoke-break
       \end{itemize}
+  \end{itemize}
+\end{slide}
+\begin{slide}{Development Process (contd.)}
+  \begin{itemize}
+    \item Stand-Up Meetings
+      \begin{itemize}
+	\item Once every week
+	\item Bring everyone up-to-date with the latest changes
+	\item Discussion of last-weeks changes
+	\item Assignment of user stories to new pairs
+      \end{itemize}
+  \end{itemize}
+\end{slide}
+\begin{slide}{Development Process (contd.)}
+  \begin{itemize}
+    \item Test-Driven-Development
+      \begin{itemize}
+	\item The first hint of an API gets a (failing) test-case
+	\item Test cases are in flux - they are examples as much as tests
+	\item Test cases that belong to a single interface are completed in one swift session
+      \end{itemize}
+  \end{itemize}
+\end{slide}
+\begin{slide}{Development Process (contd.)}
+  \begin{itemize}
+    \item Continouus integration
+      \begin{itemize}
+	\item Always have a running version
+	\item After each change: run the test suite
+	\item Each commit should (within reason) be usable
+	\item Non-local commits should always add a feature or fix a bug
+	\item Breaking commits should be local
+      \end{itemize}
+  \end{itemize}
+\end{slide}
+\begin{slide}{System Overview}
+  
+\end{slide}
+\begin{slide}{Working the Code}
+  show some code
+  \begin{itemize}
+    \item MVC
+    \item Convention over Config.
+    \item Core Classes
+    \item Creator-classes
+    \item Testing with mutations
+  \end{itemize}
+\end{slide}
+\begin{slide}{Feature Focus: Filters}
+  Carl-Maria is pretty annoyed with Fefe's RSS-Feed. He would like
+  to have it's title properly displayed in the content area, and 
+  at the same time shorten the title to only show the beginning of 
+  the first line. To do this, he adds two simple filters to the feed.
+  \begin{itemize}
+    \item Offer a set of simple, well-defined filters
+    \item Allow chaining of those filters to offer powerful filtering
+    \item Create automagic test-cases as contract for the I/O requirements
+    \item Write the filter functionality and make it pass the tests
+    \item Expose the filter through the frontend
+  \end{itemize}
+\end{slide}
+\begin{slide}{Feature Focus: Server Ressources}
+  The client would like to deploy the system on his server. 
+  However, due to limited bandwidth and filesystem space, he cannot 
+  afford each feed for each user to be downloaded separately.
+  \begin{itemize}
+    \item Make sure each feed in the system is unique, so saving and 
+      downloading per feed is only done once
+    \item Users share the same feeds
+    \item Per-user feeds are realized by adding feeds to the user's tags
+  \end{itemize}
+\end{slide}
+\begin{slide}{Feature Focus: Tagging}
+  Johannes feels, directory hierarchies do not account for 
+  the diversity of information available in feeds. He'd much 
+  rather assign topics to feeds and be able to select feeds by
+  topic. If at it, he would also love to be able to read what other 
+  people read on this topic.
+  \begin{itemize}
+    \item Use tagging instead of directories
+    \item Feeds can have arbitrary tags - by selecting 
+      tags, the user gets a selection of feeds which belong 
+      to all selected tags
+    \item A user is just a tag himself - when removing the user 
+      from the tag selections, tags from other users can be shown
   \end{itemize}
 \end{slide}
 \end{document}
