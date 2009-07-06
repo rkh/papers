@@ -67,6 +67,12 @@
   \item Requirements
   \item Facit
   \end{itemize}
+  \parbox[t]{0.5\textwidth}{%
+    \vspace*{2.5cm}
+    \hspace*{7cm}
+    \begin{rotate}{12}
+      \includegraphics[width=0.9\linewidth]{pics/agenda}
+    \end{rotate}}
 \end{slide}
 
 \begin{slide}{Goals}
@@ -93,7 +99,7 @@
 	\item {\tiny User stories}
 	\item {\LARGE Pair programming}
 	\item {\large Stand-up meetings}
-	\item {\footnotesize Continouus integration}
+	\item {\footnotesize Continuous integration}
 	\item {\large Test-Driven-Development}
       \end{itemize}
   \end{itemize}
@@ -116,15 +122,23 @@
 \end{slide}
 
 \begin{slide}{Development Process (contd.)}
-  \begin{itemize}
-    \item Stand-Up Meetings
-      \begin{itemize}
-	\item Once every week
-	\item Bring everyone up-to-date with the latest changes
-	\item Discussion of last-weeks changes
-	\item Assignment of user stories to new pairs
-      \end{itemize}
-  \end{itemize}
+  \begin{minipage}{0.5\textwidth}
+    \begin{itemize}
+      \item Stand-Up Meetings
+	\begin{itemize}
+	  \item Once every week
+	  \item Bring everyone up-to-date with the latest changes
+	  \item Discussion of last-weeks changes
+	  \item Assignment of user stories to new pairs
+	\end{itemize}
+    \end{itemize}
+  \end{minipage}
+  \parbox[t]{0.5\textwidth}{%
+    \vspace*{2.5cm}
+    \hspace*{7cm}
+    \begin{rotate}{8}
+      \includegraphics[width=0.9\linewidth]{pics/standup}
+    \end{rotate}}
 \end{slide}
 
 \begin{slide}{Development Process (contd.)}
@@ -135,14 +149,20 @@
 	\item Test cases are in flux - they are examples as much as tests
 	\item Test cases that belong to a single interface are completed 
 	  in one swift session
-	\item SUnit was extended with more testing capabilities (Mutations, Call-Counts)
+	\item SUnit was extended with \\more testing capabilities \\(Mutations, Call-Counts)
       \end{itemize}
   \end{itemize}
+  \parbox[t]{0.6\textwidth}{%
+    \vspace*{2.5cm}
+    \hspace*{5cm}
+    \begin{rotate}{353}
+      \includegraphics[width=\linewidth]{pics/Foto0326}
+    \end{rotate}}
 \end{slide}
 
 \begin{slide}{Development Process (contd.)}
   \begin{itemize}
-    \item Continouus integration
+    \item Continuous integration
       \begin{itemize}
 	\item Always have a running version
 	\item After each change: run the test suite
@@ -183,7 +203,7 @@
     \begin{itemize}
       \item Offer a set of simple, well-defined filters
       \item Allow chaining of those filters to offer powerful filtering
-      \item Create automagic test-cases as contract for the I/O requirements
+      \item Create   test-cases as contract for the I/O requirements
       \item Write the filter functionality and make it pass the tests
       \item Expose the filter through the frontend
     \end{itemize}
@@ -191,7 +211,7 @@
 \end{slide}}
 
 \overlays{2}{%
-\begin{slide}{Requirement Tracing: Server Ressources}
+\begin{slide}{Requirement Tracing: Server Resources}
   \begin{greenbox}
     \textcolor{white}{
     ``The client would like to deploy the system on his server. 
@@ -247,7 +267,7 @@
 \begin{slide}{\ldots and looking ahead}
   What we would like to do differently\ldots
   \begin{itemize}
-    \item Spend more time on bugfixing
+    \item Spend more time on bug-fixing
     \item Better iteration planning (or at least some planning at all)
     \item Keeping the test-suite ahead of the code
     \item Use a better version-control-system (MC2, Git, \ldots)
