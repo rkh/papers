@@ -87,10 +87,10 @@
 
 \begin{slide}{Development Process}
   \parbox[t]{0.6\textwidth}{%
-    \vspace*{3.5cm}
+    \vspace*{2.5cm}
     \hspace*{5cm}
     \begin{rotate}{353}
-      \includegraphics[width=\linewidth]{pics/tests}
+      \includegraphics[width=\linewidth]{pics/group}
     \end{rotate}}
   \vspace*{-3.5cm}
   \begin{itemize}
@@ -119,9 +119,15 @@
 	\item Working in two's or three's
 	\item Two or three teams working alongside on different parts of the system
 	\item Working in one room, each team on two or more monitors
-	\item Development by smoke-break
+	\item ``Development by smoke-break''
       \end{itemize}
   \end{itemize}
+  \parbox[t]{0.5\textwidth}{%
+    \vspace*{3.8cm}
+    \hspace*{7cm}
+    \begin{rotate}{8}
+      \includegraphics[width=\linewidth]{pics/Foto0326}
+    \end{rotate}}
 \end{slide}
 
 \begin{slide}{Development Process (contd.)}
@@ -160,7 +166,7 @@
     \vspace*{2.5cm}
     \hspace*{5cm}
     \begin{rotate}{353}
-      \includegraphics[width=\linewidth]{pics/Foto0326}
+      \includegraphics[width=\linewidth]{pics/tests}
     \end{rotate}}
 \end{slide}
 
@@ -181,6 +187,13 @@
   \includegraphics[width=\linewidth]{pics/system}
 \end{slide}
 \begin{slide}{Working the Code}
+  \parbox[t]{0.6\textwidth}{%
+    \vspace*{4.7cm}
+    \hspace*{5cm}
+    \begin{rotate}{0}
+      \includegraphics[width=1.2\linewidth]{pics/MVC}
+    \end{rotate}}
+  \vspace*{-4.7cm}
   \begin{itemize}
     \item Convention over Configuration
       \begin{itemize}
@@ -215,26 +228,6 @@
 \end{slide}}
 
 \overlays{2}{%
-\begin{slide}{Requirement Tracing: Server Resources}
-  \begin{greenbox}
-    \textcolor{white}{
-    ``The client would like to deploy the system on his server. 
-    However, due to limited bandwidth and filesystem space, he cannot 
-    afford each feed for each user to be downloaded separately''}
-  \end{greenbox}
-  \fromSlide{2}{%
-  \begin{itemize}
-    \item[] ~\\
-    \begin{itemize}
-      \item Make sure each feed in the system is unique, so saving and 
-	downloading per feed is only done once
-      \item Users share the same feeds
-      \item Per-user feeds are realized by adding feeds to the user's tags
-    \end{itemize}
-  \end{itemize}}
-\end{slide}}
-
-\overlays{2}{%
 \begin{slide}{Requirement Tracing: Tagging}
   \begin{greenbox}
     \textcolor{white}{
@@ -256,6 +249,32 @@
 	from the tag selections, tags from other users can be shown
     \end{itemize}
   \end{itemize}}
+\end{slide}}
+
+\overlays{3}{%
+\begin{slide}{Prospect}
+  \begin{itemize}
+    \item Asynchronous updates 
+      \begin{itemize}
+	\item Threaded updating of the feeds in the server
+	\item Controller check for new Tags and Feed-Items
+	  regularily
+	\item AJAX for the views to show new information
+      \end{itemize}
+    \fromSlide{2}{%
+    \item Interface polishing
+      \begin{itemize}
+	\item Better registration process
+	\item General user interface cleanup
+      \end{itemize}}
+    \fromSlide{3}{%
+    \item I/O Options
+      \begin{itemize}
+	\item OPML import
+	\item RSS output
+	\item More input sources
+      \end{itemize}}
+  \end{itemize}
 \end{slide}}
 
 \begin{slide}{Looking back\ldots}
@@ -299,7 +318,7 @@
 \end{slide}
 }
 
-\begin{slide}{Sources}
+\begin{slide}{}
   \nocite{*}
   \bibliographystyle{splncs}
   {\small \bibliography{swt.bib}}

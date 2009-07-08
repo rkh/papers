@@ -1,4 +1,4 @@
-presentation.pdf: presentation.tex bibliography
+presentation.pdf: presentation.tex bibliography presentation.bbl
 	latex presentation.tex
 	dvipdf presentation.dvi
 
