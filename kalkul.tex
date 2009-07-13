@@ -111,7 +111,8 @@
    to consider building machines to perform such dull computations.
    Due to his engineering background he had never come in contact with previous 
    ideas of the kind and the political developments at the time kept him 
-   from exploring parallel developments in the United States at the time.
+   from exploring parallel developments in the United States at the time. He did not learn
+   about Babbage's work until after his machines were built and he had patents on them\cite{epegmagHorstzuse}.
 
    To work on his first machine, the V1 (later renamed to Z1, not to be 
    confused with the V-line of German rockets), Zuse borrowed money
@@ -142,22 +143,28 @@
    Zuse knew the potential of his machine. He told his co-workers and 
    friends, that one day, he would teach it to play a game of chess 
    against him. However, on trying to create an implementation, he realized 
-   that ``even simple relations are very difficult to express''.
+   that ``even simple relations are very difficult to express''. In the course
+   of the second World War, Konrad Zuse was able to avoid the army and 
+   continue his work. 
    
-   Zuse concerned himself with concepts of boolean algebra and found many 
-   of his ideas reflected in it. He derived, that any concept were expressible
+   Zuse concerned himself with problems that engineers and scientists needed to 
+   solve. He learned about the concepts of boolean algebra and found many 
+   of his ideas reflected in it. He derived, that any problem was expressible
    using only the basic operations NOT, AND and OR. He developed this epiphany 
-   to conceptually create a \emph{logic machine} (Fig. \ref{fig:logicmachine}). 
+   to conceptually create a \emph{logistic machine} (Fig. \ref{fig:logicmachine}), 
+   as opposed to algebraic machines such as his Z1, Z2 and Z3\cite{epegmagHorstzuse}.
    
-   Konrad Zuse intuitively 
-   understood that from simple building blocks, as were his logic machines, 
+   Konrad Zuse knew
+   that from simple building blocks, as were his logistic machines, 
    he could create hierarchical structures that would be able to solve any 
-   computationally solvable problem (although, in his notes he never concerns 
-   himself with the question of computability. He considered the chess game his 
-   ultimate test for the capabilities of his machines).
+   computationally solvable problem. Interestingly, he already considered the chess game as
+   benchmark for the capabilities of his machines\cite{rojas2002konrad}.
  \section{The Plankalkül}
-    - implicit to explicit
-    - automatic mapping
+   While initially only meant as a descriptive language, Zuse gradually 
+   developed a possible implementation as a programming language, especially 
+   after he was no longer able to work on his machines through the events of the war\cite{giloi2002konrad}.
+   In this process he added explicit constructs to the implicit notation and developed ideas 
+   on how to map those formulas onto computers\cite{rojas2002konrad}.
  \subsection{Motivation}
   \begin{figure}[bt]
     \centering
@@ -167,10 +174,9 @@
   \end{figure}
 
    Zuse had realized early on, through his study of propositional logic, that any 
-   logical statement could be mapped onto his logistic machine. He understood that
-   having a high level way of programming \dots\\
-    - high level programming, low level execution\\
-    - re-usable components (Programmpläne)
+   logical statement could be mapped onto his logistic machine. His Plan Calculus
+   allows high level programming even for simple hardware and worked to the mind 
+   of the programmer with variables, conditions and re-usable subcomponents\cite{giloi2002konrad}.
  \subsection{Basic Concepts}
    In the following we would like to present some of 
    the concepts which can be found in the Plankalkül 
@@ -182,10 +188,12 @@
    to create a universial language that made it easy to write 
    programs for his computers, he eventually meant for them to
    be converted into basic statements to run on hierarchies of 
-   his logistic machines.
+   his logistic machines. Even as such, the Plan Calculus is in some aspects more
+   expressive than early languages like ALGOL or FORTRAN and had more 
+   concepts alike with the mathematical language APL\cite{giloi2002konrad}
    
    From the start, Zuse realized that all computation can be expressed 
-   in the form $F(x) \Rightarrow R$. he considered computing in a very 
+   in the form $F(x) \Rightarrow R$. He considered computing in a very 
    general sense, writing in his notes: ``Rechnen heißt: Aus
    gegebenen Angaben nach einer Vorschrift neue Angaben bilden''\cite{bauer1972plankalkuel}
 
@@ -216,7 +224,7 @@
        ideas of Zuse's hierarchically structured machines would not 
        allow implementation of such behavior.
      \item[Loops] The Plan Calculus has a powerful loop statement, 
-       that can be used either like a modern limited loop (for .. to) 
+       that can be used either like a modern limited loop (for-to) 
        or a conditional loop (while). This made the language Turing
        complete even though Zuse did not know the term nor the 
        concept at the time.
@@ -258,24 +266,141 @@
    The second line, which Zuse called the \emph{Variable Line}, is used to identify 
    the variable by a subindex. The S-line, called \emph{Structure Line}, denotes the 
    structure inside the variable which determines its \emph{type}. In the example above, the variables 
-   $\begin{matrix}V\\0\end{matrix}$, $\begin{matrix}V\\1\end{matrix}$ and 
-   $\begin{matrix}Z\\1\end{matrix}$ are of type 2.0, and the variable $\begin{matrix}Z\\0\end{matrix}$
+   $\binom{V}{0}$, $\binom{V}{1}$ and $\binom{Z}{1}$ are of type 2.0, and the variable $\binom{Z}{0}$
    has the simple type 0. In Zuse's examples the S-line is not always filled, especially when the 
    type of a variable is clear from the context, however, he notes that it simplifies understanding 
-   of the formula\cite{rojas2002plankalkuel}.\\
+   of the formula\cite{bauer1972plankalkuel}.\\
    The K, or \emph{Component Line}, can be used to select only parts of a variables structure to operate 
    on.
  \subsection{Variables}
-   -3 kinds
+   Above we have seen the use of two types of variables, the Z and the V type. The Z variables are 
+   used to hold the intermediate values of calculations, they could be written to and read from, while 
+   V variables can only be read and were used as arguments passed to subroutines. There is a third kind, 
+   the R variables, which can only be written to and are used to return data from a subroutine.
+
+   This distinction between variable types is unusual in modern programming languages, but maps 
+   very nicely onto the mechanical execution mechanisms Zuse worked with.
  \subsubsection{Types}
-   Bit, \\Arrays, \\Tuples, \\Floating Point
+   \begin{figure}[tb]
+     \begin{center}
+       \includegraphics[width=\linewidth]{img/trees}
+     \end{center}
+     \caption{Variable Structure Trees}
+     \label{fig:trees}
+   \end{figure}
+   Through the structure of his variables, Zuse, building on the simple data type Bit, was able
+   to use data types like floating and fixed point, arrays and complex numbers\cite{epegmagHorstzuse}. 
+   The dotted notation can be interpreted as a tree of memory cells (Fig. \ref{fig:trees}). 
+   Types could be composed from arrays or tuples of other types. The only difference between the two 
+   is that in arrays all leaves are of the same type whereas tuples can be composed of different 
+   types. Figure \ref{fig:trees} shows two arrays of type 4.0 and 3.4.0 as well as a tuple type 
+   composed of the two array types 2.0 and 3.0. Using the K line, the programmer is able to choose
+   an arbitrary node in the tree to operate on, which comes close to the ideas of \emph{structs} in
+   the C programming language or \emph{fields} within objects in object-oriented languages.
  \subsection{Higher-level constructs}
-   While, \\For-To, \\Nesting, \\If-Then, \\Blocks,
-   \\multi-level-breaks
- \section{Modern implementations}
-   1979, \\2000, \\2009
- \subsection{Programmatic examples}
-   Bubble Sort\\
+   Through his studies of engineering problems, Zuse identified many points of variation 
+   which would be useful to solve a given problem. ``Der Plankalkül'' is a very dynamic 
+   programming language. One interesting characteristic can already be seen in Fig. \ref{fig:notation}: 
+   the variable Z0 determines the value in the K line for Z1, thus allowing dynamic choice of 
+   different parts of the structure of Z1\cite{zuse1948allgemeinen}.
+   \begin{figure}[h!]
+     \begin{center}
+       \begin{tabular}[bt]{c c c c c c c | c}
+	 V & > & V & $\rightarrow$ & Z & $\Rightarrow$ & Z & ~\\
+	 0 &   & 1 &               & 1 &               & 0 & {\bf V}\\
+	 1 &   &   &               &   &               &   & {\bf K}\\
+	 2.0 & & 2.0 &             & 0 &               & 0 & {\bf S}\\
+       \end{tabular}
+     \end{center}
+     \caption{Conditional Execution}
+     \label{fig:ifthen}
+   \end{figure}
+   The conditional execution depicted in Fig. \ref{fig:ifthen} assigns the value of Z1 to Z0 if
+   the value in V0 is larger than V1. Note that there is no need for brackets 
+   here, as Zuse uses the operator precedence of the predicate logic. Noteworthy 
+   is the use of the implication arrow for conditional execution, which shows 
+   the Plan Calculus' roots in the predicate calculus.
+   \begin{equation*}
+     \begin{matrix} 
+       \text{W}~\\~\\~\\~\\~\\
+     \end{matrix}
+     \left[ \begin{matrix}
+       \text{C1}\rightarrow\text{S1}\\
+       \text{C2}\rightarrow\text{S2}\\
+       \text{C3}\rightarrow\text{S3}\\
+       \text{C4}\rightarrow\text{S4}\\
+       \text{C5}\rightarrow\text{S5}
+     \end{matrix} \right]
+     \label{eq:while}
+   \end{equation*}
+   ``Der Plankalkül'' has loops, but no GOTO statement. A loop is started with a $W$ and followed
+   by a $[block]$. This block includes conditional statements, and is repeated until all of the 
+   statements are false, or a $FIN$ is called. The loop in Fig. \ref{eq:while} is executed as long 
+   as at least one of the statements C1 to C5 evaluates to true. Blocks can be nested, then the $W$'s 
+   have to be assigned indices as in:
+   \begin{equation*}
+     \begin{matrix}\text{W1}\\0\end{matrix}\left[ \dots 
+     \begin{matrix}\text{W1}\\1\end{matrix} \left[ \dots 
+     \begin{matrix}\text{i}\\1\end{matrix} \dots \right ] \right ]
+     \label{eq:nestedWhile}
+   \end{equation*}
+   Included above is also the use of a running index variable $i$ which is available in loops beginning 
+   with a $W1$ instead of a simple $W$. It automatically has the index of the block depth and its 
+   scope is only the executing block. 
+   
+   Another interesting characteristic of the Plan Calculus' 
+   loops is the multi-level break using $FIN$ indexed with the number of levels to jump out of. 
+   This can be used if sometimes calculations do not necessarily need to run to the end and the result 
+   may be available earlier in the execution\cite{zuse1948allgemeinen}. 
+   
+   There is another type of loop, the for-to-loop, common in modern programming languages. In the Plan 
+   Calculus, it is a variation of the standard loop with a fixed number of executions. This number is 
+   enclosed in brackets after the $W$. As with most things this can also be calculated dynamically. 
+   The following example uses the $N$ function to use the number if components within V0 as the 
+   loop limit.
+   \begin{equation*}
+     \begin{matrix}\text{  W(N(V))}\\0\qquad0\end{matrix}\left[ \dots 
+     \begin{matrix}\text{W}\\1\end{matrix} \left[ \dots \right ] \right ]
+     \label{eq:forto}
+   \end{equation*}
+
+ This is by no means a complete evaluation of the Plan Calculus' features, completely ignored where 
+ the extensive operations on sets as well as assertions~\cite{zuse1948allgemeinen,epegmagHorstzuse}. 
+ However, this subset is already enough for ``Der Plankalkül'' to be a turing-complete, high-level 
+ programming language in 1944. Also, it is mainly this subset that was implemented years later in 
+ the two most recent known modern implementations.
+ \section{Modern Implementations}
+ \begin{figure}[h!]
+   \raggedright
+   {\it Ich habe daher die Hoffnung, dass mein Plankalkül nach einem zwölfjährigen Dornröschenschlaf 
+     doch noch zum Leben erweckt werden wird \dots es sollte mich freuen, wenn sich das eventuell in 
+     Zusammenarbeit mit Hochschulinstituten ermöglichen ließe.}\\
+   \raggedleft Konrad Zuse, 1957
+   %\caption{Konrad Zuse, 1957}
+   \label{fig:zuseQuoteDornroeschenschlaf}
+ \end{figure}
+ Zuse developed his Calculus in the last years of the World War II, but widespread notice of his
+ thoughts was made impossible by the post-war situation: German as a language of science was no 
+ longer generally accepted and the past 10 years of fascist rule had stripped Germany of its international 
+ recognition as one of the major countries for scientific research.
+
+ Zuse's ideas, though known to some like Heinz Rutishauser, who worked with Zuse on the Z4\cite{epegmagHorstzuse} and 
+ later on ALGOL-60,
+ could not have any major impact on the development of computer science. The GMD only published Zuse's
+ manuscript in the 1970's, badly translated into the English language, even including spelling errors\cite{giloi2002konrad}.
+ For his dissertation Joachim Hohmann implemented the language in 1979\cite{rojas2002konrad}, however, we were 
+ unable to find any more information on this implementation.
+
+ In the year 2000, the Freie Universität Berlin implemented the subset of the Plan Calculus which was specifically 
+ explored in this paper above\cite{rojas2002plankalkuel}. For this implementation, a linearized form of the notation was created, and 
+ a context sensitive syntax editor has been written. This implementation first executed Zuse's chess program, 
+ 55 years after it was written. Based on this linearized notation and the accompanying documentation, 
+ we created another implementation, again only focusing on the algebraic aspects and leaving out the 
+ set operations related parts. In figure \ref{fig:bubblesort} we show the simple sorting algorithm ``Bubble Sort'' in linearized form, 
+ which takes a list of twenty 8-bit values and sorts them using two limited loops. A slight optimization has
+ been used in the form that the algorithm finishes immediately if after a loop no change has been made
+ to the list.
+ \begin{figure}[tb]
    \begin{lstlisting}
    P11 BubbleSort (V0[:20.8.0]) => R0[:20.8.0]
      N(V0[:20.8.0]) => Z0[:8.0]
@@ -295,19 +420,48 @@
      Z1[:20.8.0] => R0[:20.8.0]
    END
    \end{lstlisting}
-     -> Run over n! times\\
-     -> Break if no swap was done
-     
-   Insertion Sort
-   \begin{verbatim}
-     HUUU
-   \end{verbatim}
-   Chess
+   \caption{Bubble Sort in Linearized Plan Calculus Notation}
+   \label{fig:bubblesort}
+ \end{figure}
 
- 
-   \section{Impact on the world of programming}
-   \section*{Acknowledgements}
-   Thank Malte and Horst Zuse
+ \section{Impact on the world of programming}
+   Konrad Zuse has expressed some disappointment that his ideas have
+   been so widely disregarded, even in Germany\cite{giloi2002konrad}. 
+   The American computer science society had for quite some time 
+   no idea about the language. However, although 
+   for example the ALGOL-60 group in Germany knew about Zuse's manuscript, 
+   only a few ideas were considered for ALGOL and those that made it 
+   were not properly recognized for having been included in ``Der Plankalkül''
+   years before ALGOL\cite{giloi2002konrad}. The notation was, in parts considered 
+   for ALGOL, too, mainly by Heinz Rutishauser who introduced the $\Rightarrow$ 
+   to the ALGOL-60 committee, however, the committee did not accept it\cite{epegmagHorstzuse}.
+
+   Overall, the impact of the Plan Calculus on the history of programming language
+   development has been unjustly small, given that many of the widely accepted programming 
+   concepts have been present. However, it is also interesting to briefly mention 
+   particularities which set the Plan Calculus apart from other programming languages. 
+   One such feature was dictated by the computer architecture which came after 
+   the war in regards to memory addressing: while in most earlier high level programming 
+   languages like (C, FORTRAN or the like) variables are references to memory addresses, 
+   in ``Der Plankalkül'' it is not even clear weather $\Rightarrow$ means assigns a value 
+   or declares an identity. This and other concepts like dynamic structures and set 
+   operations, were simply not feasible from a performance point of view 
+   or did not map very well onto von-Neumann architecture machines.
+
+   We want to close with a quote by Heinz Rutishauser which best describes the 
+   conclusion we draw:
+   \begin{figure}[h!]
+   \raggedright
+   {\it The very first attempt to devise an algorithmic language was undertaken in 1948 by K. Zuse. His notation 
+   was quite general, but the proposal never attained the consideration it deserved.}\\
+   \raggedleft Heinz Rutishauser
+     \label{fig:rutishauserquote}
+   \end{figure}
+ \clearpage
+ \section*{Acknowledgments}
+   I would like to thank Professor Horst Zuse for his permission to use photos from his article 
+   ``The Life and Work of Konrad Zuse''. Also I thank Malte Appeltauer for his advice and help 
+   on this paper and his encouragement to show my implementation of the Plan Calculus subset.
   \bibliographystyle{splncs}
   \bibliography{kalkul}
   \clearpage
