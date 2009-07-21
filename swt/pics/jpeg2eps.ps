@@ -1,0 +1,300 @@
+%!PS
+%
+%  jpeg2eps.ps 1.20, 3rd August 2003
+%  (c) Andrew Kiss 2003 <andy@rses.anu.edu.au>
+%  For the latest version & usage instructions see
+%  http://rses.anu.edu.au/~andy/jpeg2eps/
+%
+% A utility for converting JPEG files to EPS, without decompressing the JPEG
+% data.  The output EPS file will be only about 25% larger than the original
+% JPEG, and the decompression takes place in the printer (this requires a 
+% printer which can handle PostScript level 2 or better).
+%
+% WARNING: The EPS output filename is the same as the input filename, except 
+% any trailing .jpg or .jpeg is removed and .eps is appended.  If this file 
+% already exists it will be OVERWRITTEN, no questions asked.
+%
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU General Public License
+% as published by the Free Software Foundation; either version 2
+% of the License, or any later version. In particular, any 
+% distribution or modification must include this notice.
+% 
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License along 
+% with this program; if not, write to the Free Software Foundation, Inc., 
+% 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, 
+% or refer to the online version at
+% http://www.gnu.org/copyleft/gpl.html
+
+15 dict begin  % store all variables in a new dictionary
+
+/viewjpegpath (viewjpeg.ps) def
+/showoutput true def % whether to display output EPS file
+/verbose true def % whether to prattle on...
+
+/prattle % string  =>  --
+{
+	verbose
+	{print}
+	{pop}
+	ifelse
+}
+bind def
+
+/lowercase  %  string  =>  string
+{  %  returns the string in lower case
+	0 begin   % 0 is a placeholder for the dictionary (see below)
+		dup length string copy % make new string - don't alter input
+		/str exch def
+		0 1 str length 1 sub
+		{
+			dup str exch get
+			dup dup 65 ge exch 90 le and
+			{32 add} if
+			str 3 1 roll put
+		}
+		for
+		str
+	end
+}
+bind def
+/lowercase load 0 1 dict put  % put dictionary in where the 0 is
+
+/revstr  %  string  =>  string
+{  %  returns the string in reverse order
+	0 begin   % 0 is a placeholder for the dictionary (see below)
+		/instr exch def
+		/len instr length def
+		/outstr len string def % make new string - don't alter input
+		len 1 sub -1 0
+		{
+			dup len 1 sub sub neg exch
+			instr exch get
+			outstr 3 1 roll put
+		}
+		for
+		outstr
+	end
+}
+bind def
+/revstr load 0 3 dict put  % put dictionary in where the 0 is
+
+/rmtag  %  str tagstr  =>  str2
+{  % returns str with tagstr removed from end (not case sensitive)
+	2 copy pop dup length
+	4 2 roll
+	2 {lowercase revstr exch} repeat
+	search
+	{
+		length 0 eq
+		{
+			pop length exch pop
+		}
+		{
+			pop pop
+		}
+		ifelse
+	}
+	{
+		pop
+	}
+	ifelse
+	0 exch getinterval
+}
+bind def
+
+/concatstrings  % string1 string2  =>  string1+2
+{
+	0 begin   % 0 is a placeholder for the dictionary (see below)
+		/str2 exch def
+		/str1 exch def
+		/str1str2 str1 length str2 length add string def
+		str1 str1str2 copy pop
+		str1str2 str1 length str2 putinterval
+		str1str2
+	end
+}
+bind def
+/concatstrings load 0 3 dict put  % put dictionary in where the 0 is
+
+/outname  % infilename  =>  outfilename
+{ % gets rid of any trailing .jpg or .jpeg tag, then appends .eps
+	dup length exch
+	(.jpg) rmtag
+	dup length 3 -1 roll eq
+	{ % if no .jpg removed
+		(.jpeg) rmtag
+	}
+	if
+	(.eps) concatstrings
+}
+bind def
+
+/rfile  % str  =>  file
+{
+	(looking for file ) prattle
+	dup prattle 
+	( ... ) prattle flush
+	(r) file
+	(found.\n) prattle flush
+}
+bind def
+
+/writeitem  % outfile item  =>  --
+{ % write item to file outfile
+	0 begin   % 0 is a placeholder for the dictionary (see below)
+		 /item exch def
+		 /outfile exch def
+		 item type /stringtype eq
+		 {
+			 outfile item writestring
+		 }
+		 {
+			 item type /arraytype eq
+			 { % deal with array contents recursively
+				 outfile ([ ) writestring
+				 outfile item writestuff
+				 outfile (]) writestring
+			 }
+			 {
+				 item type /nametype eq
+				 {
+					 outfile (/) writestring
+					 outfile item 100 string cvs writestring
+				 }
+				 { % any other type: convert to string
+					 outfile item 100 string cvs writestring
+				 }
+				 ifelse
+			 }
+			 ifelse
+		 }
+		 ifelse
+	end
+}
+bind def
+/writeitem load 0 2 dict put  % put dictionary in where the 0 is
+
+/writestuff  % outfile arry  =>  --
+{ % write an array of items to file outfile
+	0 begin   % 0 is a placeholder for the dictionary (see below)
+		 exch /outfile exch def
+		 {outfile exch writeitem outfile ( ) writestring} forall
+	end
+}
+bind def
+/writestuff load 0 1 dict put  % put dictionary in where the 0 is
+
+/writeln  % outfile arry  =>  --
+{ % write an array of items to file outfile, with linefeed at end
+	2 copy writestuff
+	pop (\n) writestring
+}
+bind def
+
+/jpeg2eps  % filename  =>  --
+% Converts JPEG to an EPS file, retaining the same compression.
+%
+% WARNING: The EPS output filename is the same as the input filename, except 
+% any trailing .jpg or .jpeg is removed and .eps is appended.  If this file 
+% already exists it will be OVERWRITTEN, no questions asked.
+%
+% This PostScript code relies on level 2 features.
+% Only JPEG baseline, extended sequential, and progressive files
+% are supported.  Note that Adobe PostScript level 2 does not include
+% progressive-JPEG support.  Ghostscript with IJG JPEG v6 or later
+% will decode progressive JPEG, but only if you edit gsjmorec.h to
+% enable that feature.
+{
+	(\n) prattle flush
+	dup /infilename exch def
+	/outfile infilename outname def
+	currentdict /JPEGdict known not
+	{
+		viewjpegpath rfile run (\n) prattle flush
+	}
+	if
+		JPEGdict begin
+			/F exch rfile def
+			readJPEGmarkers begin
+			 (* writing to file ) prattle outfile prattle (\n) prattle flush
+			 /output outfile (w) file def
+[
+[(%!PS-Adobe-3.0 EPSF-3.0)]
+[(%%BoundingBox: 0 0) width height]
+[(%%Title: \() outfile (\)) concatstrings concatstrings]
+[(%%Creator: jpeg2eps.ps 1.20 http://rses.anu.edu.au/~andy/jpeg2eps/)]
+[(%%LanguageLevel: 2)]
+[(%%DocumentData: Clean7Bit)]
+[(%%EndComments)]
+[width height (scale)]
+[ColorSpaceNames colors 1 string cvs get (setcolorspace)]
+[(<<  %) outfile]
+[(   /ImageType 1  % 1: opaque, 4: make MaskColor color ranges transparent)]
+[(   /Decode [)
+	 colors 4 eq
+	 {colors {(1 0)} repeat}
+	 {colors {(0 1)} repeat}
+	 ifelse
+	 (]  % change these values to alter brightness/contrast of each color)]
+[(% REMOVE % AT START OF NEXT LINE IF /ImageType 4)]
+[(%   /MaskColor [)
+	 colors {(245 255)} repeat
+	 (]  % don't paint these color ranges if /ImageType 4)]
+[(   /Width) width]
+[(   /Height) height]
+[(   /ImageMatrix [) width 0 0 height neg 0 height (])]
+% If 4-component (CMYK), assume data is inverted per Adobe Photoshop
+[(   /BitsPerComponent 8)]
+[(   /MultipleDataSources false)]
+[(   /Interpolate false)]
+[(   /DataSource currentfile)]
+[(      /ASCII85Decode filter)]
+[(      /DCTDecode filter)]
+[(>>)]
+[(image)]
+]
+{output exch writeln}
+forall
+
+	 % now write image data (ASCII85 Encoded)
+		    F 0 setfileposition		% reset file pointer
+			 /ASCII85output output /ASCII85Encode filter def
+			 {F read {ASCII85output exch write} {exit} ifelse}
+			 loop
+			 ASCII85output dup flushfile closefile
+
+			 output (\n%%EOF\n) writestring
+			 output dup flushfile closefile
+			end		% image parameter dictionary
+		end
+}
+bind def
+
+/convertjpegs % array  =>  --
+{
+	 dup {jpeg2eps} forall
+	 showoutput
+	 {	
+		 (\nChecking output EPS files, each on a separate page\n) prattle
+		 (\(set showoutput to false to disable this\)\n\n)
+		 prattle flush
+		 {outname rfile run showpage (OK.\n) prattle flush} forall
+	 }
+	 {
+		 pop
+		 (\nSkipping check of output EPS \(showoutput is false\)\n)
+		 prattle flush
+	 }
+	 ifelse
+	 (\nFinished.\n) prattle flush
+}
+bind def
+
+currentdict  % leave jpeg2eps dictionary on the stack
+end

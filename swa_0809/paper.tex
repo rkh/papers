@@ -1,0 +1,86 @@
+\documentclass[a4paper]{llncs}
+\usepackage{amsmath, amssymb}
+%\usepackage{makeidx}  % allows for indexgeneration
+\usepackage[pdftex]{graphicx} % PNGs
+\usepackage[ngerman,english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{listings} % for sourcecode
+\usepackage{graphviz} % graphs
+\usepackage{array} % tables
+\usepackage{afterpage} % figures
+\usepackage{float} % figures
+\usepackage{wrapfig} % figures im fließtext
+
+%Smalltalk listings
+\lstdefinelanguage{Smalltalk}{
+  morekeywords={true,false,self,super,nil},
+  sensitive=true,
+  morecomment=[s]{"}{"},
+  morestring=[d]',
+  style=SmalltalkStyle
+}
+\lstdefinestyle{SmalltalkStyle}{
+  %literate={:=}{{$\gets$}}1{^}{{$\uparrow$}}1{>>}{{\frqq}}1
+  literate={^}{{$\uparrow$}}1{>>}{{\frqq}}1
+}
+\lstset{%
+  	language=Smalltalk,
+	basicstyle=\small,
+	frame=lines,
+	breaklines=true,
+	%breakatwhitespace=false,
+	captionpos=b,
+}
+%\newcommand{\trademark}{$^\text{\texttrademark}$~}
+%\newcommand{\registered}{{$^\text{\textregistered}$}~}
+\newcommand{\trademark}{\texttrademark~}
+\newcommand{\registered}{\textregistered~}
+
+% Ein beispiel Listing
+%
+%\begin{lstlisting}[language=Smalltalk]
+%HelloWorld>>sayHelloTo: aString
+%    "print a hello world message"
+%    Transcript show: 'Hello, ', aString, '!'
+%    name := 'a new name' "This is a comment"
+%    ^ name
+%\end{lstlisting}
+
+\begin{document}
+\nocite{*}
+\mainmatter              % start of the contributions
+\title{Frozen Bubble}
+\subtitle{A Frozen Bubble Clone in Smalltalk/Squeak}
+\date{\today}
+\author{Tim Felgentreff, 738147}
+\author{Konstantin Haase\inst{1}, Tim Felgentreff\inst{1}, Johannes Wollert\inst{1}, 
+Michael Winkelmann\inst{2}, Robert Pfeiffer\inst{1}}
+
+\institute{%
+Hasso-Plattner-Institut, Universität Potsdam, D-14482 Potsdam, Germany,\\
+\email{\{konstantin.haase,tim.felgentreff,johannes.wollert, robert.pfeiffer\}@student.hpi.uni-potsdam.de}
+\and
+Institut für Informatik, Universität Potsdam, D-14482 Potsdam, Germany,\\
+\email{mwinkel@uni-potsdam.de}}
+
+\maketitle
+
+\begin{abstract}
+  {\input{abstract}}
+\end{abstract}
+
+\input{introduction}
+\input{architecture}
+\input{design}
+\input{system_overview}
+\input{game_sequence}
+\input{development_process}
+\input{conclusions}
+
+
+\bibliographystyle{splncs}
+\bibliography{swa}
+\clearpage
+\end{document}
+

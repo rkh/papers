@@ -1,0 +1,131 @@
+#!/bin/sh
+#
+# jpeg2eps [-v] [-c] [-d] file [file [file [file ...] ] ]
+# convert each JPEG file to EPS if it exists
+#
+#  jpeg2eps 1.00, 3rd August 2003
+#  (c) Andrew Kiss 2003 <andy@rses.anu.edu.au>
+#  For the latest version & usage instructions see
+#  http://rses.anu.edu.au/~andy/jpeg2eps/
+#
+# This is a unix shell script for driving jpeg2eps.ps, a utility for 
+# converting JPEG files to EPS without decompressing the JPEG data.  The 
+# output EPS file will be only about 25% larger than the original JPEG, and 
+# the decompression takes place in the printer (this requires a printer which 
+# can handle PostScript level 2 or better).
+#
+# WARNING: The EPS output filename is the same as the input filename, except 
+# any trailing .jpg or .jpeg is removed and .eps is appended.  If this file 
+# already exists it will be OVERWRITTEN, no questions asked.
+# The file "dojpeg2eps-temp.ps" will also be written to, no questions asked.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or any later version. In particular, any 
+# distribution or modification must include this notice.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along 
+# with this program; if not, write to the Free Software Foundation, Inc., 
+# 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA, 
+# or refer to the online version at
+# http://www.gnu.org/copyleft/gpl.html
+
+# set -n # syntax checking
+# set -x # debugging
+
+# Auto-detect paths for jpeg2eps.ps and viewjpeg.ps
+# ... flexible but slow.
+# uses which ==> need to chmod +x jpeg2eps.ps viewjpeg.ps
+#	jpeg2epspath=`which jpeg2eps.ps | tail -1`
+#	viewjpegpath=`which viewjpeg.ps | tail -1`
+
+# Hard-coded paths for speed (change these to suit your installation):
+jpeg2epspath="./jpeg2eps.ps"
+viewjpegpath="./viewjpeg.ps"
+
+	exitcode=0
+	display=0
+	files=0
+
+#	outfile="dojpeg2eps-temp$$.ps"  # unique name - includes process ID
+	outfile="dojpeg2eps-temp.ps"
+
+    if [ $# -lt 1 ]; then   # if no arguments
+		exitcode=1
+	else
+
+		echo "%!PS" > $outfile
+		echo "% This is a temporary file from jpeg2eps." > $outfile
+		echo "($jpeg2epspath) (r) file run begin" >> $outfile
+		echo "/viewjpegpath ($viewjpegpath) def" >> $outfile
+		echo "/showoutput false def" >> $outfile
+		echo "/verbose false def" >> $outfile
+		echo "[" >> $outfile
+
+# parse argument list
+
+		while [ $# -ge 1 ]; do
+			case $1 in
+				-v)
+					echo "/verbose true def" >> $outfile
+					;;
+				-c)
+					echo "/showoutput true def" >> $outfile
+					;;
+				-d)
+					echo "/showoutput true def" >> $outfile
+					display=1
+					;;
+				-*)
+					echo $1": invalid option"
+					exitcode=1
+					;;
+				*)
+					if [ ! -f $1 ]; then
+						echo $1": file not found"
+						exitcode=1
+					else  
+						echo "($1)" >> $outfile
+						files=1
+					fi
+					;;
+			esac
+			shift   # shift argument list to look at next argument
+		done
+
+		echo "]" >> $outfile
+		echo "convertjpegs" >> $outfile
+		echo "end quit" >> $outfile
+
+		if [ $files -eq "1" ]; then
+			if [ $display -eq "1" ]; then
+				gs -dNOSAFER -q $outfile && \rm $outfile
+			else
+				gs -dNOSAFER -q -dNODISPLAY -dNOPAUSE $outfile && \rm $outfile
+			fi
+		else
+			\rm $outfile
+		fi
+
+    fi
+
+	if [ $exitcode -ne "0" -o $files -ne "1" ]; then
+		echo $0": convert JPEG files to EPS, retaining compression."
+		echo "usage: jpeg2eps [-v] [-c] [-d] filename [filename ...]"
+		echo "-v: verbose"
+		echo "-c: check each output EPS"
+		echo "-d: display each output EPS (implies -c)"
+		echo "WARNING: The EPS output filename is the same as the input filename, except" 
+		echo "any trailing .jpg or .jpeg is removed and .eps is appended.  If this file"
+		echo "already exists it will be OVERWRITTEN, no questions asked."
+		echo "The file dojpeg2eps-temp.ps will also be written to, no questions asked."
+		echo "For more info see http://rses.anu.edu.au/~andy/jpeg2eps/"
+	fi
+
+exit $exitcode

@@ -1,0 +1,106 @@
+\section{Design Process}
+\subsection{Design Goals}
+In order to achieve a pleasant and cleanly written FrozenBubble clone, we specified certain design goals.
+A goal we set for ourselves very early was themeability, e.g. the ability to modify and 
+adjust certain visual and logical aspects of the game (for example ball images or 
+cannon positions). This demands an efficient and maintainable theme management 
+system, as lots of pictures and data need to be processed.
+As previously stated, another important aspect of our clone is ''realistic'' 
+collision between objects, which came with certain performance considerations.
+Lastly, we wanted our game to support multiplayer functionality. Given the time 
+needed to implement networking, we decided to focus on a local multiplayer modes. 
+
+\subsection{Design Problems and Solutions}
+\subsubsection{Slow Disk I/O.}
+\label{sec:theme}
+%
+Different from the original, we wanted to decouple the game from its representation 
+to the point that we could allow different themes to change the positions of the 
+game objects for different images and backgrounds. We decided to use PNG images to allow 
+great visual flexibility and XML files to define the theme's positions. As disk I/O
+is expensive, we needed a way to avoid it as much as possible, without sacrificing 
+flexibility. Thus, lazy initialization for our images holding class was not an option. 
+We created a class solely responsible for loading images and use the flyweight 
+pattern to avoid reloading a theme we already loaded.
+%
+\subsubsection{Collision Between Balls.}
+\label{sec:collision}
+When a ball is shot into the playfield, it has to interact with the playfield 
+and other objects in its path. Simply looping over all those objects and 
+testing for collision is in O(n) and results in slower 
+movement of the ball and a general loss in responsiveness. A quick solution 
+would have been to keep two lists of all objects sorted by their x and by their 
+y axis, and only testing those items closest to the current ball in both lists.
+Now O(n) would only be the worst case. 
+It occured to us that using rasterization or using precalculated vectors similar 
+to ray-tracing techniques could get us a constant complexity. We decided 
+to implement rasterization, because it was a faster solution and allowed straightforward
+ optimization.
+%
+\subsubsection{Falling Balls.}
+\label{sec:garbage}
+When balls can collide and stick to each other, having them fall down 
+if three or more of the same kind touch is trivial. However, balls 
+hanging off balls that fall may have to fall as well. We considered 
+two ways of checking for such conditions. We first planned to regard balls in the 
+playfield as a network of nodes and use a graph search algorithm to determine 
+whether or not a given ball has a connection to the top of the playfield via 
+others. This proved difficult to implement and hurting encapsulation. Thus 
+we applied a metaphor of a garbage collector (GC) to the problem, where balls
+ball that are not connected to the top are collected. Performance was no pressing 
+concern here, as the number of balls in one playfield is relatively limited, 
+and the algorithm runs at a moment where the user has just shot, so taking a second 
+for the calculation would not hurt the game flow.
+
+\subsubsection{Simple Multiplayer Mode.}
+\label{sec:playfield}
+Several problems occured when we implemented a simple local multiplayer mode. In this chapter, 
+we will discuss the most important design decisions.
+%
+  \paragraph{Players need to be informed of critical actions happening in other players' playfields}
+  ~\\
+    Direct communication between playfields would be the most simple solution like and 
+    could be implemented easily. Additionally only the most rudimentary communication is needed,
+    so there would be very few overhead. But this is not an object-oriented solution and playfields 
+    would need to be enumerated directly in the code, making the code hardly maintainable 
+    and badly extensible.\\
+    In contrast, delegating communication through a mediator makes very maintainable and
+    expandable code. Other than the previous proposal, this is indeed an object-oriented 
+    take on the problem. However, there is more than twice as much communication happening 
+    compared to the previous, simplified solution. Due to the obvious disadvantages of 
+    hardcoding different playfields, we chose the latter proposal.
+
+  \paragraph{Different playfields have to be controlled by different players.
+             And, of course, different playfields have to exist in the first place}
+  ~\\
+    Our first idea we came up with was enabling the generic playfield to manage all needed behaviour
+    on itself. That way, no new code needs to be introduced, rendering this scheme very simple.
+    On the other hand, the playfield might have to be extended for all purposes to work properly. 
+    This might lead to a very huge class indeed, affecting the readability.\\
+    Introducing an Abstract Factory for playfields was another idea, thus implementing several 
+    behavioural patterns. The obvious advantage of this proposal is, that Abstract Factories 
+    are extensible and object-oriented. The downside of it would be, that this is a very powerful 
+    pattern and would probably be overindulgence because we just need two different playfields 
+    (single- and multiplayer behaviour). Because of that, we chose our initial idea of keeping 
+    things simple.
+
+  \paragraph{Key events need to be redirected to the corresponding playfield}
+  ~\\
+    The most easy-to-code version would be the introduction of a major, keyhandling class that
+    knows what to invoke when a certain event takes place. Obviously, this has several downsides,
+    as there would be strong coherence between objects and no encapsulation at all.\\
+    As such a way of handling events is not maintainable and hardly extensible, we chose to catch
+    key events through a class but unlike the previous solution, more object-oriented and maintainable
+    patterns would be applied.\\
+    An option is the Observer pattern where every object registers itself for certain keystrokes at
+    a dispatch-object. That way, only objects that actually handle a specific event are informed.
+    However, a lot of communication is happening that way.\\
+    Another pattern that can be considered is the Chain of Responsibility, passing the event
+    in question to other objects, when it cannot be handled by oneself. It is a very intuitive
+    and object-oriented way of solving our problem, but has the same disadvantages of the 
+    Observer pattern. In fact, the overhead problem is even more severe.\\
+    As the complexity of a Chain of Responsibility is a lot less than that of an Observer pattern,
+    we chose the latter scheme of handling keystrokes. Our problem just is not complex enough
+    to justify a pattern as powerful as the Observer.
+%
+
