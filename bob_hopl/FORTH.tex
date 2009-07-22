@@ -1,0 +1,390 @@
+%&program=xelatex
+%&encoding=UTF-8 Unicode
+\documentclass[xelatex,notes=hide,14pt,sans,t]{beamer}
+
+\usepackage{listings}
+\usepackage{amssymb}
+\usepackage{cite}
+\bibliographystyle{plain}
+
+% \usepackage{pgf}
+
+\usepackage[quiet]{mathspec}
+\setmathsfont[Set=Latin,Uppercase=Regular,Alternate=0]{Hoefler Text}
+
+\usepackage{xunicode,xltxtra}
+
+\setmainfont[Alternate=1,Ligatures={Common,Diphthong}]{Helvetica Neue}
+\setsansfont[Mapping=tex-text]{Helvetica Neue}
+\setmonofont{Inconsolata}
+
+\mode<presentation>
+{
+  \useoutertheme{infolines}
+  \useoutertheme{hci}
+  \usefonttheme{hci}
+  \usecolortheme{hci}
+  \setbeamercovered{highly dynamic}
+}
+
+\lstset{language=CIL,
+  basicstyle=\ttfamily,
+  xleftmargin=15pt,
+  frame=lines,
+  numbers=left,
+  numberstyle=\rmfamily\tiny,
+  numbersep=3pt,                  % how far the line-numbers are from the code
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=true,        % sets if automatic breaks should only happen at whitespace
+}
+
+\title{FORTH}
+\subtitle{A Stack Based Programming Language}
+\author[Robert Pfeiffer]{Prof Robert Hirschfeld \\ Robert Pfeiffer} 
+\institute[HOPL Seminar]{History of Programming Languages}
+\date[SS 2009]{\today}
+
+\begin{document}
+
+\frame[plain]{\maketitle}
+\tableofcontents
+
+\section{Early History}
+\frame{
+  \frametitle{Beginnings}
+  \framesubtitle{1950s–1968}
+  \begin{itemize}
+  \item developed by Charles R. "Chuck" Moore
+    \note[item]{Studied Physics, then math}
+    \note[item]{Chuck learned Lisp from John McCarthy at MIT}
+    \note[item]{Jobs with satellites, }
+    \note[item]{he worked for several Companies, programmed in Fortran, Cobol}
+    \note[item]{did not want to program Cobol again, became Freelancer}
+  
+  \only<2>{\includegraphics{chuck0.jpg} \\ at the National Radio Astronomical Observatory \footnote{Picture taken from colorforth.com} \cite{chuckbio}}
+  \only<3>{\includegraphics[width=5cm]{chuck1.jpg} \\ chuck moore today \footnote{Picture taken from Wikimedia Commons}}
+   \end{itemize}
+
+}
+\frame{
+  \frametitle{Beginnings}
+  \framesubtitle{1950s–1968}
+   \begin{itemize}
+  \item developed by Charles R. "Chuck" Moore
+ \item<2->Dynamic, "fourth"-generation language as opposed to C, Fortran, Algol
+   \note[item]{Today, the term "fourth generation" refers to something different}
+   \note[item]{declarative Programming possible, but not intended}
+ \item<3-> First used in production to operate a telescope in an observatory in 1968
+   \note[item]{in 1968 Forth looked much like today}
+  \item<4-> Also first contact with other Programmers
+ \item<5-> The IBM 1130 only allowed all-caps five-letter filenames, hence the name "FORTH"
+ \end{itemize}
+}
+
+\frame{
+  \frametitle{Design Goals}
+  \begin{itemize}
+  \item Simplicity \note[item]{Worse is better} \pause
+  \item Expressive and customizable core language \pause
+  \item Interactive development, incremental compilation \cite{forthvalues} \pause
+    \note[item]{interactive development is THE importent feature, compiling whole programs was slooow back then}
+  \item Small memory footprint \pause
+    \note[item]{small deck of punch-cards, small ROM, low main memory}
+  \item Close to the machine/low-level \pause
+  \item Stand-Alone Forth system
+  
+     (Running without an OS)
+      \note[item]{Portability was a non-goal}
+  \end{itemize}
+}
+\section{The Language}
+
+\subsection{Example}
+
+\frame{
+  \frametitle{Example Code}
+  \framesubtitle{Try this in the GForth REPL}
+  \lstinputlisting{example.forth}
+  \note[item]{
+    Hello World example  
+    (3 + 4), almost good enough for Smalltalk
+  }
+}
+
+\subsection{Syntax}
+
+\frame{
+  \frametitle{Syntax}
+  \framesubtitle{}
+  \begin{itemize}
+  \item Forth Syntax looks like reverse polish notation (it is not)  \pause
+  \note{not parsed}
+  \item Sequence of tokens separated by whitespace  \pause
+  \item either Literals or "Words"
+  \end{itemize}  
+}
+
+\subsection{Semantics}
+
+\frame{
+  \frametitle{Semantics}
+  \framesubtitle{}
+      \note{Words are executed sequentially}
+  A Literal is pushed onto the data stack.
+  \pause
+  
+  A Word which implements a function pops its arguments off the data stack and pushes the result onto the data stack. \cite{181999}
+  \pause
+  
+  \begin{alertblock}{Forth is not typed}
+    The Data Stack contains untyped values. If there are values of the wrong type it may or may not work (undefined behaviour).
+  \end{alertblock}
+}
+
+ 
+\frame{
+  \frametitle{Semantics}
+  Some Words are marked as "immediate". When an immediate word is encountered at compile time, it is executed by the compiler.
+  \note[item]{immediate words can do their own parsing}
+  \note[item]{Syntax is not formally specified, No complete parse tree}
+}
+
+\frame{
+  \frametitle{Semantics}
+  \framesubtitle{by example}
+  A Forth Program contains a list of word definitions, called a dictionary.
+  \note[item]{factoring: dividing stuff into words and giving meaningful names \\}
+  \lstinputlisting[linerange=1-2]{dictionary.forth}
+  \only<2->{the stack grows this way $\longrightarrow$}
+
+  {\ttfamily
+    \only<2>{\dots | n \\dup ( x -- x x )}
+    \only<3>{\dots | n | n}
+    \only<4>{\dots | n | n | 1\\> ( n m -- b )}
+    \only<5>{\dots | n | $n > 1$}
+    \only<6>{\dots | n | n}
+    \only<7>{\dots | n | n | 1}
+    \only<8>{\dots | n | $(n - 1)$}
+    \only<9>{\dots | n | $fib(n - 1)$\\swap ( a b -- b a )}
+    \only<10>{\dots | $fib(n - 1)$ | n}
+    \only<11>{\dots | $fib(n - 1)$ | n | 2}
+    \only<12>{\dots | $fib(n - 1)$ | $(n - 2)$}
+    \only<13>{\dots | $fib(n - 1)$ | $fib(n - 2)$}
+    \only<14>{\dots | $fib(n - 1) + fib(n - 2)$}}
+ 
+  \note[item]{
+    Parens enclose stack effect comments
+    Words: dup, swap, drop, rot, over
+  }
+}
+
+\frame{
+  \frametitle{Semantics}
+    \framesubtitle{by example}
+    \lstinputlisting[linerange=4-7]{dictionary.forth}
+  \only<2->{the stack grows this way $\longrightarrow$}
+  
+  {\ttfamily
+    \only<2>{\dots | n}
+    \only<3>{\dots | n | 0 | 1\\rot ( a b c -- b c a )}
+    \only<4>{\dots | 0 | 1 | n}
+    \only<5>{\dots | 0 | 1 | n | 1\\?do ( end start -- )}
+    \only<6>{\dots | 0 | 1\\dup ( x -- x x )}
+    \only<7>{\dots | 0 | 1 | 1\\rot ( a b c -- b c a )}
+    \only<8>{\dots | 1 | 1 | 0}
+    \only<9>{\dots | 1 | 1}
+    \only<10>{\dots | 1 | 1 | 1}
+    \only<11>{\dots | 1 | 1 | 1}
+    \only<12>{\dots | 1 | 2}
+    \only<13>{\dots | 1 | 2 | 2}
+    \only<14>{\dots | 2 | 2 | 1}
+    \only<15>{\dots | 2 | 3}
+    \only<16>{repeat n times \dots}
+    \only<17>{\dots | $fib(n - 1)$ | $fib(n)$}}
+    \note[item]{
+    this is better factored, less stack shuffling here
+  }  
+  
+}
+
+\subsection{Features}
+  \frame{
+    \frametitle{Algebraic Properties}
+    \framesubtitle{Concatenative Language}
+    \begin{itemize}
+    \item No mutable variables 
+          \note[item]{Side effects= return vals}
+
+    \item Juxtaposition of words is function composition \pause
+	   "{\ttfamily foo word1 word2}" means 
+	   $ (word2 \circ word1)(foo) $
+    \item Peephole optimization is easily possible
+    \item Multiple return values
+      \note[item]{call a continuation with multiple arguments,  no variables(functional), factoring}
+    \end{itemize}
+}
+
+\section{The Forth VM}
+\frame{
+  \frametitle{Threaded Code}
+  Words are compiled into the adresses of the code of their definitions.
+  \pause
+  The Forth VM iterates across an array of adresses (bytecode) \pause and jumps to each adress after saving the current location in the bytecode on the return stack.
+  \pause
+  Results:
+    \begin{itemize}
+    \item small executables
+    \item simple compilation
+    \item slower than C
+    \item different calling convention
+        \end{itemize}
+      \note{can easily gauge run time,early binding}
+}
+
+\section{Demo}
+\frame[plain]{
+  \frametitle{Demo}
+  \note{early binding, snake, code zeigen}
+}
+
+\section{Forth History Contiued}
+
+\frame{
+  \frametitle{Development}
+  \framesubtitle{}
+  \begin{itemize}
+  \item Paper published in 1970 \pause
+  \item Chuck Moore and Elizabeth Rather founded Forth INC. in 1971\cite{155369}\pause
+  \item Forth Inc. marketed Forth compilers and systems \pause
+  \item Ported to other platforms \pause
+    \note[item]{MacForth on the Macintosh}
+  \item Object-Oriented dialects \pause
+    \note[item]{Neon, OOF-Systems}
+  \end{itemize}
+}
+
+\frame{
+  \frametitle{ANS Forth}
+  \framesubtitle{Standardized in 1994}
+  \begin{itemize}
+  \item inofficial Specifications for Forth-79 and -83  \pause
+  \item official Standard created by ANSI  \pause
+  \item Established by Forth Systems Vendors  \pause
+     \note[item]{Much Like Common Lisp Standard}
+  \item Should provide that a portable subset of current Forth language Implementations  \pause
+  \item Specified Data Word and Stack Size and Words that should be available 
+    \note[item]{No interesting Features added}
+  \end{itemize}
+}
+
+% \frame{
+%   \frametitle{Development by Chuck Moore}
+%   \framesubtitle{Chipdesign and ColorForth}
+%   \begin{itemize}
+%   \item after Forth INC: Moore simplifies Forth iteratively
+%     \note[item]{Chuck did not like the ports to other operating systems or the new conecpts.
+%       He refactored Forth and designed specialized hardware that could execute his programs faster.
+%       He iteratively made it simpler. while others scaled up, he scaled down.}
+%   \item Simper Forth Systems: Hardware implementations of Stack Machines
+%     \note[item]{no more VMs}
+%   \item ColorForth: new dialect
+%       \note[item]{not Standards-Compatible}
+%    \item Words have colors with different Semantics
+%            \note[item]{or Fonts}
+%    \item Complete System withHardware, Operating System and IDE
+%    \end{itemize}
+% }
+
+\section{Forth Today}
+\frame{
+  \frametitle{Forth and You}
+    \framesubtitle{Implementations}
+  GForth (part of the GNU Project)
+  
+  Colorforth (by Chuck Moore)
+  
+  SwiftForth (by Forth INC.)
+  
+  RetroForth (available as a Dashboard widget)
+  \pause
+    \begin{block}{Learning Forth}
+    \footnotesize
+  Starting Forth \cite{1095598}
+  
+  Thinking Forth \cite{1616}
+  
+  The gForth Manual
+ \end{block}
+}
+
+\frame{
+  \frametitle{Usage}
+  \framesubtitle{in Production}
+   \begin{itemize}
+   \item  Forth Interest Group (forth.org)
+    \note[item]{The FIG also owns forth.org}
+     \item  Forth-Gesellschaft e.V. (http://www.forth-ev.de/)
+    \item Forth INC (forth.com) 
+     \note[item]{Customers are Mercedes, Boeing, JPL, AT \&T,ATMEL}
+    \item OpenFirmWare
+     \note[item]{OFW is used in the OLPC}
+  \end{itemize}
+
+ }
+
+
+\frame{
+  \frametitle{Languages Influenced by Forth}
+  
+  Postscript
+  
+  Lisp, Smalltalk-80
+  
+  Java Bytecode, .Net CIL
+}
+
+\frame{
+  \frametitle{Modern Stack Languages}
+  Joy
+  
+  Factor 
+  
+  Cat
+  
+  False
+  
+  \includegraphics[width=3cm]{factor-logo.png}  \includegraphics[width=3cm]{cat-logo.jpg}% \includegraphics[width=4cm]{false-logo.gif}
+}
+
+\frame{
+  \frametitle{Strengths}
+      \framesubtitle{What is ist good for?}
+
+  Embedded
+   
+  Real-Time Applications(no GC, no late binding)
+  
+  Extensible Compiler: DSLs
+  
+  Side effects are easy to reason about
+}
+
+\frame{
+  \frametitle{Weaknesses}
+        \framesubtitle{Why don't You use it?}
+
+  No Module System
+  
+  No Typechecking ever
+     
+  Extensible Compiler
+}
+
+\frame[plain]{
+  \frametitle{Sources}
+\tiny
+\bibliography{forth}{}
+}
+
+
+\end{document}
