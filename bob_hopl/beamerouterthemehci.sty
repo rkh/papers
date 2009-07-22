@@ -1,0 +1,40 @@
+\mode<presentation>
+
+
+\defbeamertemplate*{frametitle}{hci}[1][left]
+{
+  \@tempdima=\textwidth%
+  \advance\@tempdima by\beamer@leftmargin%
+  \advance\@tempdima by\beamer@rightmargin%
+  \begin{beamercolorbox}[sep=0.0cm,#1,wd=\the\@tempdima]{frametitle}
+    \usebeamerfont{frametitle}%
+    \if@tempswa\else\csname beamer@fte#1\endcsname\fi%
+    \hskip-4pt\insertframetitle\strut\par%
+    {%
+      \ifx\insertframesubtitle\@empty%
+      \else%
+      \vskip-15pt\hskip0.5ex {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle\strut\par}%
+      \fi
+    }%
+  \end{beamercolorbox}%
+}
+
+\def\beamer@fteright{\vskip0.35cm\advance\leftskip by 1.7cm\advance\rightskip by1.7cm}
+
+\usetitlepagetemplate{ 
+\vbox{} 
+\vfill 
+{\usebeamerfont{frametitle}\usebeamercolor[fg]{framesubtitle}\inserttitle}
+{\usebeamerfont{framesubtitle}\usebeamercolor[fg]{frametitle}\insertsubtitle}
+
+\vskip1em\par 
+\normalsize\insertauthor\vskip1em\par 
+
+{\scriptsize\insertinstitute\par}\par\vskip1em 
+\insertdate\par\vskip1.5em 
+\inserttitlegraphic 
+\vfill 
+} 
+
+\mode
+<all>
