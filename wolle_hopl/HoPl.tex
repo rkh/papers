@@ -73,9 +73,8 @@ literate={<}{$<$}1 {>}{$>$}1 {=}{$=$}1 {<=}{$\leq$}1 {>=}{$\geq$}1 {=>}{{$\Right
   			Erlang must be at least 40 times faster to meet the requirements of telephony applications. This was later corrected to a factor of 280.
   	\end{enumerate}
   \subsection{Erlang needs a Virtual Machine}
-  	The latter result being the only ''concerning'' result, Armstrong and Virding started actively thinking about the efficiency of Erlang for the first time. 
+  	The latter result being the only ''concerning'' result, Armstrong and Virding started actively thinking about the efficiency of Erlang for the first time. Efficiency in this context, however, would be largely hindered if Erlang continued to be an extended Prolog interpreter, so the team moved decoupling Erlang from Prolog and its virtual machine. Thus, in 1990 Virding and Armstrong implemented a first VM (called the JAM) running byte-code, interpreting data compiled by a compiler written in Erlang itself which itself got bootstrapped through a Prolog emulator. This was, of course, far from the efficiency desired by Virding and Armstrong so work started to implement the emulator in C. However, both had very little experience with C. Luckily, Mike Williams started to gain interest in the project and decided to throw away all the emulator code written so far and started implementing a whole new emulator, making the overall Erlang implementation over 70 times faster in the end. \\
   	
-  	Efficiency in this context, however, would be largely hindered if Erlang continued to be an extended Prolog interpreter, so the team moved decoupling Erlang from Prolog and its virtual machine.
 \section{The Language}
   \subsection{Paradigms}
   \subsection{Types}
@@ -86,6 +85,7 @@ literate={<}{$<$}1 {>}{$>$}1 {=}{$=$}1 {<=}{$\leq$}1 {>=}{$\geq$}1 {=>}{{$\Right
   	\subsubsection{Robustness}
   	\subsubsection{Code Swapping}
   	\subsubsection{Portability}
+\section{Popularity and Impact}
 \section{Conclusions}
 
 \end{document}
