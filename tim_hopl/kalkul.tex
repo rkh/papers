@@ -2,7 +2,6 @@
 \usepackage{makeidx}  % allows for indexgeneration
 \usepackage[pdftex]{graphicx} % PNGs
 \usepackage{amsmath, amssymb} % algebra
-%\usepackage[ngerman]{babel}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc} 
 \usepackage[procnames]{listings} % for sourcecode
@@ -12,7 +11,6 @@
 \usepackage{float} % figures
 
 \lstset{%
-  	%language=Java,
 	basicstyle=\small,
 	frame=single,
 	sensitive=true,
@@ -24,34 +22,18 @@
 	procnamekeys={P},
 	literate={<}{$<$}1 {>}{$>$}1 {=}{$=$}1 {<=}{$\leq$}1 {>=}{$\geq$}1 {=>}{{$\Rightarrow$}}1 {->}{{$\rightarrow$}}1
 	}
-%\renewcommand{\textfraction}{0.05}
-%\renewcommand{\topfraction}{0.95}
-%\renewcommand{\bottomfraction}{0.95}
-%\setcounter{totalnumber}{5}
+
 \restylefloat{figure}
 \begin{document}
-%
-%\frontmatter          % for the preliminaries
-%
 \pagestyle{headings}  % switches on printing of running heads
-%
 \mainmatter % start of the contributions
-%
 \title{The Plankalkül}
 \subtitle{An Early High-Level Programming Language}
-%
 \titlerunning{The Plankalkül}  % abbreviated title (for running head)
-%                                     also used for the TOC unless
-%                                     \toctitle is used
-%
 \author{Tim Felgentreff}
 \date{\today}
-%
 \authorrunning{Tim Felgentreff}   % abbreviated author list (for running head)
-%
-%%%% modified list of authors for the TOC (add the affiliations)
 \tocauthor{Tim Felgentreff (Hasso-Plattner-Institute)}
-%
 \institute{History of Programming Languages, Software Architecture Group, Hasso-Plattner-Institut, Universität Potsdam, D-14482 Potsdam, Germany,\\
 \email{tim.felgentreff@student.hpi.uni-potsdam.de}}
 
@@ -370,15 +352,13 @@
  programming language in 1944. Also, it is mainly this subset that was implemented years later in 
  the two most recent known modern implementations.
  \section{Modern Implementations}
- \begin{figure}[h!]
+ \begin{quote}
    \raggedright
    {\it Ich habe daher die Hoffnung, dass mein Plankalkül nach einem zwölfjährigen Dornröschenschlaf 
      doch noch zum Leben erweckt werden wird \dots es sollte mich freuen, wenn sich das eventuell in 
      Zusammenarbeit mit Hochschulinstituten ermöglichen ließe.}\\
    \raggedleft Konrad Zuse, 1957
-   %\caption{Konrad Zuse, 1957}
-   \label{fig:zuseQuoteDornroeschenschlaf}
- \end{figure}
+ \end{quote}
  Zuse developed his Calculus in the last years of the World War II, but widespread notice of his
  thoughts was made impossible by the post-war situation: German as a language of science was no 
  longer generally accepted and the past 10 years of fascist rule had stripped Germany of its international 
@@ -396,11 +376,13 @@
  a context sensitive syntax editor has been written. This implementation first executed Zuse's chess program, 
  55 years after it was written. Based on this linearized notation and the accompanying documentation, 
  we created another implementation, again only focusing on the algebraic aspects and leaving out the 
- set operations related parts. In figure \ref{fig:bubblesort} we show the simple sorting algorithm ``Bubble Sort'' in linearized form, 
+ set operations related parts. 
+ 
+ In listing \ref{fig:bubblesort} we show the simple sorting algorithm ``Bubble Sort'' in linearized form, 
  which takes a list of twenty 8-bit values and sorts them using two limited loops. A slight optimization has
  been used in the form that the algorithm finishes immediately if after a loop no change has been made
  to the list.
- \begin{figure}[tb]
+ \begin{figure}
    \begin{lstlisting}
    P11 BubbleSort (V0[:20.8.0]) => R0[:20.8.0]
      N(V0[:20.8.0]) => Z0[:8.0]
@@ -424,7 +406,8 @@
    \label{fig:bubblesort}
  \end{figure}
 
- \section{Impact on the world of programming}
+ \section{Conclusions}
+ \subsection{Impact on the World of Programming}
    Konrad Zuse has expressed some disappointment that his ideas have
    been so widely disregarded, even in Germany\cite{giloi2002konrad}. 
    The American computer science society had for quite some time 
@@ -436,31 +419,31 @@
    for ALGOL, too, mainly by Heinz Rutishauser who introduced the $\Rightarrow$ 
    to the ALGOL-60 committee, however, the committee did not accept it\cite{epegmagHorstzuse}.
 
+   \subsection{Closing Thoughts}
    Overall, the impact of the Plan Calculus on the history of programming language
    development has been unjustly small, given that many of the widely accepted programming 
    concepts have been present. However, it is also interesting to briefly mention 
    particularities which set the Plan Calculus apart from other programming languages. 
    One such feature was dictated by the computer architecture which came after 
    the war in regards to memory addressing: while in most earlier high level programming 
-   languages like (C, FORTRAN or the like) variables are references to memory addresses, 
-   in ``Der Plankalkül'' it is not even clear weather $\Rightarrow$ means assigns a value 
-   or declares an identity. This and other concepts like dynamic structures and set 
+   languages like (C, FORTRAN and the like) variables are references to memory addresses, 
+   in ``Der Plankalkül'' it is not even clear weather ``$\Rightarrow$'' is meant to assign a value 
+   or declare an identity. This and other concepts like dynamic structures and set 
    operations, were simply not feasible from a performance point of view 
    or did not map very well onto von-Neumann architecture machines.
 
    We want to close with a quote by Heinz Rutishauser which best describes the 
    conclusion we draw:
-   \begin{figure}[h!]
+   \begin{quote}
    \raggedright
    {\it The very first attempt to devise an algorithmic language was undertaken in 1948 by K. Zuse. His notation 
    was quite general, but the proposal never attained the consideration it deserved.}\\
    \raggedleft Heinz Rutishauser
-     \label{fig:rutishauserquote}
-   \end{figure}
+   \end{quote}
  \clearpage
  \section*{Acknowledgments}
    I would like to thank Professor Horst Zuse for his permission to use photos from his article 
-   ``The Life and Work of Konrad Zuse''. Also I thank Malte Appeltauer for his advice and help 
+   ``The Life and Work of Konrad Zuse''. I also thank Malte Appeltauer for his advice and help 
    on this paper and his encouragement to show my implementation of the Plan Calculus subset.
   \bibliographystyle{splncs}
   \bibliography{kalkul}
