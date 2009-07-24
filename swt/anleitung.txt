@@ -1,0 +1,23 @@
+- öffne http://localhost:8080/ in einem Browser
+- klicke auf "Sign up for Accumulator"
+- Benutzername, E-Mail-Adresse und Passwort frei nach Wahl eintragen
+- Auf "save" klicken   
+- Auf "Add Feed" klicken
+- Feed eintragen:
+    Feed-URI: http://xkcd.com/rss.xml (ist schon eingetragen)
+    Comma-separated list of tags: xkcd, comics
+- Auf "save" klicken
+- Erstmal die neusten beiden comics lesen.
+- Auf "save" klicken
+- Feed eintragen:
+    Feed-URI: http://www.heise.de/newsticker/heise-atom.xml
+    Filter auswählen: Follow Link Filter
+    Comma-separated list of tags: heise, news
+- Auf "save" klicken
+- http://localhost:8080/heise den Kollegen zeigen (RESTful)
+- Auf zurück klicken (falls vorherige Seite nicht in neuem Tab/Fenster geöffnet wurde)
+- Feed eintragen:
+    Feed-URI: http://www.rsspect.com/rss/qwantz.xml (ist schon eingetragen)
+    Comma-separated list of tags: qwantz, comics
+- http://localhost:8080/AccumulatorRss/comics in RSS-Reader eintragen 
+- http://localhost:8080/AccumulatorRss/heise in RSS-Reader eintragen    

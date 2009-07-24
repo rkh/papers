@@ -2,7 +2,7 @@
 \usepackage{makeidx} % allows for indexgeneration
 \usepackage[pdftex]{graphicx} % PNGs
 \usepackage{amsmath, amssymb} % algebra
-\usepackage[utf8x]{inputenc}
+\usepackage[latin1]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[procnames]{listings} % for sourcecode
 \usepackage{graphviz} % graphs
@@ -39,20 +39,53 @@ literate={<}{$<$}1 {>}{$>$}1 {=}{$=$}1 {<=}{$\leq$}1 {>=}{$\geq$}1 {=>}{{$\Right
 
 \maketitle
 \begin{abstract}
-	In present times, concurrency is a matter of ever-growing importance, not only due to the movement towards multi-processor systems but also because of the inherently concurrent processes in our world. There are several models discribing possible solutions for the complex problems involved when handling largely concurrent and distributed systems such as scheduling, ressource management or communication between the multiple running processes or threads.
+	In present times, concurrency is a matter of ever-growing importance, not only due to the movement towards multi-processor systems but also because of the inherently concurrent processes in our world. There are several models discribing possible solutions for the complex problems involved when handling largely concurrent and distributed systems such as scheduling, ressource management or communication between the multiple running processes or threads. \\
 	The ''Erlang'' Programming Language implements an easy-to-use, yet powerful concept to tackle these challanges, providing an intuitive framework to build upon. 
 \end{abstract}
 \section{Introduction}
-	Initially, Erlang was built for a single purpose alone, to significantly improve the development of telephony applications for Ericsson. To produce a language capable of manageing such systems, a large number of requirements need to be met. Of course, concurrency is one of them, but so is the ability to improve the system without even stopping it, a large amount of fault-tolerance and being able to control great numbers of processes, concurrently running in a distributed fashion. Also, telephony services need to be available all the time and because of that, the language must enable the designer to develop highly robust systems running ''forever''.
+	Initially, Erlang was built for a single purpose alone, to significantly improve the development of telephony applications for Ericsson. To produce a language capable of manageing such systems, a large number of requirements need to be met. Of course, concurrency is one of them, but so is the ability to improve the system without even stopping it, a large amount of fault-tolerance and being able to control great numbers of processes, concurrently running in a distributed fashion. Also, telephony services need to be available all the time and because of that, the language must enable the designer to develop highly robust systems running ''forever''. \\
 	Equipped with those clear goals, the idea started forming in 1985. In the following sections, we will outline the historical actions that lead to the formation of the Erlang language as we know it today. Later on, the language itself will be presented, covering syntax, types and paradigms.
 \section{History}
   \subsection{The Need for Something new}
-  	From 1974 until the end of the 1980's, the product generating most of Ericssons Profit was AXE, a telephony exchange written in PLEX, a proprietary language of Ericsson's used to specificly program the AXE hardware. It could not be used for any other devices. 
+  	From 1974 until the end of the 1980's, the product generating most of Ericssons Profit was AXE, a telephony exchange written in PLEX, a proprietary language of Ericsson's used to specificly program the AXE hardware. It could not be used for any other devices. As this is not a worthwhile solution at all, Ericsson started the Computer Science Lab at 1986 with the intention of creating a platform for research concerning telecommunication to solve, what Bjärne Däcker called ''Ericsson's software problem''. In order to achieve this, several changes or improvements over PLEX had to be made. 
+  	\begin{enumerate}
+  		\item 
+  			The software had to be decoupled from the AXE exchange hardware. This was strongly tied to implementing a new and powerful model for processes, as PLEX' processes were a very peculiar hardware concept.
+  		\item
+  			The resulting language was to be very small, as small as possible while being able to describe large systems. Thus, training expenses could be reduced, a definite asset over PLEX for which Ericsson's employees had to be trained a long time to get productive in.
+  		\item
+  			Language-level primitives for concurrency were absolutely necessary in order to efficiently implement solutions for telephony exchange systems.
+  	\end{enumerate}
+  \subsection{Joe Armstrong joins the Lab}
+  	In early 1986, the software engineer Joe Armstrong arrived at the Computer Lab in order to work on the project. At first, research was moving towards finding an existing language capable of tackling the challanges. Armstrongs initial experiments dealed with implementing a rudimentary telephony program via Smalltalk. This however, proved to be a dead end at this time, because the SUN workstation Armstrong was working on turned out to be far to slow. ''So slow, that [he] used to take coffee brakes while it was garbage collecting''. At the same time, he was growing a graphical notation to visualize telephony exchange services. Upon showing this notation to a colleague, Roger Skagervall, he was first introduced to the Prolog declarative language, a large step for his strive towards a better way to program telephony.
+  \subsection{Expanding Prolog}
+  	Realising the potential of Prolog, Armstrong started some experiments in adding concurrency to Prolog. Robert Virding, another Ericsson employee, joined Armstrong along the way. Virding was very experienced with logical programming languages, having implemented several extensions for concurrency in some. Through merging their distinctive views on concurrency and the way a language should be able to describe a concurrent system, the Prolog interpreter changed more and more into the direction of functional language, however, Virding and Armstrong never pointed out whether the language should be either functional or declerative or logical or imperative even. Instead, they took concepts from everywhere, fulfilling their requirements instead of strictly specifying the language itself. \\
+  	At the same time, meaning early 1987, a first user group using the growing Prolog interpreter formed around a project named ACS/Dunder at the Lab. Their intention was to prototype a new telephony system and were looking for a simple language to fasten their pace. The interpreter, tagged Erlang by Bjärne Däcker after Danish mathematician Agner Krarup Erlang, seemed perfect for that purpose. This provided necessary feedback for Armstrong and Virding, direct user input greatly stimulated the ongoing advancements of Erlang. \\
+  	The 2-men-team was able to implement a large number of todays Erlang concepts during that time, primarily primitives for concurrency like send and receive. Those very important and crucial concepts were inspired mainly by the concurrent programming languages Modula and Chill, for example receiving messages is similar to a mailbox, just as it is in Chill. Yet some things remained untouched, partly because Prolog shielded them from those problems, particularly garbage collection, partly because Erlang was still considered a prototype language at Ericsson and therefor a very efficient, meaning ''soft'' realt-time-capable language was not necessary. While backtracking is a very useful feature in Prolog it actually hindered the development of Erlang due to its ''non-deterministic'' and therefor time-robbing approach.
+  \subsection{ACS/Dunder Report}
+  	Eventually, in December 1989 the ACS/Dunder project was finished and gave out their results and conclusions in an internal Ericsson paper. The most important results include:
+  	\begin{enumerate}
+  		\item
+  			An average productivity increase per developer by factor 8 over PLEX, although it was later decreased to 3 to make it more credible.
+  		\item
+  			The time to implement a feature in Erlang was approximately 9 times shorter than to do the corresponding thing in PLEX.
+  		\item
+  			Erlang must be at least 40 times faster to meet the requirements of telephony applications. This was later corrected to a factor of 280.
+  	\end{enumerate}
+  \subsection{Erlang needs a Virtual Machine}
+  	The latter result being the only ''concerning'' result, Armstrong and Virding started actively thinking about the efficiency of Erlang for the first time. Efficiency in this context, however, would be largely hindered if Erlang continued to be an extended Prolog interpreter, so the team moved decoupling Erlang from Prolog and its virtual machine. Thus, in 1990 Virding and Armstrong implemented a first VM (called the JAM) running byte-code, interpreting data compiled by a compiler written in Erlang itself which itself got bootstrapped through a Prolog emulator. This was, of course, far from the efficiency desired by Virding and Armstrong so work started to implement the emulator in C. However, both had very little experience with C. Luckily, Mike Williams started to gain interest in the project and decided to throw away all the emulator code written so far and started implementing a whole new emulator, making the overall Erlang implementation over 70 times faster in the end. \\
+  	
 \section{The Language}
   \subsection{Paradigms}
   \subsection{Types}
   \subsection{Syntax}
-
+  \subsection{Language Properties}
+	\subsubsection{Concurrency}
+	\subsubsection{Distribution}
+  	\subsubsection{Robustness}
+  	\subsubsection{Code Swapping}
+  	\subsubsection{Portability}
+\section{Popularity and Impact}
 \section{Conclusions}
 
 \end{document}
