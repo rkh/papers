@@ -395,7 +395,7 @@
  start iterating over it in line 4. The value Z2 is used to find inner iterations where no swap has taken place.
  In the inner loop we compare two adjacent values (l.7) and if necessary swap them.
  At the end, the sorted list is assigned to the result variable defined in line 1.
-
+\pagebreak[4]
  \begin{lstlisting}[caption=Bubble Sort in Linearized Plan Calculus Notation,label={lst:bubblesort}]
    P11 BubbleSort (V0[:20.8.0]) => R0[:20.8.0]
      N(V0[:20.8.0]) => Z0[:8.0]
@@ -417,7 +417,7 @@
 
  Having mentioned chess as the benchmark for the language we present below 
  a short function that looks for pieces of a player on a particular position.
- As input it receives two 3 bit fields for x and y positions as well as a tree
+ As input it receives two 3-bit fields for x and y positions as well as a tree
  of the field state and the color we are looking for.
  The tree is composed of two 16-node subtrees, each node representing a piece 
  that belongs to the player for the subtree. Each piece has two 3-bit fields 
@@ -425,7 +425,7 @@
  In line 2 we dynamically select the appropriate subtree of the player color 
  we are looking for. A default result of $0$ is assigned to the return value 
  in case we do not find a piece on the callee's passed position.\\
- In lines 4 - 9 we simply iterate over the 16 pieces and test both the 
+ In lines 4-9 we simply iterate over the 16 pieces and test both the 
  x and y positions for equality. If we find a match, $1$ is assigned to the 
  result as a truth value (l.8) and we break out of the loop with the keyword {\tt FIN}.
  \begin{lstlisting}[caption=Selecting from a chess field,label={lst:chess}]
