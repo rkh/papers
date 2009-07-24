@@ -11,8 +11,7 @@
 \usepackage{float} % figures
 
 \lstset{%
-	basicstyle=\small,
-	frame=single,
+	basicstyle=\small\ttfamily,
 	sensitive=true,
 	keywordsprefix=P,
 	keywords={END,W,W1},
@@ -20,8 +19,15 @@
 	identifierstyle=\ttfamily,
 	procnamestyle=\bfseries,
 	procnamekeys={P},
-	literate={<}{$<$}1 {>}{$>$}1 {=}{$=$}1 {<=}{$\leq$}1 {>=}{$\geq$}1 {=>}{{$\Rightarrow$}}1 {->}{{$\rightarrow$}}1
-	}
+	numbers=left,
+	literate={<}{$<$}1 {>}{$>$}1 {=}{$=$}1 {<=}{$\leq$}1 {>=}{$\geq$}1 {=>}{{$\Rightarrow$}}1 {->}{{$\rightarrow$}}1,
+	frame=lines,
+	numbers=left,
+	numberstyle=\rmfamily\tiny,
+	numbersep=3pt,
+	breaklines=true,
+	breakatwhitespace=true
+}
 
 \restylefloat{figure}
 \begin{document}
@@ -55,17 +61,17 @@
    meaning for the history of programming languages.
 \end{abstract}
  \section{Introduction}
-   Every one who works with computers on a professional level has 
+   Most people working with computers on a professional level have
    at some time heard of Konrad Zuse and his Z3, the first fully 
    automatic programmable computer. This computer, built in the 
-   house of his parents, from old phone relais, by a man who has had no 
+   house of his parents, from old phone relays, by a man who has had no 
    previous contact with other scientists working on automatic computation, 
    has been so thoroughly reviewed and been written about, that it 
    stands synonym for Konrad Zuse's life work.
 
    However, parallel to his efforts on building the Z1 through Z3, Zuse
    also worked on his programming language, which he called ``Plan Calculus''
-   to show its sources in the ``logical caclulus''. The first notes about
+   to show its sources in the ``logical calculus''. The first notes about
    this language appeared in his notebooks in May, 1939~\cite{rojas2002konrad}. The \emph{Genesis}
    of the Plankalkül lies in the years 1942 to 45.
 
@@ -80,15 +86,15 @@
    Work on mechanical calculation goes back to the invention of the Abacus, but one 
    of the first notable ``computing'' machines was Charles Babbage's \emph{Analytical Engine},
    which he first described in 1837. It was for this theoretical machine (which was not built until the 
-   late 1960's), that Ada Lovelace later wrote an instruction set for calculating the Bernoulli numbers.
-   These instructions, written in an assembler-like language, are today considered the very first computer program.
+   late 1960s), that Ada Lovelace later wrote an instruction set for calculating the Bernoulli numbers\cite{hyman1985Charles}.
+   These instructions, written in an assembly-like language, are today considered the very first computer program.
 
    Due to lack of interest and money, the \emph{Engine} was never built and the next 
    time somebody should concern himself with computation in such depth was 
-   one hundred years later. During the 1930's, one Alan Turing started his work on computable numbers
+   one hundred years later. During the 1930s, one Alan Turing started his work on computable numbers\cite{turing1936computable}
    and Konrad Zuse began working on his Z1.
  \subsection{Zuse and Computing}
-   Konrad Zuse was a civil engineer in the Germany of the 1920's. He became annoyed by
+   Konrad Zuse was a civil engineer in the Germany of the 1920s. He became annoyed by
    the repetitive nature of the computations he had to perform at his workplace and began to 
    to consider building machines to perform such dull computations.
    Due to his engineering background he had never come in contact with previous 
@@ -104,7 +110,7 @@
    and so Zuse notes in May, 1939: ``Rechenwerk fertig, aber funktioniert schlecht''\cite{rojas2002plankalkuel}.
  \subsection{The Z1 to Z4}
    Working almost completely on his own, Zuse designed and built machines 
-   which had many characteristics of today's computers. All his machines
+   which had many characteristics of todays computers. All his machines
    had binary floating-point arithmetics, separate \emph{Arithmetic logic units} (ALU), 
    a central processor and general purpose memory banks.
    Programs were written on punched tape and his Z1 and Z3 had 24bit word-sizes
@@ -199,16 +205,18 @@
        a GOTO statement. While this may be due to some excellent
        foresight of Zuse's, the GOTO statement would also be
        difficult to implement with punched tape.
-     \item[Recursion] There is no recursion.
-       This is due to the \emph{call-by-value} nature of the 
-       language. One would have to use a fixed point combinator
-       in order to express recursive statements. The 
-       ideas of Zuse's hierarchically structured machines would not 
-       allow implementation of such behavior.
+     \item[Call by Value] Call by Value is parameter passing mode 
+       where the parameter is essentially copied to the function because
+       writing to the input variables is denied. This is very natural 
+       and eases debugging as side effects happen before calls.
+     \item[No Recursion] 
+       The ideas of Zuse's hierarchically structured machines would not 
+       allow implementation of such behavior in hardware without resorting 
+       to some kind of hardware stack.
      \item[Loops] The Plan Calculus has a powerful loop statement, 
-       that can be used either like a modern limited loop (for-to) 
+       which can be used either like a modern limited loop (for-to) 
        or a conditional loop (while). This made the language Turing
-       complete even though Zuse did not know the term nor the 
+       complete even though Zuse neither knew the term nor the 
        concept at the time.
      \item[Branches] Conditional branching was already implemented 
        in the Z3 and the concept was included in his calculus, too.
@@ -217,7 +225,7 @@
        it more natural to read for the programmer than assembler like 
        language.
    \end{description}
-   These concepts give reasons for considering Der Plankalkül a
+   These concepts are reasons for considering Der Plankalkül a
    high-level programming language. They are explained in more detail 
    in the following sections.
  \subsection{Notation}
@@ -367,7 +375,7 @@
  Zuse's ideas, though known to some like Heinz Rutishauser, who worked with Zuse on the Z4\cite{epegmagHorstzuse} and 
  later on ALGOL-60,
  could not have any major impact on the development of computer science. The GMD only published Zuse's
- manuscript in the 1970's, badly translated into the English language, even including spelling errors\cite{giloi2002konrad}.
+ manuscript in the 1970s, badly translated into the English language, even including spelling errors\cite{giloi2002konrad}.
  For his dissertation Joachim Hohmann implemented the language in 1979\cite{rojas2002konrad}, however, we were 
  unable to find any more information on this implementation.
 
@@ -378,12 +386,17 @@
  we created another implementation, again only focusing on the algebraic aspects and leaving out the 
  set operations related parts. 
  
- In listing \ref{fig:bubblesort} we show the simple sorting algorithm ``Bubble Sort'' in linearized form, 
- which takes a list of twenty 8-bit values and sorts them using two limited loops. A slight optimization has
- been used in the form that the algorithm finishes immediately if after a loop no change has been made
- to the list.
- \begin{figure}
-   \begin{lstlisting}
+ For gathering a general idea of this notation, we show the well known sorting algorithm 
+ ``Bubble Sort'' in listing \ref{lst:bubblesort}, 
+ which takes a list of twenty 8-bit values and sorts them using two limited loops. \\
+ Line 1 is called a ``Programmrahmen'': here we declare the input variables and the return values. 
+ The first we use is the $N()$ function which determines the dimension of a variable, in our case, 
+ the list we are passed. This value is saved in Z0. After that we copy the complete input and 
+ start iterating over it in line 4. The value Z2 is used to find inner iterations where no swap has taken place.
+ In the inner loop we compare two adjacent values (l.7) and if necessary swap them.
+ At the end, the sorted list is assigned to the result variable defined in line 1.
+
+ \begin{lstlisting}[caption=Bubble Sort in Linearized Plan Calculus Notation,label={lst:bubblesort}]
    P11 BubbleSort (V0[:20.8.0]) => R0[:20.8.0]
      N(V0[:20.8.0]) => Z0[:8.0]
      V0[:20.8.0] => Z1[:20.8.0]
@@ -395,16 +408,39 @@
            Z1[i+1:8.0] => Z1[i:8.0]
            Z3[:8.0] => Z1[i+1:8.0]
            1 => Z2[:0]
-         ]
-       ]
+       ]]
        Z2[:0] = 0 -> FIN
      ]
      Z1[:20.8.0] => R0[:20.8.0]
    END
-   \end{lstlisting}
-   \caption{Bubble Sort in Linearized Plan Calculus Notation}
-   \label{fig:bubblesort}
- \end{figure}
+ \end{lstlisting}
+
+ Having mentioned chess as the benchmark for the language we present below 
+ a short function that looks for pieces of a player on a particular position.
+ As input it receives two 3 bit fields for x and y positions as well as a tree
+ of the field state and the color we are looking for.
+ The tree is composed of two 16-node subtrees, each node representing a piece 
+ that belongs to the player for the subtree. Each piece has two 3-bit fields 
+ as leaves below which designate the position.\\
+ In line 2 we dynamically select the appropriate subtree of the player color 
+ we are looking for. A default result of $0$ is assigned to the return value 
+ in case we do not find a piece on the callee's passed position.\\
+ In lines 4 - 9 we simply iterate over the 16 pieces and test both the 
+ x and y positions for equality. If we find a match, $1$ is assigned to the 
+ result as a truth value (l.8) and we break out of the loop with the keyword {\tt FIN}.
+ \begin{lstlisting}[caption=Selecting from a chess field,label={lst:chess}]
+    P2 (V0[:3.0],V1[:3.0],V2[:2.16.2.3.0],V3[:0]) => R0[:0]
+       V2[V3[:0]:16.2.3.0] => Z0[:16.2.3.0]
+       0 => R0[:0]
+       W1(16) [
+	  Z0[i:2.3.0] => Z1[:2.3.0]
+	  Z1[0:3.0] = V0[:3.0] -> [
+	     Z1[1:3.0] = V1[:3.0] -> [
+		1 => R0[:0]
+		FIN
+       ]]]
+    END
+ \end{lstlisting}
 
  \section{Conclusions}
  \subsection{Impact on the World of Programming}
@@ -417,7 +453,9 @@
    were not properly recognized for having been included in ``Der Plankalkül''
    years before ALGOL\cite{giloi2002konrad}. The notation was, in parts considered 
    for ALGOL, too, mainly by Heinz Rutishauser who introduced the $\Rightarrow$ 
-   to the ALGOL-60 committee, however, the committee did not accept it\cite{epegmagHorstzuse}.
+   to the ALGOL-60 committee, however, the committee did not accept it\cite{epegmagHorstzuse}. 
+   Additionally, the Plan Calculus was never standardized which would have helped 
+   if not the late adoption, but at least more thorough reviews of the language. 
 
    \subsection{Closing Thoughts}
    Overall, the impact of the Plan Calculus on the history of programming language
@@ -440,9 +478,8 @@
    was quite general, but the proposal never attained the consideration it deserved.}\\
    \raggedleft Heinz Rutishauser
    \end{quote}
- \clearpage
  \section*{Acknowledgments}
-   I would like to thank Professor Horst Zuse for his permission to use photos from his article 
+   I would like to thank Professor Horst Zuse for his permission to use content from his article 
    ``The Life and Work of Konrad Zuse''. I also thank Malte Appeltauer for his advice and help 
    on this paper and his encouragement to show my implementation of the Plan Calculus subset.
   \bibliographystyle{splncs}
