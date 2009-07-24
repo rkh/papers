@@ -20,55 +20,83 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-  The Forth programming language was popularized in 1968. It was the first widely adopted langauge of the stack based paradigm. It provided significant improvements over the then-dominant compiled programming languages, some of which, such as C and Pascal, remain popular today. Nevertheless, it is no longer widely used for its original purpose, rapid application development.
+  The Forth programming language was popularized in 1968. It was the first widely adopted langauge of the stack based paradigm.
+It provided significant improvements over the then-dominant compiled programming languages, some of which, such as C and Pascal, remain popular today.
+Nevertheless, it is no longer widely used for its original purpose, rapid application development.
 
-  In this Paper, we shall explore 
+  In this Paper, we shall explore[...]
 \end{abstract}
 \section{Introduction}
 \section{History}
+[1960s]
 
 \subsection{Third Generation Programming Languages}
-Source code was stored on punchcards. Software development usually consisted of cycles of writing code to punchcards, entering these cards as input for the compiler and eventually debugging analyzing memory dumps after the programs crashed. These edit-compile-crash-debug-cyles delayed software development disproportionally when minor defects were introduced, because, although the source of the error was easily found, the whole cycle had to be repeated. Since Computers were slow or expensive, compilation of edited programs either took a long time, or had to be done in scheduled time-slices, which left the programmer waiting unproductively for feedback from his program.
+Source code was stored on punchcards. Software development usually consisted of cycles of writing code to punchcards, entering these cards as input for the compiler and eventually debugging analyzing memory dumps after the programs crashed.
+These edit-compile-crash-debug-cyles delayed software development disproportionally when minor defects were introduced, because, although the source of the error was easily found, the whole cycle had to be repeated.
+Since Computers were slow or expensive, compilation of edited programs either took a long time, or had to be done in scheduled time-slices, which left the programmer waiting unproductively for feedback from his program.
+[...]
 
 \subsection{Chuck Moore}
-The History of the Forth programming langauge was closely inerrelated with the its inventor, Charles R. Moore. He implemented Forth in order to fulfill his own needs by applying the insights he gained while working as a programmer. This allowed him to make Forth a simple and practical Programming language, as opposed to other high level Languages of the 1960s, which were either designed by by committees to be used by other people, like FORTRAN and COBOL, or were intended for an academic audience, like ALGOL. 
+The History of the Forth programming langauge was closely inerrelated with the its inventor, Charles R. Moore.
+He implemented Forth in order to fulfill his own needs by applying the insights he gained while working as a programmer.
+This allowed him to make Forth a simple and practical Programming language, as opposed to other high level languages of the 1960s, which were either designed by by committees to be used by other people, like FORTRAN and COBOL, or were intended for an academic audience, like ALGOL. 
 
 After receiving a BS in Physics from MIT, he went to Stanford, where he learned the LISP programming language from its creator, John McCarthy. \cite{chuckbio}
 
-He then worked for several Companies where he created software for scientific tasks, such as calculating of satellite orbits or controlling a particle accelerator. During this time, he worked on a personal library of utility subroutines, written in assembly language, which he ported to a new system when he switched jobs. This library gradually evolved into the first forth system.
+He then worked for several Companies where he created software for scientific tasks, such as calculating of satellite orbits or controlling a particle accelerator.
+During this time, he worked on a personal library of utility subroutines, written in assembly language, which he ported to a new system when he switched jobs.
+This library gradually evolved into the first forth system.
 
-During this time Moore wrote assembly language for various machines, as well as the high-level Languages Fortran, Algol and Cobol. These were some of the first compiled high-level programming languages. Moore also wrote a Fortran compiler
+Moore programmed in assembly language for various machines, as well as the high-level Languages Fortran, Algol and Cobol. These were some of the first compiled high-level programming languages. Moore also wrote a Fortran compiler [...]
 
-Freelancer
+Freelancer[...]
 
-When Moore worked for the National Radio Astronomy Observatory, he ported much of the utility programs he developed for his freelancing work to the IBM 1130 computer
+\begin{itemize}
+\item[Simplicity]
+\item[Expressive and customizable core language]
+\item[Interactive development, incremental compilation]% interactive development is THE importent feature, compiling whole programs was slooow back then
+\item[Small memory footprint] %\note[item]{small deck of punch-cards, small ROM, low main memory}
+\item[Close to the machine/low-level]
+\item[Stand-Alone Forth system](Running without an OS)
+\end{itemize}
 
- 
+\subsection{The Fourth generation language}
+When Moore worked for the National Radio Astronomy Observatory, he ported much of the utility programs he developed for his freelancing work to the IBM 1130 computer[...]
+Design Goals
+
+
+
 \subsection{Forth Inc.}
 
 \subsection{ANS Forth}
 
 \section{Language Description}
 \subsection{Syntax}
-The Source Code of a Forth Program usually consists of a lists of tokens, calles "Words", separated by whitespace.\footnote{However, it should be noted that the Forth Programming language does not have a fixed or formally specified syntax, allowing domain specific languages or control structures with custom syntax to be implemented in Forth. We will therefor only describe the language in the common case.} Comments are enclosed in Parentheses.
+The Source Code of a Forth Program usually consists of a lists of tokens, calles ``Words'', separated by whitespace. 
+\footnote{However, it should be noted that the Forth Programming language does not have a fixed or formally specified syntax, allowing domain specific languages or control structures with custom syntax to be implemented in Forth. We will therefor only describe the language in the common case.} Comments are enclosed in Parentheses.
+
+\section{Semantics}
 
 \subsection{Data Structures}
-Every Forth System has two important Stack Data Structures: The Data Stack and the Return Stack. Words take their Arguments off the Data Stack and push their results back on it. Multiple intermediate values can be stored and retrieved from the data stack via stack manipulation routines, such as `swap the two topmost values on the stack`. This eliminates the need for named variables.\footnote{Variables are included for convenience in most modern Forth Systems, or could be implemwnted in a library.}
+Every Forth System has two important Stack Data Structures: The Data Stack and the Return Stack. Words take their Arguments off the Data Stack and push their results back on it.
+Multiple intermediate values can be stored and retrieved from the data stack via stack manipulation routines, such as ``swap the two topmost values on the stack''. This eliminates the need for named variables.
+\footnote{Variables are included for convenience in most modern Forth Systems, or could be implemwnted in a library.}
 The return stack contains the byte code instruction adresses of the call sites of the executed routines.
 In contrast to this, In C and C-like Languages, the call stack takes both of these responsibilities. This enforces that each procedure has to take all of its variables off the stack before returning to the call site.
 Because Forth does not have this restriction, every word can have a varibale number of parameters and return values.
 
 \subsection{Word Definitions}
 
-The word `:` initiates a new word definition. 
+The word ``:'' initiates a new word definition. 
 The entirety of all words defined in a Forth System is called a dictionary.
 
 \lstinputlisting[linerange=4-7,label={lst:def},caption={Definition of the fibonnacci word}]{dictionary.forth}
 
 \subsection{Immediate Words}
 
-Words can be marked as ``immediate''  af
-When the compiler encounters a Word marked as an `immediate Word` in the input stream, 
+Words can be marked as ``immediate''  after they were defined.
+When the compiler encounters an immediate Word in the input stream, it does not compile it into threaded code, bit execute it right away.
+[...]
 
 \subsection{Stack effects}
 
@@ -76,34 +104,41 @@ When the compiler encounters a Word marked as an `immediate Word` in the input s
 
 \subsection{Type Discipline}
 
-The Forth Language is completely untyped. This means types are never checked and type information is neither produced nor checked. Every word just assumes that
-
+The Forth Language is completely untyped.
+This means types are never checked and type information is neither produced nor checked.
+Every word just assumes that
 
 \subsection{Algebraic Properties}
 
-Concatenative
+\subsubsection{Concatenative}
 
 Because Forth implements passing of parameters and return values by mutating the stack, side effects and return values are unified into a single concept.
-Relationship with linear types
+[Relationship with linear types]
 
-Point-Free
+\subsubsection{Point Free}
 
 
 \subsection{The Forth Compiler}
 
-Most compilers for other languages divide the compilaton process into separate stages, such as parsing, macro expansion, optimisation passes and code generation, with each pass depending on the output of the previous. Compilation is usually not divided into phases like parsing, ast transformations or code generation, but consists of a single straightforward step that 
+Most compilers for other languages divide the compilaton process into separate stages, such as parsing, macro expansion, optimisation passes and code generation, with each pass depending on the output of the previous.
+Compilation of Forth code is usually not divided into phases like parsing, ast transformations or code generation, but consists of a single straightforward step that compiles a single token.
 
-The regular Syntax of Forth faciliates interactive compilation, because the compiler does not have to parse and build a syntax tree from a whole file. 
+The regular Syntax of Forth faciliates interactive compilation, because the compiler does not have to parse and build a syntax tree from a whole file.
+
+[interactive, incremental compiling]
+[embed,extend]
 
 
 \subsection{Threaded Bytecode}
 
 Most Forth Systems do not emit machine code, instead they produce threaded code, for a virtual machine, or run the program by interpretation.
-To produce Threaded Code, every word is compiled into a token referring to the word definition. The code for a word is consists of consecutive tokens referring to the words called by it. The Forth VM can then execute a word by iterating over the tokens in the compiled word definition and executing each token.
+To produce Threaded Code, every word is compiled into a token referring to the word definition.
+The code for a word is consists of consecutive tokens referring to the words called.
+The Forth VM can then execute a word by iterating over the tokens in the compiled word definition and executing each token.
 
 The size of the generated threaded code for a word definition can be easily gauged by counting the words in the definition.
 
-There are 
+There are different ways of implementing threaded code, each with different tradeoffs
 
 \begin{description}
 \item[direct threading] 
