@@ -114,14 +114,108 @@ the large scale deployment of globally used languages.}
   	Erlang is considered a multi-paradigm language due to its ''lack'' of focus on a single one, e.g. either functional or declarative or logical. As it was developed with certain needs in mind rather than a strong specification, it features several concepts of each though the main part is, in fact, functional. The term concurrency-oriented is often used when describing the language. This refers to the focus of the language to model largely concurrent systems.\\
   	Anyway, some design decisions have been made.
   	\subsubsection{Single-Assignment}
-  		Values for variables can only be assigned once, then they are bound. Erlang is a single-assignment language, because   
+  		Values for variables can only be assigned once, then they are bound. Erlang is a single-assignment language, because Armstrong and Virding thought that this provided an easier way of debuging and error handling.
+  	\subsubsection{Dynamic Typing}
+  		Static Typing, e.g. executing type checks while compilation, is very hard in Erlang due to difficulties when type checking processes and Inter-Process-Communication. That way, however, type errors occur during run-time.
+  		
   \subsection{Types}
-  \subsection{Syntax}
+  	Here, we will present the multiple number of types available in Erlang. All types are aggregated by the name ''term''.
+  	\subsubsection{Number}
+  		Integer and Float numbers are available in Erlang. Additionally, Integers can be initialized with $base \sharp value$.\\
+  		For example: $4 \sharp 2$ refers to 4 to the power of 2.
+  	\subsubsection{Atom}
+  		These are similar to the Atoms in Prolog. They are literal constants defined by a name. They are used as tags and identifiers for functions, most of the time. Also, as there are no Booleans in Erlang, they are commonly used to replace those. $'$ is used to identify Atoms that start without a small character or consist of numerics and underscores. \\
+  		For example: $'Hello', hello$
+  	\subsubsection{Bit String}
+  		Bit Strings are chunks of data of untyped memory. $<< Bit String >>$ identifies a Bit String. \\
+  		For example: $<< "ABC" >>$
+  	\subsubsection{Reference}
+  		A unique term in an Erlang runtime system. \\
+  		For example: $make_ref/0$
+  	\subsubsection{Fun}
+  		A Fun is a functional Object. It defines an anonymous function that is passed to other functions. \\
+  		For example: $Fun1 = fun (X) -> X+1$ $end.$\\
+  		$Fun1(2) = 3$
+  	\subsubsection{Port}
+  		A Port is used to provide basic communication facilities with the external world. Ports are opened using $open \_ port(PortName, PortSettings)$.
+  	\subsubsection{Process Identifier (Pid)}
+  		A Pid is used to uniquely identify an Erlang process. They are created whenever an Erlang process is spawned.
+  	\subsubsection{Tuple}
+  		A Tuple contains data with a fixed number of terms. Each term is called an element and can be accessed via its position in the Tuple. \\
+  		For example: $A = \lbrace Atom, Number \rbrace$\\
+  		$element(1,A) = Atom$
+  	\subsubsection{List}
+  		A List is a datacompound, containing a variable number of elements. These are similar to Prolog Lists.\\
+  		For example: $[a,2,{c,4}]$
+
+  \subsection{Pattern Matching}
+  	In Erlang, variables are bound to values via the pattern matching process. The right hand pattern is being matched aiganst the left hand one and when the matching succeeds, the variables get bound. This concept was inherited from the ML language family. An example can be seen in the figure \ref{fig:pattern}\\
+  	\begin{figure}
+   		\begin{lstlisting}
+1> X.
+** 1: variable 'X' is unbound **
+2 > X = 2.
+2
+3> X + 1.
+3	
+4> {X, Y} = {1, 2}.
+** exception error: no match of right hand side value {1,2}
+5> {X, Y} = {2, 3}.
+{2,3}
+6> Y.
+3
+   		\end{lstlisting}
+	\caption{Pattern Matching in Erlang}
+	\label{fig:pattern}
+	\end{figure}
+   
+  \subsection{Module}
+  	Erlang systems are divided into Modules. They consist of a sequence of attributes and functions, latter are terminated by a ''$.$''. A short example can be seen in figure \ref{fig:module}.
+	\begin{figure}
+   		\begin{lstlisting}
+-module(m).          % module attribute
+-export([fact/1]).   % module attribute
+
+fact(N) when N>0 ->  % beginning of function declaration
+    N * fact(N-1);   %  |
+fact(0) ->           %  |
+    1.               % end of function declaration
+   		\end{lstlisting}
+	\caption{A Module in Erlang}
+	\label{fig:module}
+	\end{figure}
+  \subsection{Function}
+  	Functions are parts of modules, implementing a certain amount of behaviour in it. They consist of a head and a body, whereas the head has a function name, an argument and an optional guard sequence. The body is simply a collection of expressions. This can be seen in figure \ref{fig:function}.
+	\begin{figure}
+   		\begin{lstlisting}
+Name(Pattern1,...,PatternN) [when GuardSeq] ->
+    Body1.
+   		\end{lstlisting}
+	\caption{A Function in Erlang}
+	\label{fig:function}
+	\end{figure}
+	
+  \subsection{Expression}
+  	Expressions are various constructs, that can contain higher-level statements such as $if$ and $case$, patterns and functions. An example if-caluse can be seen in figure \ref{fig:if}.
+  	
+	\begin{figure}
+   		\begin{lstlisting}
+    if
+        X>Y ->
+            true;
+        true -> % works as an 'else' branch
+            false
+    end
+   		\end{lstlisting}
+	\caption{An if-Clause in Erlang}
+	\label{fig:if}
+	\end{figure}
+
   \subsection{Language Properties}
 	\subsubsection{Concurrency}
 	\subsubsection{Distribution}
   	\subsubsection{Robustness}
-  	\subsubsection{Code Swapping}
+  	\subsubsection{Hot Code Swapping}
   	\subsubsection{Portability}
 \section{Popularity and Impact}
   \subsection{Major Erlang Applications}
