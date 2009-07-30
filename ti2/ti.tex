@@ -1,12 +1,13 @@
 \documentclass[a4paper]{article}
 \usepackage{amsmath, amssymb}
 \usepackage[ngerman]{babel}
-\usepackage[utf8x]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{listings}
 \author{Tim Felgentreff, 738147}
 \title{TI2}
 \date{\today}
+
 \setlength{\hoffset}{-1in}
 \setlength{\voffset}{-1in}
 \setlength{\topmargin}{0pt}
@@ -22,6 +23,108 @@
 
 \begin{document}
 \footnotesize
+\noindent\fbox{\begin{minipage}{200pt}{\bf H} $\{<i,j>|j\in domain(\varphi_i)\}$ - nicht entscheidbar\\
+{\bf S} $\{i|\varphi_i(i) is definiert\}$ - nicht entscheidbar\\
+{\boldmath$\overline{H}$} $\{<i,j>|j\notin domain(\varphi_i)\}$ - nicht rek. aufzählbar\\
+{\boldmath$\overline{S}$} $\{i|\varphi_i(i) \notin domain(\varphi_i)\}$ - nicht rek. aufzählbar\\
+{\bf Pr:} $h=Pr[f,g]$, Stelligkeit:$f+1=h=g-1$, Bsp:$h(x,y+1)=\big\{\binom{Pr^1_1(x)\text{ wenn y=0}}{Pr(x,y,h(x,y))}$\\
+{\bf Turing-mächtig:}  $Q$-logic, Registermaschine, $\lambda$-Kalkül, $\mu$-rekursiv\\
+{\bf NP} NTM kann in $\mathcal{P}$ lösen\\
+{\bf NPC} in $\mathcal{NP}$ und $\mathcal{NP}$-hart\\
+{\bf \boldmath$\lambda$-Kalkül}  Church-Numerals und von hinten anwenden\\
+{\bf Fixpunkt-Combinator}  $F t \equiv t (F t)$,z.B.:$\mathsf{Y}$\\
+{\bf Church-Numerals}  $\overline{1}=\lambda f.\lambda x.f x$, $\overline{2} = \lambda f. \lambda x f^2 x$ bzw. $\lambda f.\lambda x f(f(x))$
+\end{minipage}}
+\noindent\fbox{\begin{minipage}{200pt}{\bf M-abzählbar} $\exists f.\mathbb{N}\rightarrow M$, Bew: f finden, Diagonalisierung\\
+{\bf M-aufzählbar} \ldots abzählbar und $f_M$ ist berechenbar, Bew: ist nicht $\mathcal{TR}$, Reduktion, Diagonalisierung\\
+{\bf M-entscheidbar} $TM_M$ hält an, $M$ und $\overline{M}$ ist aufzählbar Bew: Rice, Diagonalisierung\\
+{\bf M-semi-entscheidbar} immer auch aufzählbar\\
+{\bf Rekursivität} $\mathcal{PR}\subset\mathcal{TR}\subset\mathcal{R}$\\
+{\boldmath$L\in\mathcal{NP}$}  OTMs Lösung beschreiben und Prüfung mit DTM in $\mathcal{P}$ beschr.\\
+{\boldmath$L\in\mathcal{NPC}$}  NPC Prob $L'$ wählen und $x\in L' \Leftrightarrow f(x)\in L \equiv L'\leq_P L$
+\end{minipage}}
+
+\noindent\fbox{\begin{minipage}{200pt}{\bf Entscheidbar} Abgeschlossen: $\overline{M}, f^{-1}, \cup, \cap, M\setminus N$\\
+{\bf Aufzählbar}  Abgeschlossen: $f^{-1}, f(M), \cup, \cap$
+\end{minipage}}
+\noindent\fbox{\begin{minipage}{200pt}{\bf Partiell-Characteristisch}\[ \psi_M(i)=\left\{\begin{array}
+{l l}1 & \text{if } i\in M\\
+\perp & \text{sonst}
+\end{array}\right.\]{\bf Voll-Characteristisch}  $\chi$, wie $\Psi$ nur mit 0 statt $\perp$\\
+{\bf $\varphi_i$} Funktion der $TM_i$\\
+{\bf $\Phi_i$} Schrittfunktion der $TM_i$
+\end{minipage}}
+
 \noindent\fbox{\begin{minipage}{200pt}
 {\bf Rice und Diagonalisierung}  sind immer negative Beweise\\
-{\bf Rice} $M_{umgeformt}=\{i|\varphi_i\in P\}\quad \emptyset\neq P\subset\mathcal{R}\Rightarrow M$ ist unentscheidbar\\{\bf Curch} alle intuitiv lösbaren Probs sind turing-lösbar\\{\bf Kleene-Normalform} alles berechenbare brauch max. 1 while $\equiv h(x) = g(x,\mu f(x))$, $f,g$ sind $\mathcal{PR}$\\{\bf Cook} $SAT \in \mathcal{NPC}$\end{minipage}}\noindent\fbox{\begin{minipage}{200pt}{\bf H} $\{<i,j>|j\in domain(\varphi_i)\}$ - nicht entscheidbar\\{\bf S} $\{i|\varphi_i(i) is definiert\}$ - nicht entscheidbar\\{\boldmath$\overline{H}$} $\{<i,j>|j\notin domain(\varphi_i)\}$ - nicht rek. aufzählbar\\{\boldmath$\overline{S}$} $\{i|\varphi_i(i) \notin domain(\varphi_i)\}$ - nicht rek. aufzählbar\\{\bf Pr:} $h=Pr[f,g]$, Stelligkeit:$f+1=h=g-1$, Bsp:$h(x,y+1)=\big\{\binom{Pr^1_1(x)\text{ wenn y=0}}{Pr(x,y,h(x,y))}$\\{\bf Turing-mächtig:}  $Q$-logic, Registermaschine, $\lambda$-Kalkül, $\mu$-rekursiv\\{\bf NP} NTM kann in $\mathcal{P}$ lösen\\{\bf NPC} in $\mathcal{NP}$ und $\mathcal{NP}$-hart\\{\bf \boldmath$\lambda$-Kalkül}  Church-Numerals und von hinten anwenden\\{\bf Fixpunkt-Combinator}  $F t \equiv t (F t)$,z.B.:$\mathsf{Y}$\\{\bf Church-Numerals}  $\overline{1}=\lambda f.\lambda x.f x$, $\overline{2} = \lambda f. \lambda x f^2 x$ bzw. $\lambda f.\lambda x f(f(x))$\end{minipage}}\noindent\fbox{\begin{minipage}{200pt}{\bf M-abzählbar} $\exists f.\mathbb{N}\rightarrow M$, Bew: f finden, Diagonalisierung\\{\bf M-aufzählbar} \ldots abzählbar und $f_M$ ist berechenbar, Bew: ist nicht $\mathcal{TR}$, Reduktion, Diagonalisierung\\{\bf M-entscheidbar} $TM_M$ hält an, $M$ und $\overline{M}$ ist aufzählbar Bew: Rice, Diagonalisierung\\{\bf M-semi-entscheidbar} immer auch aufzählbar\\{\bf Rekursivität} $\mathcal{PR}\subset\mathcal{TR}\subset\mathcal{R}$\\{\boldmath$L\in\mathcal{NP}$}  OTMs Lösung beschreiben und Prüfung mit DTM in $\mathcal{P}$ beschr.\\{\boldmath$L\in\mathcal{NPC}$}  NPC Prob $L'$ wählen und $x\in L' \Leftrightarrow f(x)\in L \equiv L'\leq_P L$\end{minipage}}\noindent\fbox{\begin{minipage}{200pt}{\bf Entscheidbar} Abgeschlossen: $\overline{M}, f^{-1}, \cup, \cap, M\setminus N$\\{\bf Aufzählbar}  Abgeschlossen: $f^{-1}, f(M), \cup, \cap$\end{minipage}}\noindent\fbox{\begin{minipage}{200pt}{\bf Partiell-Characteristisch}\[ \psi_M(i)=\left\{\begin{array}{l l}1 & \text{if } i\in M\\\perp & \text{sonst}\end{array}\right.\]{\bf Voll-Characteristisch}  $\chi$, wie $\Psi$ nur mit 0 statt $\perp$\\{\bf $\varphi_i$} Funktion der $TM_i$\\{\bf $\Phi_i$} Schrittfunktion der $TM_i$\end{minipage}}\noindent\fbox{\begin{minipage}{270pt}Primitive Rekursionsrechnung\begin{math}h = Pr[c^0_1,g],\; g=Pr[pr^1_1,pr^3_3]\\h(0) = 1\\h(1) = g(0,h(0)) = g(0,1) = Pr^3_3(0,0,g(0,0)) = g(0,0) = 0\\h(2) = g(1,h(1)) = g(1,0) = 1\\h(3) = g(2,h(2)) = g(2,1) = Pr^3_3(2,0,g(2,0)) = g(2,0) = 2\end{math}\end{minipage}}\noindent\fbox{\begin{minipage}{270pt}Primitive Rekursion aufstellen\begin{math}t_=(x,y) \left\{\begin{array}{l l}0 & \text{ falls } x=y\\1 & \text{ sonst }\end{array}\right.\\t_= = sign(add(sub(x,y),sub(y,x)))\\t_= = Pr[sign\circ pr^1_1, sign\circ add\circ(sub\circ(pr^3_1,s\circ pr^3_2),sub\circ(s\circ pr^3_2,pr^3_1))]\end{math}\end{minipage}}\noindent\fbox{\begin{minipage}{270pt}$\lambda$-Kalkül $\beta$-Reduktion für\begin{math}f(x) = 2x + 1\\add_f \equiv \lambda n .\lambda f.\lambda x.\overline{1} f \left( ( \lambda f.\lambda x.\overline{2} (n f) x ) f x \right)\\f(1) = add_f(\overline{1}) = \lambda n.\lambda f.\lambda x.\overline{1} f \big(\dots\big) \mbox{\boldmath$\overline{1}$}\end{math}\\Jetzt fein einsetzen und reduzieren\dots\\Dann die Church-Numerals durch ihre $\lambda$ Ausdrücke ersetzen\dots\\Dann weiter reduzieren\dots\\Dann muss sowas rauskommen: $\rightarrow \lambda f.\lambda x.f(f(f(x))) \equiv \lambda f.\lambda x.f^3 (x)\equiv\overline{3}$\end{minipage}}\noindent\fbox{\begin{minipage}{270pt}Widerspruch durch Diagonalisierung\\\begin{math}M = \{i\mid\forall n\in\mathbb{N}.\varphi_i(i)=1\} \text{ ist nicht rek. aufzählbar}\\\text{Annahme: } M \text{sei rek. aufzählbar}\\\text{Dann ist die part. charakt. Fkt.: }\psi_M(i)=\left\{\begin{array}{l l}1 & \text{falls } i\in M\\\perp & \text{sonst}\end{array}\right.\\\text{Definiere widersprüchliche Fkt.: }f(i)=\left\{\begin{array}{l l}2 & \text{falls } i\in M\\\perp & \text{sonst}\end{array}\right.\\(f \text{ ist berechenbar, da } f = \psi_M+1)\\\mbox{Folgl. gibt es eine TM die $\varphi_j$ berechnet, wobei $\varphi_j = f$}\\\mbox{Betrachte nun, wie sich $\varphi_j$ auf $j$ verhält}\\\varphi_j(j) = f(j) = \left\{\begin{array}{l}2 \text{ falls } (j\in M) \Leftrightarrow (\varphi_j(j)=\perp \vee \varphi_j(j) = 1) \text{NO!!}\\\perp \text{ falls } (j\notin M) \Leftrightarrow (\varphi_j(j)\neq\perp \wedge \varphi_j(j)\neq 1) \text{NO!!}\\\end{array}\right.\end{math}\end{minipage}}\noindent\fbox{\begin{minipage}{270pt}Beweis durch Satz von Rice\begin{math}M=\{i|\forall n\in\mathbb{N}.\varphi_i(n)=\perp\vee\varphi_i(n)=1\}\\\text{z.Z.: } M \text{ lässt sich als } L_P=\{i|\varphi_i\in P\} \text{ schreiben }\\\text{wobei für alle } i,j \text{ gilt: } (\varphi_i=\varphi_j\wedge\varphi_i\in P)\Rightarrow \varphi_j\in P\\\emptyset \neq P \neq \mathcal{R}\\i) P=\{f_i | f_i = \varphi_i \wedge (\forall n\in\mathbb{N}.\varphi_i(n)=\perp\vee\varphi_i(n)=1)\}\\\Rightarrow \forall i,j.(\varphi_i=\varphi_j\wedge\varphi_i\in P)\Rightarrow \varphi_j\in P\wedge M=L_P=\{i|\varphi_i\in P\}\\ii) \underline{\emptyset\neq P}: f(x) = 1 \equiv f = c^1_1 \Rightarrow \text{ ist berechenbar und damit ist P nicht leer}\\\underline{P\neq\mathcal{R}}: f(x) = 2 \equiv f = c^1_2 \Rightarrow \text{ ist berechenbar, aber nicht in P}\end{math}\end{minipage}}\noindent\fbox{\begin{minipage}{200pt}\end{minipage}}\end{document}
+{\bf Rice} $M_{umgeformt}=\{i|\varphi_i\in P\}\quad \emptyset\neq P\subset\mathcal{R}\Rightarrow M$ ist unentscheidbar\\
+{\bf Curch} alle intuitiv lösbaren Probs sind turing-lösbar\\
+{\bf Kleene-Normalform} alles berechenbare brauch max. 1 while $\equiv h(x) = g(x,\mu f(x))$, $f,g$ sind $\mathcal{PR}$\\
+{\bf Cook} $SAT \in \mathcal{NPC}$
+\end{minipage}}
+\noindent\fbox{\begin{minipage}{270pt}Primitive Rekursionsrechnung\begin{math}
+h = Pr[c^0_1,g],\; g=Pr[pr^1_1,pr^3_3]\\
+h(0) = 1\\
+h(1) = g(0,h(0)) = g(0,1) = Pr^3_3(0,0,g(0,0)) = g(0,0) = 0\\
+h(2) = g(1,h(1)) = g(1,0) = 1\\
+h(3) = g(2,h(2)) = g(2,1) = Pr^3_3(2,0,g(2,0)) = g(2,0) = 2
+\end{math}
+\end{minipage}}
+
+\noindent\fbox{\begin{minipage}{270pt}Primitive Rekursion aufstellen\begin{math}
+t_=(x,y) \left\{\begin{array}
+{l l}0 & \text{ falls } x=y\\
+1 & \text{ sonst }
+\end{array}\right.\\
+t_= = sign(add(sub(x,y),sub(y,x)))\\
+t_= = Pr[sign\circ pr^1_1, sign\circ add\circ(sub\circ(pr^3_1,s\circ pr^3_2),sub\circ(s\circ pr^3_2,pr^3_1))]
+\end{math}
+\end{minipage}}
+\noindent\fbox{\begin{minipage}{270pt}$\lambda$-Kalkül $\beta$-Reduktion für\begin{math}
+f(x) = 2x + 1\\
+add_f \equiv \lambda n .\lambda f.\lambda x.\overline{1} f \left( ( \lambda f.\lambda x.\overline{2} (n f) x ) f x \right)\\
+f(1) = add_f(\overline{1}) = \lambda n.\lambda f.\lambda x.\overline{1} f \big(\dots\big) \mbox{\boldmath$\overline{1}$}
+\end{math}\\
+Jetzt fein einsetzen und reduzieren\dots\\
+Dann die Church-Numerals durch ihre $\lambda$ Ausdrücke ersetzen\dots\\
+Dann weiter reduzieren\dots\\
+Dann muss sowas rauskommen: $\rightarrow \lambda f.\lambda x.f(f(f(x))) \equiv \lambda f.\lambda x.f^3 (x)\equiv\overline{3}$
+\end{minipage}}
+
+\noindent\fbox{\begin{minipage}{270pt}Widerspruch durch Diagonalisierung\\
+\begin{math}
+M = \{i\mid\forall n\in\mathbb{N}.\varphi_i(i)=1\} \text{ ist nicht rek. aufzählbar}\\
+\text{Annahme: } M \text{sei rek. aufzählbar}\\
+\text{Dann ist die part. charakt. Fkt.: }\psi_M(i)=\left\{\begin{array}
+{l l}1 & \text{falls } i\in M\\
+\perp & \text{sonst}
+\end{array}\right.\\
+\text{Definiere widersprüchliche Fkt.: }f(i)=\left\{\begin{array}
+{l l}2 & \text{falls } i\in M\\
+\perp & \text{sonst}
+\end{array}\right.\\
+(f \text{ ist berechenbar, da } f = \psi_M+1)\\
+\mbox{Folgl. gibt es eine TM die $\varphi_j$ berechnet, wobei $\varphi_j = f$}\\
+\mbox{Betrachte nun, wie sich $\varphi_j$ auf $j$ verhält}\\
+\varphi_j(j) = f(j) = \left\{\begin{array}
+{l}2 \text{ falls } (j\in M) \Leftrightarrow (\varphi_j(j)=\perp \vee \varphi_j(j) = 1) \text{NO!!}\\
+\perp \text{ falls } (j\notin M) \Leftrightarrow (\varphi_j(j)\neq\perp \wedge \varphi_j(j)\neq 1) \text{NO!!}\\
+\end{array}\right.
+\end{math}
+\end{minipage}}
+\noindent\fbox{\begin{minipage}{270pt}Beweis durch Satz von Rice\begin{math}
+M=\{i|\forall n\in\mathbb{N}.\varphi_i(n)=\perp\vee\varphi_i(n)=1\}\\
+\text{z.Z.: } M \text{ lässt sich als } L_P=\{i|\varphi_i\in P\} \text{ schreiben }\\
+\text{wobei für alle } i,j \text{ gilt: } (\varphi_i=\varphi_j\wedge\varphi_i\in P)\Rightarrow \varphi_j\in P\\
+\emptyset \neq P \neq \mathcal{R}\\
+i) P=\{f_i | f_i = \varphi_i \wedge (\forall n\in\mathbb{N}.\varphi_i(n)=\perp\vee\varphi_i(n)=1)\}\\
+\Rightarrow \forall i,j.(\varphi_i=\varphi_j\wedge\varphi_i\in P)\Rightarrow \varphi_j\in P\wedge M=L_P=\{i|\varphi_i\in P\}\\
+ii) \underline{\emptyset\neq P}: f(x) = 1 \equiv f = c^1_1 \Rightarrow \text{ ist berechenbar und damit ist P nicht leer}\\
+\underline{P\neq\mathcal{R}}: f(x) = 2 \equiv f = c^1_2 \Rightarrow \text{ ist berechenbar, aber nicht in P}
+\end{math}
+\end{minipage}}
+
+%\noindent\fbox{\begin{minipage}{200pt}
+%\end{minipage}}
+
+\end{document}
