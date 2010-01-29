@@ -42,11 +42,58 @@
 
 \end{abstract}
 \section{Introduction}
+
 \section{Project Management as a Service}
-\subsection{Using Mixins for Software-Configuration}
+DVCS/Git, Our plans, alternatives (Gitorious, GitHub FI, Gitauth)
+
+\section{Technical Stuff}
+
+\subsection{The Stack}
+Our project split into three major subprojects: Bithug (out actual project), BigBand (parts of Bithug you can use in any Sinatra Project), MonkeyLib (parts you can use in any Ruby project).
+
+Patched versions of krb5-auth (currently unmaintained) and Ohm.
+
+Other libraries we use: ...
+
+Stack is known to work on ...
+
+\subsection{Persistence}
+\subsubsection{Why no RDBS?}
+RDBS/ORMs: Big players for web development (AcitveRecord, ...)
+But fixed schema, does not fit our dynamic approach.
+Using a RDBS would mean either changing the table layout depending on special configuration or implementing a Key-Value-Store atop a RDBS.
+
+\subsubsection{A promising alternative: Maglev}
+Describe how awesome Maglev is.
+Does not support some of our dependencies (krb5-auth, compass)
+
+\subsubsection{Key-Value-Stores}
+describe idea.
+why redis -> simple (Casandra, Tokyo Cabinet), not AGPL (MongoDB), fast/more reliable (CouchDB)
+
+\subsection{Sinatra}
+Sinatra vs. Rails/Merb/Redis
+Complexity, enforcing usage, code generation sucks.
+BigBand
+
+\subsection{Using dynamic Inheritance as means of configuration}
+Mixins and stuff
+
+\section{WTF}
+
 \subsection{Scalability in Heterogeneous Environments}
+WTF?
+
 \section{Social Networks as Organizing Bodies}
+WTF?
+
 \subsection{The Lazy Web Concept}
+WTF?
+
 \subsection{Decentralization of Responsibilities}
+WTF?
+
 \subsection{Community-driven Innovation}
+WTF?
+
 \end{document}
