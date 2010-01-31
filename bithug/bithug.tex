@@ -28,11 +28,11 @@
 \title{Bithug - Social Coding}
 \subtitle{A Code Repository Management Platform for Social Networks}
 \titlerunning{Bithug}  % abbreviated title (for running head)
-\author{Tim Felgentreff\and Konstantin Haase\and Johannes Wollert}
+\author{Tim Felgentreff~ Konstantin Haase~ Johannes Wollert}
 \date{\today}
 \authorrunning{Felgentreff, Haase, Wollert}   % abbreviated author list (for running head)
-\tocauthor{Tim Felgentreff (Hasso-Plattner-Institute)\and
-	   Konstantin Haase (Hasso-Plattner-Institut)\and
+\tocauthor{Tim Felgentreff (Hasso-Plattner-Institute)\\
+	   Konstantin Haase (Hasso-Plattner-Institut)\\
 	   Johannes Wollert (Hasso-Plattner-Institut)}
 \institute{Social Web Applications Engineering, Internet Technologies and Systems, Hasso-Plattner-Institut, Universität Potsdam, D-14482 Potsdam, Germany,\\
 \email{\{tim.felgentreff, konstantin.haase, johannes.wollert\}@student.hpi.uni-potsdam.de}}
@@ -59,15 +59,40 @@ Stack is known to work on ...
 
 \subsection{Persistence}
 \subsubsection{Why no RDBS?}
-RDBS/ORMs: Big players for web development (AcitveRecord, ...)
-But fixed schema, does not fit our dynamic approach.
-Using a RDBS would mean either changing the table layout depending on special configuration or implementing a Key-Value-Store atop a RDBS.
+Traditionally, databases have focused on storing relational datasets. 
+Relational storage has the advantage, that data retrieval can be formulated in 
+a declarative way. These declaration can then be mathemtically optimized for 
+to meet specific time/space-constraints.
+Though relational datasets do not lend themselves very well to object-oriented 
+web-programming developers have gone to great length to provide easy-to-use 
+object-relational-mappers (ORM) to support RDBS storage in object-oriented 
+applications. Popular patterns in ORMs are the ActiveRecord-Pattern\cite{citation needed} 
+and DataMapper\cite{citation-needed}.
 
+There are several problems with this
+\begin{enumerate}
+  \item Going through an object-oriented language and mapping objects to 
+    relations will usually lead to many smaller queries instead of large 
+    ones, leaving less room for the RDBS to optimize. 
+  \item Mapping the dynamics of object-inheritance requires stunts like 
+    STI/MTI which either store more data than needed or are less efficient in 
+    their data-retrieval methods needing large joins to re-create objects.
+  \item Dynamic objects with polymorphic attributes require join- and 
+    attribute-tables which further reduce the performance of the RDBS.
+  \item Populated databases can be very difficult to migrate when the software 
+    evolves further away from the premier data-model.
+\end{enumerate}
+
+The rich-configurability we were aiming for with Bithug would require us to 
+provide migration strategies for setups changing their configurations as well 
+keeping the mapping general enough to allow easy transitions when implementing 
+new services.
 \subsubsection{A promising alternative: Maglev}
 Describe how awesome Maglev is.
 Does not support some of our dependencies (krb5-auth, compass)
 
 \subsubsection{Key-Value-Stores}
+Traditional 
 describe idea.
 why redis -> simple (Casandra, Tokyo Cabinet), not AGPL (MongoDB), fast/more reliable (CouchDB)
 
