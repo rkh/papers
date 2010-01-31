@@ -61,7 +61,7 @@ Stack is known to work on ...
 \subsubsection{Why no RDBS?}
 Traditionally, databases have focused on storing relational datasets. 
 Relational storage has the advantage, that data retrieval can be formulated in 
-a declarative way. These declaration can then be mathemtically optimized for 
+a declarative way. These declaration can then be mathematically optimized for 
 to meet specific time/space-constraints.
 Though relational datasets do not lend themselves very well to object-oriented 
 web-programming developers have gone to great length to provide easy-to-use 
@@ -134,7 +134,16 @@ moderate budget and growing over time this is the optimal scenario where the
 return-on-investment can literally be met by the first customer paying for one 
 server.
 
-
+\subsubsection{The Store of our Choice}
+In the Ruby world, there are some KV-Stores worth looking into, some of which 
+are fast and simple to use, others which have a more advanced API but provide 
+additional features that go beyond a "simple" hashing KV-Store. One of the most 
+prominent solutions might be MongoDB. It is a document-oriented database, 
+meaning its data is composed of simple key-value constructs that together form a 
+larger chunk of data. It is quite simple to use and provides much of the querying 
+capabilities of the traditional SQL database, though it's queries are not as 
+pretty as Redis'. Though it is reasonably fast, MongoDB cannot compete with the 
+blazing speed of simpler databases.
 
 why redis -> simple (Casandra, Tokyo Cabinet), not AGPL (MongoDB), fast/more reliable (CouchDB)
 
