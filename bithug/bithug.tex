@@ -138,21 +138,23 @@ server.
 In the Ruby world, there are lots of alternative KV-Stores to chose from, some of which 
 are fast and simple to use, others which have a more advanced API but provide 
 additional features that go beyond a simple hashing KV-Store.
-\subsubsubsection{Tokyo Cabinet}
-Tokyo Cabinet, a quite speedy and promising candidate, is a powerful 
-and, being tested and tested aigan, production-ready\cite{cite mixi} tool. 
-Despite these advantages, we have made a descision aiganst it, mainly because 
-the original interface is not pretty to look at at all and the loss of speed when 
-using wrappers such as the rufus-tokyo gem is considerable. Yet, there is some 
-development being made and Tokyo Cabinet might be a Store worth looking into.
-\subsubsubsection{MongoDB}
-Another database we considered using is MongoDB. 
-It is a document-oriented database, meaning its data is composed of simple 
-key-value constructs that together form a larger chunk of data. It is quite 
-easy to use and provides much of the querying capabilities of the traditional 
-SQL database, though it's queries are not plain as Redis'. Though it is 
-reasonably fast, MongoDB cannot compete with the blazing speed of simpler 
-databases.
+\begin{enumerate}
+  \item{Tokyo Cabinet}
+    Tokyo Cabinet, a quite speedy and promising candidate, is a powerful 
+    and, being tested and tested aigan, production-ready\cite{cite mixi} tool. 
+    Despite these advantages, we have made a descision aiganst it, mainly because 
+    the original interface is not pretty to look at at all and the loss of speed when 
+    using wrappers such as the rufus-tokyo gem is considerable. Yet, there is some 
+    development being made and Tokyo Cabinet might be a Store worth looking into.
+  \item{MongoDB}
+    Another database we considered using is MongoDB. 
+    It is a document-oriented database, meaning its data is composed of simple 
+    key-value constructs that together form a larger chunk of data. It is quite 
+    easy to use and provides much of the querying capabilities of the traditional 
+    SQL database, though it's queries are not plain as Redis'. Though it is 
+    reasonably fast, MongoDB cannot compete with the blazing speed of simpler 
+    databases.
+\end{enumerate}
 
 
 
