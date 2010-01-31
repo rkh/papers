@@ -57,11 +57,11 @@ their own social network where they could show off their interests and skills:
 the social coding site \emph{Github}\cite{github:www}. On Github, a user can 
 create code repositories and freely share code with everyone else on the network.
 Other users or projects can be ``followed'' which means, that every action on 
-and by the followee is reported in a feed (on page and via RSS). Commits
+and by the followed user is reported in a feed (on page and via RSS). Commits
 can be commented on, people can collaborate on projects and code is online and 
-browseable.
+browsable.
 All repositories on Github are initially open, however, for a monthly fee you 
-can buy private space on Github where only people who have been explicitely 
+can buy private space on Github where only people who have been explicitly 
 granted access can view code.
 \subsection{Why Social?}
 In the past, the sufficiency of self-organizing social networks even on large 
@@ -76,8 +76,19 @@ network for exchanging ideas and organizing projects in a smaller university
 or corporate environment to form a ``community'' much like the open-source 
 community which has formed on Github.
 \subsection{The Lazy Web Concept}
+Another change in how the web is used has come about through pages like 
+FriendFeed, Twitter and most recently Facebook Lite. They provide short 
+messaging services to post notes. \emph{Friends} or \emph{Followers} can
+receive and read those messages \ldots or not. \\
+This is the concept we the ``Lazy Web'', where content is not generated 
+necessarily to be read, but to be there, if anybody is interested. Combined 
+with social networks, important or interesting information will find its way 
+around as others will carry on the message.
 
-
+We want Bithug to integrate with services like Twitter to enable our users to
+generate content about their activity and projects and possibly discuss them on
+other services as well. Also, this way we provide integration with the 
+information flow some consumers of the web have come to enjoy.
 \section{Project Management as a Service}
 Bithug, as an alternative code hosting service, intends to focus on the people 
 behind the code. That means, common hosting features such as forking and creating 
@@ -103,12 +114,70 @@ Stack is known to work on ...
 \input{persistence}
 
 \subsection{Sinatra}
-Sinatra vs. Rails/Merb/Redis
-Complexity, enforcing usage, code generation sucks.
-BigBand
+Sinatra is a ruby web framework\cite{sinatra:www}, lately becoming a popular alternative to Ruby On Rails and Merb.
+In contrast to those is has a small code base, does not ship with and persistence layer and does not focus on code
+generation. In many cases this will result in better performance than a Rails application, especially for single
+purpose applications, since the code size of Rails alone causes such a long dispatch that Sinatra performs much better.
 
-\subsection{Using dynamic Inheritance as means of configuration}
-Mixins and stuff
+Having a small and clean code base can also be useful, as it is easy for a developer to understand what is going on under the hood.
+Also, for some not offering a out of the box ORM solution is a feature, rather than a short-coming, as it is easier to
+choose another solution if the system does not assume it is coping with its own ORM (ActiveRecord, in that case). However,
+it should be mentioned that those disadvantages have been reduced or removed in the upcoming Rails milestone 3.0.
+
+\subsection{Using dynamic inheritance as means of configuration}
+In class-based object-oriented programming inheritance is often used as specialization.
+For instance, in an application managing costumers, the class Costumer might have the same
+superclass as the class Administrator, as they might share some common logic and attributes.
+
+This behavior can be used for application configuration, where one configuration option can be seen
+as a special class inheriting from a more general Application class. In our application we use this
+approach for our two core classes: User and Repository.
+
+For instance: You want to use Kerberos authentication. With the previous explanation it could be possible
+to have a Kerberos::User class, inheriting from Bithug::User, overwriting the authentication method.
+This is actually very close to what we do internally. As you might suspect this approach fails when offering
+combinable options. What if you to offer Kerberos and LDAP authentication both as stand-alone solution or
+on as a fallback for the other (which is a typical network setup, in our experience). In a language that offers
+multiple inheritance, you could create the classes Kerberos::User and Ldap::User, that both inherit from Bithug::User
+and than create the classes KerberosWithLdapFallback::User and LdapWithKerberosFallback::User both inheriting
+from Kerberos::User and Ldap::User. Would this language not be able to define classes at runtime, it would even be
+more complicated, as you would have to generate all possible combinations at compile time. Ruby however does offer
+runtime creation of classes. But it does lack multiple inheritance.
+
+A third approach would be to change a classes inheritance chain by altering its superclass at runtime (or at compile
+time, for that matter, which would be less dynamic). Upfront: Even though this is possible in most Ruby implementations,
+it is considered extremely dangerous\footnote{Apart from maybe even seriously breaking your object space, you would have
+to clear a couple of caches used by the underlying Ruby implementation to speed up method dispatch.}, and is not used
+by Bithug. It should still be explained, as it helps to understand our implementation for not familiar with the Ruby
+method dispatch. Let us take the above example: To configure a system that would first try to authenticate against Kereberos
+and if that fails try LDAP authentication, you could change the superclass of Kerberos::User to Ldap::User which still
+is a subclass of Bithug::User. If you implement a method Bithug::User.authenticate(login, password), that should return
+true if authentication succeeds and false otherwise. Now, if Bithug::User.authenticate always returns false and both
+Kerberos::User.authenticate and Ldap::User.authenticate return true if the authentication against LDAP/Kerberos succeeds,
+the result of their superclass's authenticate the setup would be complete. This approach is somewhat comparable to context-
+or aspect-oriented programming, where you are able to wrap aspects around an object\cite{apel2006aspectual}.
+
+Ruby supports a concept called Mixins\cite{apel2004using}. Mixins are one use case for Ruby modules\footnote{Others are namespacing
+and classes without instances.}. A Ruby module is defined like a Ruby class. You can define both instance and singleton
+methods\footnote{Methods defined on class side, also known as class methods.}. However, as you cannot instantiate a module,
+its instance methods are not directly usable. You can include such a module in a class. It is a common misbelieve – even among
+long time rubyists – that by doing so the unbound methods\footnote{Ruby term for not yet belonging to an object, thus not being
+callable.} are copied to the class and by doing so overwriting existing methods. In reality when including a module in a class,
+a new class is created, containing all the modules instance methods. That class is inserted in the inheritance chain in-between
+the original class and its superclass (or previously included modules). This allows a similar usage as changing the superclass
+without its complications.
+
+However, if you followed the above explanation closely, you might already see two major issues with that approach. As mentioned,
+only the instance methods become part of the new class. The singleton methods are already bound to the module and cannot be
+rebound to the class. The solution is a common pattern one will often fine in ruby programs: Use another mixin for the class methods
+and include that mixin in the singleton class\footnote{A class every object in ruby has. It keeps all the singleton methods of an
+object as instance methods and has that object as sole instance – hence singleton class.}.
+
+The other problem is, that a module is inserted after the class in the inheritance chain, not in front of it. In the Kerberos/LDAP
+example, Bithug::User.authenticate would always return false, since the Kerberos and LDAP implementations never get called. Our
+solution to that is to have an empty class (i.e. without method definitions) called Bithug::User subclassing Bithug::AbstractUser.
+All our common logic is placed inside AbstractUser. Now, if we include a module in Bithug::User, it is inserted in front of AbstractUser
+in the inheritance chain, thus getting called.
 
 \section*{Acknowledgments}
 \bibliographystyle{splncs}
