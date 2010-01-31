@@ -81,12 +81,13 @@ additional features that go beyond a simple hashing KV-Store. Here are a few
 examples of databases we considered using for Bithug.
 \begin{enumerate}
   \item
-    Tokyo Cabinet, a quite speedy and promising candidate, is a powerful 
-    and, being tested and tested aigan, production-ready\cite{cite mixi} tool. 
+    Tokyo Cabinet, a quite speedy\cite{tcbench} and promising candidate, 
+    is a powerful and, being tested and tested aigan, production-ready tool.
     Despite these advantages, we have made a descision aiganst it, mainly because 
-    the original interface is not pretty to look at at all and the loss of speed when 
-    using wrappers such as the rufus-tokyo gem is considerable. Yet, there is some 
-    development being made and Tokyo Cabinet might be a Store worth looking into.
+    the original Ruby interface is not pretty to look at at all and the loss of 
+    speed when using wrappers such as the rufus-tokyo gem is considerable. 
+    Yet, there is some development being made and Tokyo Cabinet might be a 
+    Store worth looking into in the future.
   \item
     MongoDB is a document-oriented database, meaning its data is composed of simple 
     key-value constructs that together form a larger chunk of data. It is quite 
@@ -95,16 +96,16 @@ examples of databases we considered using for Bithug.
     reasonably fast, MongoDB cannot compete with the blazing speed of simpler 
     databases.
   \item
-    Cassandra is a quite young Open Source implementation of the BigTable DBS, \cite{chang2006bigtable}
+    Cassandra is a quite young Open Source implementation of the BigTable DBS\cite{chang2006bigtable}, 
     with the purpose of creating an easily scalable DBMS. The key to this is 
     the concept of weak consistency, similar to a DNS-Service or 
-    Amazons KV-Store Dynamo. \cite{decandia2007dynamo}
+    Amazons KV-Store Dynamo\cite{decandia2007dynamo}.
     Although it is a promising concept, the Ruby API for Cassandra is neither stable 
     nor attractive, and therefor far from production-ready. Additionally, the 
     BigTable structure is a column-based architecture and needs some time to get 
     used to.
   \item
-    Redis is a very leightweight and incredibly fast \cite{haines2009redis} 
+    Redis is a very leightweight and incredibly fast\cite{haines2009redis} 
     in-memory database. Its Ruby API is very simple, yet effective and 
     sufficiently deep, as it offers easy manipulation of lists and sets. 
     Although Redis does not provide advanced scalability features as Cassandra 
