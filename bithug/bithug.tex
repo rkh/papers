@@ -102,8 +102,40 @@ young implementation of Ruby and it does not yet support enough of the features
 we require in Bithug, most importantly the CSS-compiled style-sheet language 
 SASS and the Kerberos authentication plug-in we provide for company networks.
 \subsubsection{Key-Value-Stores}
-Traditional 
-describe idea.
+Key-value stores have emerged in the last few years as an alternative to 
+relational database management systems for some data storage tasks. 
+Redis, BigTable, and Casandra are just three of the players in this buzzing
+area of database systems. Key-value stores promise to solve the problems we 
+met while writing Bithug:
+\begin{enumerate}
+  \item Fast for a great many small queries
+  \item Moderate hardware requirements for small setups
+  \item Easy scalability through sharding
+  \item Atomic operations and automatic consistency
+  \item Elastic, yet simple data model which is easily extensible at runtime
+\end{enumerate}
+
+At the most basic level, key-value stores are really simply what the name 
+suggests, that is, simple hash-maps or trees which map keys to values. Those 
+structures have very fast lookup times for simple key and range queries though 
+they get considerably slower and memory hungry when larger and more diverse 
+queries are involved. However, if the main task of a persistance layer will be
+retrieving values for keys or ranges of keys, these structures \emph{will} 
+be\cite{citation needed} considerable faster than RDBS.
+
+KV-stores like CouchDB or MongoDB provide REST-interfaces to their 
+databases. This allows them to be easily replicated behind a load-balancer 
+leading to virtually unlimited scalability. Additionally, the data-structures 
+and their applications for storage are limited, but simple 
+and do not require difficult setup or up-to-date hardware. 
+
+For a web-application starting with
+moderate budget and growing over time this is the optimal scenario where the 
+return-on-investment can literally be met by the first customer paying for one 
+server.
+
+
+
 why redis -> simple (Casandra, Tokyo Cabinet), not AGPL (MongoDB), fast/more reliable (CouchDB)
 
 \subsection{Sinatra}
