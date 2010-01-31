@@ -98,17 +98,7 @@ number of web services, authentication methods and repository settings. Because
 we intend enabling Bithug to be used in an academic context and smaller companies, 
 configuration needs to be easily personalized and highly versatile.
 
-\section{Technical Stuff}
-
-\subsection{The Stack}
-Our project split into three major subprojects: Bithug (out actual project), BigBand (parts of Bithug you can use in any Sinatra Project), MonkeyLib (parts you can use in any Ruby project).
-
-Patched versions of krb5-auth (currently unmaintained) and Ohm.
-
-Other libraries we use: ...
-
-Stack is known to work on ...
-
+\section{Design and Technical Execution}
 \subsection{Persistence}
 \input{persistence}
 
@@ -178,7 +168,6 @@ solution to that is to have an empty class (i.e. without method definitions) cal
 All our common logic is placed inside AbstractUser. Now, if we include a module in Bithug::User, it is inserted in front of AbstractUser
 in the inheritance chain, thus getting called.
 
-\section*{Acknowledgments}
 \bibliographystyle{splncs}
 \bibliography{bithug}
 \clearpage

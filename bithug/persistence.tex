@@ -1,4 +1,4 @@
-\subsubsection{Why no RDBS?}
+\subsubsection*{Why no RDBS?}
 Traditionally, databases have focused on storing relational datasets. 
 Relational storage has the advantage, that data retrieval can be formulated in 
 a declarative way. These declaration can then be mathematically optimized for 
@@ -27,7 +27,7 @@ The rich configurability we were aiming for with Bithug would require us to
 provide migration strategies for setups changing their configurations as well 
 keeping the mapping general enough to allow easy transitions when implementing 
 new services.
-\subsubsection{A promising alternative: Maglev}
+\subsubsection*{A promising alternative: Maglev}
 Maglev is a Ruby implementation atop GemStone/S, the Smalltalk 
 object-persistence system. GemStone is an object-oriented database able to 
 serialize objects in the runtime environment transparently, taking care of 
@@ -41,7 +41,7 @@ Maglev would have solved the problem of persistence. However, Maglev is a very
 young implementation of Ruby and it does not yet support enough of the features
 we require in Bithug, most importantly the CSS-compiled style-sheet language 
 SASS and the Kerberos authentication plug-in we provide for company networks.
-\subsubsection{Key-Value-Stores}
+\subsubsection*{Key-Value-Stores}
 Key-value stores have emerged in the last few years as an alternative to 
 relational database management systems for some data storage tasks. 
 Redis, BigTable, and Casandra are just three of the players in this buzzing
@@ -74,7 +74,7 @@ moderate budget and growing over time this is the optimal scenario where the
 return-on-investment can literally be met by the first customer paying for one 
 server.
 
-\subsubsection{The Store of our Choice}
+\subsubsection*{The Store of our Choice}
 In the Ruby world, there are lots of alternative KV-Stores to chose from, some of which 
 are fast and simple to use, others which have a more advanced API but provide 
 additional features that go beyond a simple hashing KV-Store. Here are a few 
