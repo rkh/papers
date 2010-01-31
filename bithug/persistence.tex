@@ -93,23 +93,25 @@ examples of databases we considered using for Bithug.
     easy to use and provides much of the querying capabilities of the traditional 
     SQL database, though it's queries are not plain as Redis'. Though it is 
     reasonably fast, MongoDB cannot compete with the blazing speed of simpler 
-    databases.\cite{citation needed}
+    databases.
   \item
-    Cassandra is a quite young Open Source implementation of the BigTable DBS, \cite{BigTable-Stuff!}
+    Cassandra is a quite young Open Source implementation of the BigTable DBS, \cite{chang2006bigtable}
     with the purpose of creating an easily scalable DBMS. The key to this is 
-    the concept of weak consistency, similar to a DNS-Service \cite{citation needed}.
+    the concept of weak consistency, similar to a DNS-Service or 
+    Amazons KV-Store Dynamo. \cite{decandia2007dynamo}
     Although it is a promising concept, the Ruby API for Cassandra is neither stable 
     nor attractive, and therefor far from production-ready. Additionally, the 
     BigTable structure is a column-based architecture and needs some time to get 
     used to.
   \item
-    Redis is a very leightweight and incredibly fast in-memory database. Its 
-    Ruby API is very simple, yet effective and sufficiently deep, as it offers 
-    easy manipulation of lists and sets. Although Redis does not provide 
-    advanced scalability features as Cassandra does, the ruby library supports 
-    hashing and distributing over multiple servers. To achieve its remarkable 
-    speed however, Redis uses fully asynchronous write operations, thereby 
-    sacrificing consistency for speed and scalability.
+    Redis is a very leightweight and incredibly fast \cite{haines2009redis} 
+    in-memory database. Its Ruby API is very simple, yet effective and 
+    sufficiently deep, as it offers easy manipulation of lists and sets. 
+    Although Redis does not provide advanced scalability features as Cassandra 
+    does, the ruby library supports hashing and distributing over multiple 
+    servers. To achieve its remarkable speed however, Redis uses fully 
+    asynchronous write operations, thereby sacrificing consistency for speed 
+    and scalability.
 \end{enumerate}
 
 Because of the ease of use and its raw speed, in addition to the existing 
