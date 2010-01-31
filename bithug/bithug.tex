@@ -153,11 +153,27 @@ additional features that go beyond a simple hashing KV-Store.
     SQL database, though it's queries are not plain as Redis'. Though it is 
     reasonably fast, MongoDB cannot compete with the blazing speed of simpler 
     databases.
+  \item{Cassandra}
+    Cassandra is a quite young implementation of the BigTable \cite{BigTable-Stuff!}
+    DBS, with the purpose of creating an easily scalable DBMS. The key to this is 
+    the concept of weak consistency, similar to a DNS-Service \cite{citation needed}.
+    Although it is a promising concept, the Ruby API for Cassandra is neither stable 
+    nor attractive, and therefor far from production-ready. Additionally, the 
+    BigTable structure is a column-based architecture and needs some time to get 
+    used to.
+  \item{Redis}
+    Redis is a very leightweight and incredibly fast in-memory database. The API 
+    is very simple, yet effective and sufficiently deep. Although it does not 
+    provide advanced scalability features as Cassandra does, the ruby library 
+    supports hashing and distributing over multiple servers. To achieve its 
+    remarkable speed however, Redis uses fully asynchronous write operations, 
+    thereby sacrificing consistency for speed and scalability.
 \end{enumerate}
 
-
-
-why redis -> simple (Casandra, Tokyo Cabinet), not AGPL (MongoDB), fast/more reliable (CouchDB)
+Because of the ease of use and its raw speed, in addition to the existing 
+capabilities of Ohm, we decided to use the Redis Key-Value Store. However, 
+with the growing usability of backend unaware Ruby interfaces such as Moneta, 
+it may not be a final decision.
 
 \subsection{Sinatra}
 Sinatra vs. Rails/Merb/Redis
