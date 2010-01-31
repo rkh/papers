@@ -87,9 +87,15 @@ Stack is known to work on ...
 \input{persistence}
 
 \subsection{Sinatra}
-Sinatra vs. Rails/Merb/Redis
-Complexity, enforcing usage, code generation sucks.
-BigBand
+Sinatra is a ruby web framework\cite{sinatra:www}, lately becoming a popular alternative to Ruby On Rails and Merb.
+In contrast to those is has a small code base, does not ship with and persistence layer and does not focus on code
+generation. In many cases this will result in better performance than a Rails application, especially for single
+purpose applications, since the code size of Rails alone causes such a long dispatch that Sinatra performs much better.
+
+Having a small and clean code base can also be useful, as it is easy for a developer to understand what is going on under the hood.
+Also, for some not offering a out of the box ORM solution is a feature, rather than a short-coming, as it is easier to
+choose another solution if the system does not assume it is coping with its own ORM (ActiveRecord, in that case). However,
+it should be mentioned that those disadvantages have been reduced or removed in the upcoming Rails milestone 3.0.
 
 \subsection{Using dynamic inheritance as means of configuration}
 In class-based object-oriented programming inheritance is often used as specialization.
