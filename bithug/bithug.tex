@@ -100,16 +100,36 @@ number of webservices, authentication methods and repository settings. Because
 we intend enabling Bithug to be used in an academic context and smaller companies, 
 configuration needs to be easily personalized and highly versatile.
 
-\section{Technical Stuff}
+\section{The Technical Side}
 
 \subsection{The Stack}
-Our project split into three major subprojects: Bithug (out actual project), BigBand (parts of Bithug you can use in any Sinatra Project), MonkeyLib (parts you can use in any Ruby project).
 
-Patched versions of krb5-auth (currently unmaintained) and Ohm.
+Our project is split into three major subprojects:
+\begin{itemize}
+  \item Bithug (our actual project)
+  \item BigBand (parts of Bithug you can use in any Sinatra Project)
+  \item MonkeyLib (parts you can use in any Ruby project)
+\end{itemize}
 
-Other libraries we use: ...
+In the course of the implementation, several changes and bugfixes where
+necessary in
+\begin{itemize}
+  \item krb5-auth (currently unmaintained) 
+  \item ohm
+\end{itemize}
 
-Stack is known to work on ...
+Other Libraries that we currently use are
+\begin{itemize}
+  \item chronic
+  \item compass
+  \item haml
+  \item oauth
+  \item mime-types
+  \item rack
+  \item rspec
+  \item twitter-oauth
+  \item yard
+\end{itemize}
 
 \subsection{Persistence}
 \input{persistence}
