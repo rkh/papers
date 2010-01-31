@@ -63,32 +63,30 @@ browsable.
 All repositories on Github are initially open, however, for a monthly fee you 
 can buy private space on Github where only people who have been explicitly 
 granted access can view code.
-\subsection{Why Social?}
+\subsubsection*{Why Social?}
 In the past, the sufficiency of self-organizing social networks even on large 
 scale projects has been demonstrated by open-source like the Linux 
 Kernel\cite{kernel:www}, X.org\cite{xorg:www} or the GNU Project\cite{gnu:www}.
-In their footsteps, emerging social websites time\cite{facebook:help} and 
-time\cite{facebook:organize} again\cite{twitter:organize} have proven how losely
-tied bodies are capable of organizing large events.
+In their footsteps, emerging social websites time and time again have proven how 
+loosely tied bodies are capable of organizing large 
+events.\cite{facebook:help}\cite{twitter:organize}\cite{facebook:organize}
 
 In this manner, we want Bithug not only to be a service to host code, but a 
 network for exchanging ideas and organizing projects in a smaller university 
 or corporate environment to form a ``community'' much like the open-source 
 community which has formed on Github.
-\subsection{The Lazy Web Concept}
-Another change in how the web is used has come about through pages like 
+\subsubsection*{The Lazy Web}
+Another change in how the web is used has come about with services like 
 FriendFeed, Twitter and most recently Facebook Lite. They provide short 
 messaging services to post notes. \emph{Friends} or \emph{Followers} can
-receive and read those messages \ldots or not. \\
-This is the concept we know as the ``Lazy Web'', where content is not generated 
-necessarily to be read, but to be there, if anybody is interested. Combined 
-with social networks, important or interesting information will find its way 
-around as others will carry on the message.
+receive and read those messages \ldots or not.\\
+This is the concept we the ``Lazy Web'', where content is not generated 
+necessarily to be read. In social networks, important information will find 
+its way around.
 
-We want Bithug to integrate with services like Twitter to enable our users to
-generate content about their activity and projects and possibly discuss them on
-other services as well. Also, this way we provide integration with the 
-information flow some consumers of the web have come to enjoy.
+We want Bithug to integrate with services like Twitter to let users generate 
+content about their activity. We hope that this will integrate with the 
+information flow some users might have come to like.
 
 \section{Project Management as a Service}
 Bithug, as an alternative code hosting service, intends to focus on the people 
@@ -96,7 +94,7 @@ behind the code. That means, common hosting features such as forking and creatin
 repositories are made possible, but the most rewarding features lie in notifying 
 the people involved in a project and giving them a platform to communicate on. As 
 people and projects are be highly diverse, we intend to offer and integrate a 
-number of webservices, authentication methods and repository settings. Because 
+number of web services, authentication methods and repository settings. Because 
 we intend enabling Bithug to be used in an academic context and smaller companies, 
 configuration needs to be easily personalized and highly versatile.
 
@@ -170,7 +168,7 @@ time, for that matter, which would be less dynamic). Upfront: Even though this i
 it is considered extremely dangerous\footnote{Apart from maybe even seriously breaking your object space, you would have
 to clear a couple of caches used by the underlying Ruby implementation to speed up method dispatch.}, and is not used
 by Bithug. It should still be explained, as it helps to understand our implementation for not familiar with the Ruby
-method dispatch. Let us take the above example: To configure a system that would first try to authenticate against Kereberos
+method dispatch. Let us take the above example: To configure a system that would first try to authenticate against Kerberos
 and if that fails try LDAP authentication, you could change the superclass of Kerberos::User to Ldap::User which still
 is a subclass of Bithug::User. If you implement a method Bithug::User.authenticate(login, password), that should return
 true if authentication succeeds and false otherwise. Now, if Bithug::User.authenticate always returns false and both
@@ -181,7 +179,7 @@ or aspect-oriented programming, where you are able to wrap aspects around an obj
 Ruby supports a concept called Mixins\cite{apel2004using}. Mixins are one use case for Ruby modules\footnote{Others are namespacing
 and classes without instances.}. A Ruby module is defined like a Ruby class. You can define both instance and singleton
 methods\footnote{Methods defined on class side, also known as class methods.}. However, as you cannot instantiate a module,
-its instance methods are not directly usable. You can include such a module in a class. It is a common misbelieve – even among
+its instance methods are not directly usable. You can include such a module in a class. It is a common misconception – even among
 long time rubyists – that by doing so the unbound methods\footnote{Ruby term for not yet belonging to an object, thus not being
 callable.} are copied to the class and by doing so overwriting existing methods. In reality when including a module in a class,
 a new class is created, containing all the modules instance methods. That class is inserted in the inheritance chain in-between
@@ -196,7 +194,7 @@ object as instance methods and has that object as sole instance – hence single
 
 The other problem is, that a module is inserted after the class in the inheritance chain, not in front of it. In the Kerberos/LDAP
 example, Bithug::User.authenticate would always return false, since the Kerberos and LDAP implementations never get called. Our
-solution to that is to have an empty class (i.e. without method definitions) called Bithug::User subclassing Bithug::AbstractUser.
+solution to that is to have an empty class (i.e. without method definitions) called Bithug::User sub classing Bithug::AbstractUser.
 All our common logic is placed inside AbstractUser. Now, if we include a module in Bithug::User, it is inserted in front of AbstractUser
 in the inheritance chain, thus getting called.
 
