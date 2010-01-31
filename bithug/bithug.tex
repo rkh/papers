@@ -65,8 +65,8 @@ to meet specific time/space-constraints.
 Though relational datasets do not lend themselves very well to object-oriented 
 web-programming developers have gone to great length to provide easy-to-use 
 object-relational-mappers (ORM) to support RDBS storage in object-oriented 
-applications. Popular patterns in ORMs are the ActiveRecord-Pattern\cite{citation needed} 
-and DataMapper\cite{citation-needed}.
+applications. Popular patterns in ORMs are the ActiveRecord-Pattern
+and DataMapper\cite{paikens-use}.
 
 There are several problems with this
 \begin{enumerate}
@@ -92,7 +92,7 @@ object-persistence system. GemStone is an object-oriented database able to
 serialize objects in the runtime environment transparently, taking care of 
 object-references and garbage-collection automatically.
 
-GemStone is not a new system\cite{citation needed} for persistence, but only
+GemStone is not a new system\cite{butterworth1991gemstone} for persistence, but only
 in recent years has it become sufficiently advanced to compete with traditional
 RDMS speed-wise. Its great strength is the built-in support for 
 object-orientation: anything the language can do, the server can persist. Using
@@ -120,7 +120,7 @@ structures have very fast lookup times for simple key and range queries though
 they get considerably slower and memory hungry when larger and more diverse 
 queries are involved. However, if the main task of a persistance layer will be
 retrieving values for keys or ranges of keys, these structures \emph{will} 
-be\cite{citation needed} considerable faster than RDBS.
+be\cite{chang2006bigtable} considerable faster than RDBS.
 
 KV-stores like CouchDB or MongoDB provide REST-interfaces to their 
 databases. This allows them to be easily replicated behind a load-balancer 
@@ -164,6 +164,6 @@ WTF?
 
 \section*{Acknowledgments}
 \bibliographystyle{splncs}
-\bibliography{bibtex}
+\bibliography{bithug}
 \clearpage
 \end{document}
