@@ -1,7 +1,7 @@
 \subsubsection{Why no RDBS?}
 Traditionally, databases have focused on storing relational datasets. 
 Relational storage has the advantage, that data retrieval can be formulated in 
-a declarative way. These declaration can then be mathemtically optimized for 
+a declarative way. These declaration can then be mathematically optimized for 
 to meet specific time/space-constraints.
 Though relational datasets do not lend themselves very well to object-oriented 
 web-programming developers have gone to great length to provide easy-to-use 
@@ -23,7 +23,7 @@ There are several problems with this
     evolves further away from the premier data-model.
 \end{enumerate}
 
-The rich-configurability we were aiming for with Bithug would require us to 
+The rich configurability we were aiming for with Bithug would require us to 
 provide migration strategies for setups changing their configurations as well 
 keeping the mapping general enough to allow easy transitions when implementing 
 new services.
@@ -59,7 +59,7 @@ At the most basic level, key-value stores are really simply what the name
 suggests, that is, simple hash-maps or trees which map keys to values. Those 
 structures have very fast lookup times for simple key and range queries though 
 they get considerably slower and memory hungry when larger and more diverse 
-queries are involved. However, if the main task of a persistance layer will be
+queries are involved. However, if the main task of a persistence layer will be
 retrieving values for keys or ranges of keys, these structures \emph{will} 
 be\cite{chang2006bigtable} considerable faster than RDBS.
 
@@ -82,8 +82,8 @@ examples of databases we considered using for Bithug.
 \begin{enumerate}
   \item
     Tokyo Cabinet, a quite speedy\cite{tcbench} and promising candidate, 
-    is a powerful and, being tested and tested aigan, production-ready tool.
-    Despite these advantages, we have made a descision aiganst it, mainly because 
+    is a powerful and, being tested and tested again, production-ready tool.
+    Despite these advantages, we have made a decision against it, mainly because 
     the original Ruby interface is not pretty to look at at all and the loss of 
     speed when using wrappers such as the rufus-tokyo gem is considerable. 
     Yet, there is some development being made and Tokyo Cabinet might be a 
@@ -105,7 +105,7 @@ examples of databases we considered using for Bithug.
     BigTable structure is a column-based architecture and needs some time to get 
     used to.
   \item
-    Redis is a very leightweight and incredibly fast\cite{haines2009redis} 
+    Redis is a very lightweight and incredibly fast\cite{haines2009redis} 
     in-memory database. Its Ruby API is very simple, yet effective and 
     sufficiently deep, as it offers easy manipulation of lists and sets. 
     Although Redis does not provide advanced scalability features as Cassandra 
