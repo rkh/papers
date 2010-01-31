@@ -122,17 +122,17 @@ is a subclass of Bithug::User. If you implement a method Bithug::User.authentica
 true if authentication succeeds and false otherwise. Now, if Bithug::User.authenticate always returns false and both
 Kerberos::User.authenticate and Ldap::User.authenticate return true if the authentication against LDAP/Kerberos succeeds,
 the result of their superclass's authenticate the setup would be complete. This approach is somewhat comparable to context-
-or aspect-oriented programming, where you are able to wrap aspects around an object.
+or aspect-oriented programming, where you are able to wrap aspects around an object\cite{apel2006aspectual}.
 
-Ruby supports a concept called Mixins. Mixins are one use case for Ruby modules\footnote{Others are namespacing and classes
-without instances.}. A Ruby module is defined like a Ruby class. You can define both instance and singleton methods\footnote{Methods
-defined on class side, also known as class methods.}. However, as you cannot instantiate a module, its instance methods
-are not directly usable. You can include such a module in a class. It is a common misbelieve – even among long time rubyists – that
-by doing so the unbound methods\footnote{Ruby term for not yet belonging to an object, thus not being callable.} are copied
-to the class and by doing so overwriting existing methods. In reality when including a module in a class, a new class is
-created, containing all the modules instance methods. That class is inserted in the inheritance chain in-between the original
-class and its superclass (or previously included modules). This allows a similar usage as changing the superclass without its
-complication.
+Ruby supports a concept called Mixins\cite{apel2004using}. Mixins are one use case for Ruby modules\footnote{Others are namespacing
+and classes without instances.}. A Ruby module is defined like a Ruby class. You can define both instance and singleton
+methods\footnote{Methods defined on class side, also known as class methods.}. However, as you cannot instantiate a module,
+its instance methods are not directly usable. You can include such a module in a class. It is a common misbelieve – even among
+long time rubyists – that by doing so the unbound methods\footnote{Ruby term for not yet belonging to an object, thus not being
+callable.} are copied to the class and by doing so overwriting existing methods. In reality when including a module in a class,
+a new class is created, containing all the modules instance methods. That class is inserted in the inheritance chain in-between
+the original class and its superclass (or previously included modules). This allows a similar usage as changing the superclass
+without its complications.
 
 However, if you followed the above explanation closely, you might already see two major issues with that approach. As mentioned,
 only the instance methods become part of the new class. The singleton methods are already bound to the module and cannot be
