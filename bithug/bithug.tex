@@ -99,9 +99,27 @@ we intend enabling Bithug to be used in an academic context and smaller companie
 configuration needs to be easily personalized and highly versatile.
 
 \section{Design and Technical Execution}
+\subsection{The Stack}
+Our project is split into three major subprojects, which rest on many ruby 
+libraries some of which we had to modify to integrate with the project.
+\vspace{-1em}
+\begin{table}[H]
+  \setlength{\abovecaptionskip}{6pt}   % 0.5cm as an example
+  \setlength{\belowcaptionskip}{-10pt} % integrate more tightly into text, this is explanatory, not result presentation
+  \renewcommand{\arraystretch}{1.7}
+  \centering
+  \begin{tabular}{>{\hspace{5pt}}r<{\hspace{5pt}}|>{\hspace{5pt}}l<{\hspace{5pt}}}
+    Bithug & The actual project code\\
+    BigBand & Parts of Bithug you can use in any Sinatra Project\\
+    MonkeyLib & Parts you can use in any Ruby project\\
+    \hline
+    Forked Libraries & krb5-auth, ohm, simple-krb5\\
+    \hline
+    Free Libraries & chronic, compass, haml, rack, rspec, twitter-oauth, yard\\
+  \end{tabular}
+\end{table}
 \subsection{Persistence}
 \input{persistence}
-
 \subsection{Sinatra}
 Sinatra is a ruby web framework\cite{sinatra:www}, lately becoming a popular alternative to Ruby On Rails and Merb.
 In contrast to those is has a small code base, does not ship with and persistence layer and does not focus on code
