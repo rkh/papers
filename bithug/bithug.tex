@@ -88,9 +88,19 @@ provide migration strategies for setups changing their configurations as well
 keeping the mapping general enough to allow easy transitions when implementing 
 new services.
 \subsubsection{A promising alternative: Maglev}
-Describe how awesome Maglev is.
-Does not support some of our dependencies (krb5-auth, compass)
+Maglev is a Ruby implementation atop GemStone/S, the Smalltalk 
+object-persistence system. GemStone is an object-oriented database able to 
+serialize objects in the runtime environment transparently, taking care of 
+object-references and garbage-collection automatically.
 
+GemStone is not a new system\cite{citation needed} for persistence, but only
+in recent years has it become sufficiently advanced to compete with traditional
+RDMS speed-wise. Its great strength is the built-in support for 
+object-orientation: anything the language can do, the server can persist. Using
+Maglev would have solved the problem of persistence. However, Maglev is a very 
+young implementation of Ruby and it does not yet support enough of the features
+we require in Bithug, most importantly the CSS-compiled style-sheet language 
+SASS and the Kerberos authentication plug-in we provide for company networks.
 \subsubsection{Key-Value-Stores}
 Traditional 
 describe idea.
