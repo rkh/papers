@@ -76,7 +76,7 @@ TITLE="`sed -ne 's/^Title *\(.*\)/\1/p;' <$TXTFILE`"
 [ -z "$TITLE" ] && TITLE=`basename $1`
 
 # convert to EPS, replacing the %%Title comment
-tiff2ps -2 -e -z $OUTFILE | sed -e "s/^\(%%Title: \).*/\1$TITLE/;"
+tiff2ps -2 -e $OUTFILE | sed -e "s/^\(%%Title: \).*/\1$TITLE/;"
 
 # remove temp files
 $RM $OUTFILE $TXTFILE
